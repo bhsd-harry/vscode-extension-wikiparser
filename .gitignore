@@ -1,0 +1,6 @@
+node_modules/
+dist/
+/.vscode/
+/.eslintcache*
+/page.wiki
+package-lock.json

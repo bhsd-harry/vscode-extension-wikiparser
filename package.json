@@ -1,0 +1,69 @@
+{
+	"name": "vscode-extension-wikiparser",
+	"version": "0.0.0",
+	"description": "VSCode language server for MediaWiki Wikitext",
+	"displayName": "Wikitext Language Service",
+	"categories": [
+		"Linters"
+	],
+	"keywords": [
+		"mediawiki",
+		"wikitext",
+		"linter"
+	],
+	"homepage": "https://github.com/bhsd-harry/vscode-extension-wikiparser/",
+	"bugs": {
+		"url": "https://github.com/bhsd-harry/vscode-extension-wikiparser/issues"
+	},
+	"license": "GPL-3.0",
+	"author": "Bhsd",
+	"publisher": "Bhsd",
+	"main": "./client/dist/extension",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bhsd-harry/vscode-extension-wikiparser.git"
+	},
+	"activationEvents": [
+		"onLanguage:plaintext"
+	],
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Wikitext Language Service",
+			"properties": {
+				"wikiparser.lint": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable Wikitext linting"
+				}
+			}
+		},
+		"languages": [
+			{
+				"id": "wikitext",
+				"extensions": [
+					".wiki"
+				]
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run lint && npm run build",
+		"build": "tsc --project server/tsconfig.json && tsc --project client/tsconfig.json",
+		"lint": "tsc --noEmit --project server/tsconfig.json && tsc --noEmit --project client/tsconfig.json && eslint --cache ."
+	},
+	"dependencies": {
+		"vscode-languageclient": "^9.0.1",
+		"vscode-languageserver": "^9.0.1",
+		"vscode-languageserver-textdocument": "^1.0.12",
+		"wikilint": "^2.13.2"
+	},
+	"devDependencies": {
+		"@bhsd/common": "^0.3.1",
+		"@types/vscode": "^1.95.0"
+	},
+	"engines": {
+		"node": ">=20.9.0",
+		"vscode": "^1.95.2"
+	}
+}

@@ -30,7 +30,7 @@ const getCompletion = (
 
 export const completion = (doc: TextDocument, pos: Position): CompletionItem[] | null => {
 	const before = doc.getText(TextRange.create(pos.line, 1, pos.line, pos.character)),
-		mt = /(?:\{\{\s*(#[^|{}<>[\]#:]*)|__((?:(?!__)[\p{L}\d_])+)|<\/?([a-z\d]+)|(?:^|[^[])\[([a-z:/]+))$/iu
+		mt = /(?:\{\{\s*(#[^|{}<>[\]#:]*)|(__(?:(?!__)[\p{L}\d_])+)|<\/?([a-z\d]+)|(?:^|[^[])\[([a-z:/]+))$/iu
 			.exec(before);
 	if (!mt) {
 		return null;
@@ -41,7 +41,12 @@ export const completion = (doc: TextDocument, pos: Position): CompletionItem[] |
 		if (obj && insensitive.length === 0) {
 			insensitive.push(...Object.keys(obj));
 		}
-		return getCompletion((config.doubleUnderscore.slice(0, 2) as string[][]).flat(), 'Keyword', mt[2], pos);
+		return getCompletion(
+			(config.doubleUnderscore.slice(0, 2) as string[][]).flat().map(w => `__${w}__`),
+			'Keyword',
+			mt[2],
+			pos,
+		);
 	} else if (mt[3]) {
 		return getCompletion(
 			[config.ext, config.html, 'onlyinclude', 'includeonly', 'noinclude'].flat(2),

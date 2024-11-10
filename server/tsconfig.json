@@ -1,6 +1,7 @@
 {
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"typings/**/*"
 	],
 	"compilerOptions": {
 		"target": "es2022",

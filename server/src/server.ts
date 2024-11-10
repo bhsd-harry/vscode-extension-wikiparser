@@ -10,6 +10,7 @@ import {TextDocument} from 'vscode-languageserver-textdocument';
 import {Task} from './task';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
+import {provideDocumentColors, provideColorPresentations} from './color';
 import type {Token} from 'wikilint';
 
 const connection = createConnection(ProposedFeatures.all),
@@ -45,6 +46,7 @@ connection.onInitialize(() => ({
 			resolveProvider: false,
 			triggerCharacters: ['#'],
 		},
+		colorProvider: {},
 	},
 }));
 
@@ -52,10 +54,12 @@ connection.languages.diagnostics.on(async ({textDocument: {uri}}) => ({
 	kind: DocumentDiagnosticReportKind.Full,
 	items: diagnose(await parse(uri)),
 }));
-
 connection.onCodeAction(({context: {diagnostics}, textDocument: {uri}}) => quickFix(diagnostics, docs.get(uri)!, uri));
 
 connection.onCompletion(({textDocument: {uri}, position}) => completion(docs.get(uri)!, position));
+
+connection.onDocumentColor(async ({textDocument: {uri}}) => provideDocumentColors(docs.get(uri)!, await parse(uri)));
+connection.onColorPresentation(provideColorPresentations);
 
 docs.listen(connection);
 connection.listen();

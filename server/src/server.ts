@@ -4,9 +4,11 @@ import {
 	TextDocuments,
 	TextDocumentSyncKind,
 	DocumentDiagnosticReportKind,
+	CodeActionKind,
 } from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
 import {Task} from './task';
+import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import type {Token} from 'wikilint';
 
@@ -36,6 +38,9 @@ connection.onInitialize(() => ({
 			interFileDependencies: false,
 			workspaceDiagnostics: false,
 		},
+		codeActionProvider: {
+			codeActionKinds: [CodeActionKind.QuickFix],
+		},
 		completionProvider: {
 			resolveProvider: false,
 			triggerCharacters: ['#'],
@@ -45,18 +50,10 @@ connection.onInitialize(() => ({
 
 connection.languages.diagnostics.on(async ({textDocument: {uri}}) => ({
 	kind: DocumentDiagnosticReportKind.Full,
-	items: (await parse(uri)).lint()
-		.map(({startLine, startCol, endLine, endCol, severity, message, fix, suggestions}) => ({
-			range: {
-				start: {line: startLine, character: startCol},
-				end: {line: endLine, character: endCol},
-			},
-			severity: severity === 'error' ? 1 : 2,
-			source: 'WikiLint',
-			message,
-			data: {fix, suggestions},
-		})),
+	items: diagnose(await parse(uri)),
 }));
+
+connection.onCodeAction(({context: {diagnostics}, textDocument: {uri}}) => quickFix(diagnostics, docs.get(uri)!, uri));
 
 connection.onCompletion(({textDocument: {uri}, position}) => completion(docs.get(uri)!, position));
 

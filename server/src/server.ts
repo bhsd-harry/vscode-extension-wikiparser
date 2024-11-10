@@ -1,65 +1,64 @@
 import {
 	createConnection,
-	TextDocuments,
 	ProposedFeatures,
-	DidChangeConfigurationNotification,
+	TextDocuments,
+	TextDocumentSyncKind,
 	DocumentDiagnosticReportKind,
 } from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
-import Parser from 'wikilint';
-import type {Diagnostic} from 'vscode-languageserver/node';
-
-declare interface Settings {
-	lint: boolean;
-}
+import {Task} from './task';
+import {completion} from './completion';
+import type {Token} from 'wikilint';
 
 const connection = createConnection(ProposedFeatures.all),
 	docs = new TextDocuments(TextDocument),
-	defaultSettings: Settings = {lint: true},
-	trees = new Map<TextDocument, [string, Parser.Token]>();
-let globalSettings: Settings = defaultSettings;
+	tasks = new Map<TextDocument, Task>();
 
-const validate = (doc: TextDocument): Diagnostic[] => {
-	const tree = trees.get(doc),
-		text = doc.getText(),
-		root = tree?.[0] === text ? tree[1] : Parser.parse(text, true);
-	return root.lint().map(({startLine, startCol, endLine, endCol, severity, message, fix, suggestions}) => ({
-		range: {start: {line: startLine, character: startCol}, end: {line: endLine, character: endCol}},
-		severity: severity === 'error' ? 1 : 2,
-		source: 'WikiLint',
-		message,
-		data: {fix, suggestions},
-	}));
+const parse = async (uri: string): Promise<Token> => {
+	const task = tasks.get(docs.get(uri)!)!,
+		root = await task.queue();
+	task.running = undefined;
+	return root;
 };
+
+docs.onDidOpen(({document}) => {
+	tasks.set(document, new Task(connection, document));
+});
+
+docs.onDidClose(({document}) => {
+	tasks.delete(document);
+});
 
 connection.onInitialize(() => ({
 	capabilities: {
+		textDocumentSync: TextDocumentSyncKind.Full,
 		diagnosticProvider: {
 			interFileDependencies: false,
 			workspaceDiagnostics: false,
 		},
+		completionProvider: {
+			resolveProvider: false,
+			triggerCharacters: ['#'],
+		},
 	},
 }));
 
-connection.onInitialized(() => {
-	void connection.client.register(DidChangeConfigurationNotification.type);
-});
+connection.languages.diagnostics.on(async ({textDocument: {uri}}) => ({
+	kind: DocumentDiagnosticReportKind.Full,
+	items: (await parse(uri)).lint()
+		.map(({startLine, startCol, endLine, endCol, severity, message, fix, suggestions}) => ({
+			range: {
+				start: {line: startLine, character: startCol},
+				end: {line: endLine, character: endCol},
+			},
+			severity: severity === 'error' ? 1 : 2,
+			source: 'WikiLint',
+			message,
+			data: {fix, suggestions},
+		})),
+}));
 
-connection.onDidChangeConfiguration(({settings}) => {
-	const {lint} = globalSettings;
-	globalSettings = (settings as Record<string, Settings>)['wikiparser'] || defaultSettings;
-	if (globalSettings.lint !== lint) {
-		connection.languages.diagnostics.refresh();
-	}
-});
-
-connection.languages.diagnostics.on(({textDocument: {uri}}) => {
-	const doc = docs.get(uri);
-	return {
-		kind: DocumentDiagnosticReportKind.Full,
-		items: doc === undefined || !globalSettings.lint ? [] : validate(doc),
-	};
-});
+connection.onCompletion(({textDocument: {uri}, position}) => completion(docs.get(uri)!, position));
 
 docs.listen(connection);
 connection.listen();

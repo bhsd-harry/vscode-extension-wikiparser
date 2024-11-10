@@ -24,20 +24,9 @@
 		"url": "git+https://github.com/bhsd-harry/vscode-extension-wikiparser.git"
 	},
 	"activationEvents": [
-		"onLanguage:plaintext"
+		"onLanguage:wikitext"
 	],
 	"contributes": {
-		"configuration": {
-			"type": "object",
-			"title": "Wikitext Language Service",
-			"properties": {
-				"wikiparser.lint": {
-					"type": "boolean",
-					"default": true,
-					"description": "Enable Wikitext linting"
-				}
-			}
-		},
 		"languages": [
 			{
 				"id": "wikitext",

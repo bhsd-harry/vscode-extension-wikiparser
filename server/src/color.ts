@@ -1,9 +1,15 @@
 import {splitColors} from '@bhsd/common';
 import {TextEdit} from 'vscode-languageserver/node';
 import {createRange} from './util';
-import type {ColorInformation, ColorPresentationParams, ColorPresentation} from 'vscode-languageserver/node';
+import {parse, docs} from './tasks';
+import type {
+	ColorInformation,
+	ColorPresentationParams,
+	ColorPresentation,
+	DocumentColorParams,
+} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
-import type {Token, AstNodes} from 'wikilint';
+import type {AstNodes} from 'wikilint';
 
 /**
  * 查找颜色
@@ -60,7 +66,10 @@ const findColors = (doc: TextDocument, tree: AstNodes): ColorInformation[] => {
 
 const numToHex = (d: number): string => Math.round(d * 255).toString(16).padStart(2, '0');
 
-export const provideDocumentColors = (doc: TextDocument, root: Token): ColorInformation[] => findColors(doc, root);
+export const provideDocumentColors = async (
+	{textDocument: {uri}}: DocumentColorParams,
+): Promise<ColorInformation[]> =>
+	findColors(docs.get(uri)!, await parse(uri));
 
 export const provideColorPresentations = (
 	{color: {red, green, blue, alpha}, range}: ColorPresentationParams,

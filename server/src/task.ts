@@ -1,20 +1,14 @@
 import Parser from 'wikilint';
-import type {Connection} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {Token} from 'wikilint';
 
 export class Task {
-	connection;
 	doc;
 	text: string;
 	running: Promise<Token> | undefined;
 
-	/**
-	 * @param connection Connection
-	 * @param doc TextDocument
-	 */
-	constructor(connection: Connection, doc: TextDocument) {
-		this.connection = connection;
+	/** @param doc TextDocument */
+	constructor(doc: TextDocument) {
 		this.doc = doc;
 	}
 

@@ -1,8 +1,9 @@
 import {Range as TextRange, CompletionItemKind} from 'vscode-languageserver/node';
 import Parser from 'wikilint';
 import {getText} from './util';
+import {docs} from './tasks';
 import type {Position, CompletionItem} from 'vscode-languageserver/node';
-import type {TextDocument} from 'vscode-languageserver-textdocument';
+import type {TextDocumentPositionParams} from 'vscode-languageserver/node';
 
 const config = Parser.getConfig();
 
@@ -29,14 +30,14 @@ const getCompletion = (
 	},
 }));
 
-export const completion = (doc: TextDocument, pos: Position): CompletionItem[] | null => {
-	const before = getText(doc, pos.line, 1, pos.line, pos.character),
+export const completion = ({textDocument: {uri}, position}: TextDocumentPositionParams): CompletionItem[] | null => {
+	const before = getText(docs.get(uri)!, position.line, 1, position.line, position.character),
 		mt = /(?:\{\{\s*(#[^|{}<>[\]#:]*)|(__(?:(?!__)[\p{L}\d_])+)|<\/?([a-z\d]+)|(?:^|[^[])\[([a-z:/]+))$/iu
 			.exec(before);
 	if (!mt) {
 		return null;
 	} else if (mt[1]) {
-		return getCompletion(Object.keys(config.parserFunction[0]), 'Function', mt[1], pos);
+		return getCompletion(Object.keys(config.parserFunction[0]), 'Function', mt[1], position);
 	} else if (mt[2]) {
 		const {doubleUnderscore: [insensitive,, obj]} = config;
 		if (obj && insensitive.length === 0) {
@@ -46,17 +47,17 @@ export const completion = (doc: TextDocument, pos: Position): CompletionItem[] |
 			(config.doubleUnderscore.slice(0, 2) as string[][]).flat().map(w => `__${w}__`),
 			'Keyword',
 			mt[2],
-			pos,
+			position,
 		);
 	} else if (mt[3]) {
 		return getCompletion(
 			[config.ext, config.html, 'onlyinclude', 'includeonly', 'noinclude'].flat(2),
 			'Property',
 			mt[3],
-			pos,
+			position,
 		);
 	} else if (mt[4]) {
-		return getCompletion(config.protocol.split('|'), 'File', mt[4], pos);
+		return getCompletion(config.protocol.split('|'), 'File', mt[4], position);
 	}
 	throw new Error('Unknown completion type!');
 };

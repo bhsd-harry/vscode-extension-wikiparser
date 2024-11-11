@@ -46,14 +46,15 @@
 		"lint": "tsc --noEmit --project server/tsconfig.json && tsc --noEmit --project client/tsconfig.json && eslint --cache ."
 	},
 	"dependencies": {
-		"@bhsd/common": "^0.4.0",
+		"@bhsd/common": "^0.4.1",
 		"vscode-languageclient": "^9.0.1",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",
 		"wikilint": "^2.13.2"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.95.0"
+		"@types/vscode": "^1.95.0",
+		"@vscode/vsce": "^3.2.1"
 	},
 	"engines": {
 		"node": ">=20.9.0",

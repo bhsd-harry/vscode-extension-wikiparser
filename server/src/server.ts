@@ -1,37 +1,21 @@
 import {
 	createConnection,
 	ProposedFeatures,
-	TextDocuments,
 	TextDocumentSyncKind,
-	DocumentDiagnosticReportKind,
 	CodeActionKind,
+	DidChangeConfigurationNotification,
 } from 'vscode-languageserver/node';
-import {TextDocument} from 'vscode-languageserver-textdocument';
-import {Task} from './task';
+import {docs} from './tasks';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
 import {referenceProvider} from './reference';
-import type {Token} from 'wikilint';
 
-const connection = createConnection(ProposedFeatures.all),
-	docs = new TextDocuments(TextDocument),
-	tasks = new Map<TextDocument, Task>();
+declare interface Settings {
+	lint: boolean;
+}
 
-const parse = async (uri: string): Promise<Token> => {
-	const task = tasks.get(docs.get(uri)!)!,
-		root = await task.queue();
-	task.running = undefined;
-	return root;
-};
-
-docs.onDidOpen(({document}) => {
-	tasks.set(document, new Task(connection, document));
-});
-
-docs.onDidClose(({document}) => {
-	tasks.delete(document);
-});
+const connection = createConnection(ProposedFeatures.all);
 
 connection.onInitialize(() => ({
 	capabilities: {
@@ -53,23 +37,20 @@ connection.onInitialize(() => ({
 	},
 }));
 
-connection.languages.diagnostics.on(async ({textDocument: {uri}}) => ({
-	kind: DocumentDiagnosticReportKind.Full,
-	items: diagnose(await parse(uri)),
-}));
-connection.onCodeAction(({context: {diagnostics}, textDocument: {uri}}) => quickFix(diagnostics, docs.get(uri)!, uri));
+connection.onInitialized(() => {
+	void connection.client.register(DidChangeConfigurationNotification.type);
+});
 
-connection.onCompletion(({textDocument: {uri}, position}) => completion(docs.get(uri)!, position));
+connection.languages.diagnostics.on(diagnose);
+connection.onCodeAction(quickFix);
 
-connection.onDocumentColor(async ({textDocument: {uri}}) => provideDocumentColors(docs.get(uri)!, await parse(uri)));
+connection.onCompletion(completion);
+
+connection.onDocumentColor(provideDocumentColors);
 connection.onColorPresentation(provideColorPresentations);
 
-connection.onReferences(
-	async ({textDocument: {uri}, position}) => referenceProvider(docs.get(uri)!, position, await parse(uri)),
-);
-connection.onDocumentHighlight(
-	async ({textDocument: {uri}, position}) => referenceProvider(docs.get(uri)!, position, await parse(uri)),
-);
+connection.onReferences(referenceProvider);
+connection.onDocumentHighlight(referenceProvider);
 
 docs.listen(connection);
 connection.listen();

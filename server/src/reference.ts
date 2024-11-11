@@ -1,5 +1,6 @@
 import {getText, createRange} from './util';
-import type {Position, Range as TextRange} from 'vscode-languageserver/node';
+import {parse, docs} from './tasks';
+import type {Range as TextRange, TextDocumentPositionParams} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {Token, TokenTypes, AstNodes} from 'wikilint';
 
@@ -55,16 +56,19 @@ const findRef = (
 	return braceTypes.has(node.type) ? findRef(doc, tree, parentNode?.name, parentNode?.type) : [];
 };
 
-export const referenceProvider = (doc: TextDocument, pos: Position, root: Token): Reference[] | null => {
-	const {line} = pos,
-		after = getText(doc, line, pos.character, line + 1, 0),
-		character = pos.character + /^\w*/u.exec(after)![0].length,
+export const referenceProvider = async (
+	{textDocument: {uri}, position}: TextDocumentPositionParams,
+): Promise<Reference[] | null> => {
+	const doc = docs.get(uri)!,
+		{line} = position,
+		after = getText(doc, line, position.character, line + 1, 0),
+		character = position.character + /^\w*/u.exec(after)![0].length,
 		before = getText(doc, line, 1, line, character),
 		mt1 = /(?:<\/?(\w+)|(?:\{\{|\[\[)(?:[^|{}[\]<]|<!--)+)$/u.exec(before);
 	if (!mt1) {
 		return null;
 	}
-	const refs = findRef(doc, root, mt1[1]?.toLowerCase() ?? doc.offsetAt(pos));
+	const refs = findRef(doc, await parse(uri), mt1[1]?.toLowerCase() ?? doc.offsetAt(position));
 	return refs.length === 0
 		? null
 		: refs.map((ref): Reference => {

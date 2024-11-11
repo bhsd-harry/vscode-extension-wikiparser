@@ -1,4 +1,5 @@
 import {CodeActionKind} from 'vscode-languageserver/node';
+import {createRange} from './util';
 import type {Token, LintError} from 'wikilint';
 import type {Diagnostic, CodeAction} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
@@ -25,12 +26,7 @@ export const quickFix = (diagnostics: Diagnostic[], doc: TextDocument, uri: stri
 			isPreferred: true,
 			edit: {
 				changes: {
-					[uri]: [
-						{
-							range: {start: doc.positionAt(fix.range[0]), end: doc.positionAt(fix.range[1])},
-							newText: fix.text,
-						},
-					],
+					[uri]: [{range: createRange(doc, ...fix.range), newText: fix.text}],
 				},
 			},
 		};

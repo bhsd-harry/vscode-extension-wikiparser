@@ -1,5 +1,6 @@
 import {splitColors} from '@bhsd/common';
-import {Range as TextRange, TextEdit} from 'vscode-languageserver/node';
+import {TextEdit} from 'vscode-languageserver/node';
+import {createRange} from './util';
 import type {ColorInformation, ColorPresentationParams, ColorPresentation} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {Token, AstNodes} from 'wikilint';
@@ -29,7 +30,7 @@ const findColors = (doc: TextDocument, tree: AstNodes): ColorInformation[] => {
 		}
 		const start = child.getAbsoluteIndex();
 		return parts.map(([s, from, to]): ColorInformation => {
-			const range = TextRange.create(doc.positionAt(start + from), doc.positionAt(start + to));
+			const range = createRange(doc, start + from, start + to);
 			if (s.startsWith('#')) {
 				const short = s.length < 7;
 				return {

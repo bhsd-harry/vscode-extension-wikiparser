@@ -1,5 +1,6 @@
 import {Range as TextRange, CompletionItemKind} from 'vscode-languageserver/node';
 import Parser from 'wikilint';
+import {getText} from './util';
 import type {Position, CompletionItem} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 
@@ -29,7 +30,7 @@ const getCompletion = (
 }));
 
 export const completion = (doc: TextDocument, pos: Position): CompletionItem[] | null => {
-	const before = doc.getText(TextRange.create(pos.line, 1, pos.line, pos.character)),
+	const before = getText(doc, pos.line, 1, pos.line, pos.character),
 		mt = /(?:\{\{\s*(#[^|{}<>[\]#:]*)|(__(?:(?!__)[\p{L}\d_])+)|<\/?([a-z\d]+)|(?:^|[^[])\[([a-z:/]+))$/iu
 			.exec(before);
 	if (!mt) {

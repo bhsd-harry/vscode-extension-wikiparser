@@ -11,6 +11,7 @@ import {Task} from './task';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
+import {referenceProvider} from './reference';
 import type {Token} from 'wikilint';
 
 const connection = createConnection(ProposedFeatures.all),
@@ -46,7 +47,9 @@ connection.onInitialize(() => ({
 			resolveProvider: false,
 			triggerCharacters: ['#'],
 		},
-		colorProvider: {},
+		colorProvider: true,
+		referencesProvider: true,
+		documentHighlightProvider: true,
 	},
 }));
 
@@ -60,6 +63,13 @@ connection.onCompletion(({textDocument: {uri}, position}) => completion(docs.get
 
 connection.onDocumentColor(async ({textDocument: {uri}}) => provideDocumentColors(docs.get(uri)!, await parse(uri)));
 connection.onColorPresentation(provideColorPresentations);
+
+connection.onReferences(
+	async ({textDocument: {uri}, position}) => referenceProvider(docs.get(uri)!, position, await parse(uri)),
+);
+connection.onDocumentHighlight(
+	async ({textDocument: {uri}, position}) => referenceProvider(docs.get(uri)!, position, await parse(uri)),
+);
 
 docs.listen(connection);
 connection.listen();

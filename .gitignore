@@ -4,4 +4,3 @@ dist/
 /.eslintcache*
 /page.wiki
 package-lock.json
-/.github/

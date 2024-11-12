@@ -21,11 +21,6 @@ const getUrl = (path: string, {title, fragment}: Title): string => {
 	return path.includes('$1') ? path.replace('$1', encoded) : path + (path.endsWith('/') ? '' : '/') + encoded;
 };
 
-/**
- * 解析MagicLink
- * @param path 条目路径
- * @param link 原链接文本
- */
 const parseMagicLink = (path: string, link: string): string => {
 	if (link.startsWith('RFC')) {
 		return `https://tools.ietf.org/html/rfc${link.slice(3).trim()}`;
@@ -38,14 +33,6 @@ const parseMagicLink = (path: string, link: string): string => {
 		);
 };
 
-/**
- * 生成链接
- * @param doc 文档
- * @param path 条目路径
- * @param tree 语法树
- * @param parent 父节点
- * @param grandparent 祖父节点
- */
 const generateLinks = (
 	doc: TextDocument,
 	path: string,

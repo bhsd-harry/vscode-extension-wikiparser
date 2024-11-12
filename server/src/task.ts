@@ -7,7 +7,7 @@ export class Task {
 	text: string;
 	running: Promise<Token> | undefined;
 
-	/** @param doc TextDocument */
+	/** @class */
 	constructor(doc: TextDocument) {
 		this.doc = doc;
 	}
@@ -29,7 +29,7 @@ export class Task {
 	 * 执行解析
 	 * @param wikitext 待解析的文本
 	 * @description
-	 * - 完成后会检查`=text`是否已更新，如果是则重新解析
+	 * - 完成后会检查`text`是否已更新，如果是则重新解析
 	 * - 总是返回最新的解析结果
 	 */
 	async parse(wikitext: string): Promise<Token> {

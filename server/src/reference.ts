@@ -13,13 +13,6 @@ declare interface Reference {
 const tagTypes = new Set<string | undefined>(['ext', 'html']),
 	braceTypes = new Set<string | undefined>(['arg-name', 'template-name', 'magic-word-name', 'link-target']);
 
-/**
- * 查找引用
- * @param doc 文档
- * @param tree 语法树
- * @param target 目标名称或位置
- * @param targetType 节点类型
- */
 const findRef = (
 	doc: TextDocument,
 	tree: AstNodes,

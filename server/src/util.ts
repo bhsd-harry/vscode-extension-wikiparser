@@ -1,6 +1,9 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import {Range as TextRange} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
+import type {TokenTypes} from 'wikilint';
+
+export const plainTypes = new Set<TokenTypes | 'text'>(['text', 'comment', 'noinclude', 'include']);
 
 export const createRange = (doc: TextDocument, start: number, end: number): TextRange =>
 	TextRange.create(doc.positionAt(start), doc.positionAt(end));

@@ -7,15 +7,6 @@ import type {TextDocumentPositionParams} from 'vscode-languageserver/node';
 
 const config = Parser.getConfig();
 
-/**
- * 生成建议列表
- * @param words 建议词
- * @param kind 建议类型
- * @param mt 匹配的文本
- * @param pos 光标位置
- * @param pos.line 行号
- * @param pos.character 列号
- */
 const getCompletion = (
 	words: string[],
 	kind: keyof typeof CompletionItemKind,

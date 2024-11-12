@@ -10,7 +10,8 @@ import {docs, documentSettings} from './tasks';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
-import {referenceProvider} from './reference';
+import {provideReferences} from './reference';
+import {provideLinks} from './links';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
 
@@ -42,6 +43,9 @@ connection.onInitialize(() => ({
 		colorProvider: true,
 		referencesProvider: true,
 		documentHighlightProvider: true,
+		documentLinkProvider: {
+			resolveProvider: false,
+		},
 	},
 }));
 
@@ -69,8 +73,13 @@ connection.onDocumentColor(provideDocumentColors);
 connection.onColorPresentation(provideColorPresentations);
 
 // reference.ts
-connection.onReferences(referenceProvider);
-connection.onDocumentHighlight(referenceProvider);
+connection.onReferences(provideReferences);
+connection.onDocumentHighlight(provideReferences);
+
+// links.ts
+connection.onDocumentLinks(
+	async ({textDocument}) => provideLinks(textDocument, (await getSettings(textDocument)).articlePath),
+);
 
 docs.listen(connection);
 connection.listen();

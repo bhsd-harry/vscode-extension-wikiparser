@@ -8,4 +8,5 @@ This is a language server extension for Visual Studio Code that provides languag
 - Autocompletion for tags, parser functions, behavior switches, and URL protocols
 - Color preview
 - Code navigation for tags, links and templates
+- Followable wiki and external links
 - More to come!

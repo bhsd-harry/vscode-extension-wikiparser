@@ -5,6 +5,7 @@ import type {Token} from 'wikilint';
 
 export interface Settings {
 	lint: boolean;
+	articlePath: string;
 }
 
 const tasks = new Map<TextDocument, Task>();

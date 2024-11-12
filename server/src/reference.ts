@@ -56,7 +56,7 @@ const findRef = (
 	return braceTypes.has(node.type) ? findRef(doc, tree, parentNode?.name, parentNode?.type) : [];
 };
 
-export const referenceProvider = async (
+export const provideReferences = async (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,
 ): Promise<Reference[] | null> => {
 	const doc = docs.get(uri)!,

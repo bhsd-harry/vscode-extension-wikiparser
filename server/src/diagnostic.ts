@@ -1,4 +1,4 @@
-import {CodeActionKind, DocumentDiagnosticReportKind} from 'vscode-languageserver/node';
+import {CodeActionKind} from 'vscode-languageserver/node';
 import {createRange} from './util';
 import {parse, docs} from './tasks';
 import type {LintError} from 'wikilint';
@@ -6,14 +6,13 @@ import type {
 	CodeActionParams,
 	CodeAction,
 	DocumentDiagnosticParams,
-	DocumentDiagnosticReport,
+	Diagnostic,
 } from 'vscode-languageserver/node';
 
 export const diagnose = async (
 	{textDocument: {uri}}: DocumentDiagnosticParams,
-): Promise<DocumentDiagnosticReport> => ({
-	kind: DocumentDiagnosticReportKind.Full,
-	items: (await parse(uri)).lint().map(({startLine, startCol, endLine, endCol, severity, message, fix}) => ({
+): Promise<Diagnostic[]> =>
+	(await parse(uri)).lint().map(({startLine, startCol, endLine, endCol, severity, message, fix}) => ({
 		range: {
 			start: {line: startLine, character: startCol},
 			end: {line: endLine, character: endCol},
@@ -22,8 +21,7 @@ export const diagnose = async (
 		source: 'WikiLint',
 		message,
 		data: fix,
-	})),
-});
+	}));
 
 export const quickFix = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] => {
 	const doc = docs.get(uri)!;

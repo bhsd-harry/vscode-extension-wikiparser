@@ -28,6 +28,18 @@
 		"onLanguage:wikitext"
 	],
 	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Wikitext Language Service",
+			"properties": {
+				"wikiparser.lint": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Enable linting for Wikitext files."
+				}
+			}
+		},
 		"languages": [
 			{
 				"id": "wikitext",

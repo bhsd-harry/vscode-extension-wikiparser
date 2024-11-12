@@ -21,23 +21,23 @@ export class Task {
 	 */
 	queue(): Promise<Token> {
 		this.text = this.doc.getText();
-		this.running ??= this.parse(this.text);
+		this.running ??= this.#parse();
 		return this.running;
 	}
 
 	/**
 	 * 执行解析
-	 * @param wikitext 待解析的文本
 	 * @description
 	 * - 完成后会检查`text`是否已更新，如果是则重新解析
 	 * - 总是返回最新的解析结果
 	 */
-	async parse(wikitext: string): Promise<Token> {
-		const root = Parser.parse(wikitext, true);
-		if (this.text === wikitext) {
+	async #parse(): Promise<Token> {
+		const {text} = this,
+			root = Parser.parse(text, true);
+		if (this.text === text) {
 			return root;
 		}
-		this.running = this.parse(this.text);
+		this.running = this.#parse();
 		return this.running;
 	}
 }

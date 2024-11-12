@@ -10,7 +10,7 @@ import {docs, documentSettings} from './tasks';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
-import {provideReferences} from './reference';
+import {provideReferences, provideDef} from './reference';
 import {provideLinks} from './links';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
@@ -43,6 +43,7 @@ connection.onInitialize(() => ({
 		colorProvider: true,
 		referencesProvider: true,
 		documentHighlightProvider: true,
+		definitionProvider: true,
 		documentLinkProvider: {
 			resolveProvider: false,
 		},
@@ -75,6 +76,7 @@ connection.onColorPresentation(provideColorPresentations);
 // reference.ts
 connection.onReferences(provideReferences);
 connection.onDocumentHighlight(provideReferences);
+connection.onDefinition(provideDef);
 
 // links.ts
 connection.onDocumentLinks(

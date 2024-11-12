@@ -1,70 +1,92 @@
 import {getText, createRange} from './util';
 import {parse, docs} from './tasks';
 import type {Range as TextRange, TextDocumentPositionParams} from 'vscode-languageserver/node';
-import type {TextDocument} from 'vscode-languageserver-textdocument';
-import type {Token, TokenTypes, AstNodes} from 'wikilint';
+import type {Token, TokenTypes, AttributeToken, ExtToken} from 'wikilint';
 
-declare interface Reference {
+declare interface Location {
 	range: TextRange;
 	uri: string;
 	kind: 1;
 }
 
-const tagTypes = new Set<string | undefined>(['ext', 'html']),
-	braceTypes = new Set<string | undefined>(['arg-name', 'template-name', 'magic-word-name', 'link-target']);
+const types = new Set<TokenTypes>([
+		'ext',
+		'html',
+		'attr-key',
+		'arg-name',
+		'template-name',
+		'magic-word-name',
+		'link-target',
+	]),
+	refAttrs = new Set<string | undefined>(['name', 'extends', 'follow']),
+	re = /<ref(?:\s[^>]*)?\s(?:name|extends|follow)\s*=\s*(?:(["'])(?:(?!\1|>).)+|[^\s>"'][^\s>]*)$/iu;
 
-const findRef = (
-	doc: TextDocument,
-	tree: AstNodes,
-	target?: string | number,
-	targetType?: TokenTypes,
-): AstNodes[] => {
-	if (target === undefined) {
-		return [];
-	} else if (typeof target === 'string') {
-		const {childNodes, type, name} = tree,
-			matches = (targetType ? type === targetType : tagTypes.has(type)) && name === target,
-			nodes: AstNodes[] = matches ? [tree] : [];
-		if (type !== 'text' && (!matches || !tagTypes.has(targetType))) {
-			nodes.push(...childNodes.flatMap(child => findRef(doc, child, target, targetType)));
-		}
-		return nodes;
+const getName = ({type, name, parentNode}: Token): string | undefined =>
+	type === 'ext' || type === 'html' ? name : parentNode!.name;
+
+const getRefName = (token: Token): string | number => {
+	const {type, parentNode} = token,
+		{name, tag} = parentNode as AttributeToken;
+	return type === 'attr-value' && tag === 'ref' && refAttrs.has(name) ? String(token).trim() : NaN;
+};
+
+const getRefGroup = (token: Token): string | number => {
+	const {type, parentNode} = token,
+		{name, tag} = parentNode as AttributeToken;
+	return type === 'attr-value' && name === 'group' && (tag === 'ref' || tag === 'references')
+		? String(token).trim()
+		: NaN;
+};
+
+const provide = async (
+	{textDocument: {uri}, position}: TextDocumentPositionParams,
+	definition?: boolean,
+): Promise<Location[] | null> => {
+	const doc = docs.get(uri)!,
+		{line, character} = position,
+		[word] = /^\w*/u.exec(getText(doc, line, character, line + 1, 0))!;
+	if (definition && !re.test(getText(doc, line, 0, line, character) + word)) {
+		return null;
 	}
-	let offset = target,
-		node = tree,
-		parentNode: Token | undefined;
-	while (node.type !== 'text') {
+	const root = await parse(uri);
+	let offset = doc.offsetAt(position) + word.length,
+		node = root;
+	while (true) { // eslint-disable-line no-constant-condition
 		// eslint-disable-next-line @typescript-eslint/no-loop-func
 		const child = node.childNodes.find(ch => {
 			const i = ch.getRelativeIndex();
-			return i < offset && i + String(ch).length >= offset;
+			if (i < offset && i + String(ch).length >= offset) {
+				offset -= i;
+				return true;
+			}
+			return false;
 		});
 		if (!child || child.type === 'text') {
 			break;
 		}
-		parentNode = node;
 		node = child;
-		offset -= child.getRelativeIndex();
 	}
-	return braceTypes.has(node.type) ? findRef(doc, tree, parentNode?.name, parentNode?.type) : [];
-};
-
-export const provideReferences = async (
-	{textDocument: {uri}, position}: TextDocumentPositionParams,
-): Promise<Reference[] | null> => {
-	const doc = docs.get(uri)!,
-		{line} = position,
-		after = getText(doc, line, position.character, line + 1, 0),
-		character = position.character + /^\w*/u.exec(after)![0].length,
-		before = getText(doc, line, 1, line, character),
-		mt1 = /(?:<\/?(\w+)|(?:\{\{|\[\[)(?:[^|{}[\]<]|<!--)+)$/u.exec(before);
-	if (!mt1) {
+	const {type} = node,
+		refName = getRefName(node),
+		refGroup = getRefGroup(node);
+	if (!refName && (definition || !refGroup && !types.has(type))) {
 		return null;
 	}
-	const refs = findRef(doc, await parse(uri), mt1[1]?.toLowerCase() ?? doc.offsetAt(position));
+	const name = getName(node),
+		refs = root.querySelectorAll(type).filter(token => {
+			if (definition) {
+				const parent = token.parentNode as AttributeToken;
+				return parent.tag === 'ref' && parent.name === 'name'
+					&& !(parent.parentNode!.parentNode as ExtToken).selfClosing
+					&& getRefName(token) === refName;
+			}
+			return type === 'attr-value'
+				? getRefName(token) === refName || getRefGroup(token) === refGroup
+				: getName(token) === name;
+		});
 	return refs.length === 0
 		? null
-		: refs.map((ref): Reference => {
+		: refs.map((ref): Location => {
 			const j = ref.getAbsoluteIndex();
 			return {
 				range: createRange(doc, j, j + String(ref).length),
@@ -73,3 +95,6 @@ export const provideReferences = async (
 			};
 		});
 };
+
+export const provideReferences = (params: TextDocumentPositionParams): Promise<Location[] | null> => provide(params);
+export const provideDef = (params: TextDocumentPositionParams): Promise<Location[] | null> => provide(params, true);

@@ -59,7 +59,7 @@ const generateLinks = (
 		|| type === 'attr-value' && grandparent?.name === 'templatestyles' && parent?.name === 'src'
 	) {
 		const str = String(tree);
-		let target = str.replace(/<!--.*?-->/gsu, '').trim();
+		let target = str.replace(/<!--.*?(?:-->|$)/gsu, '').trim();
 		if (/[<>[\]|{}]/u.test(target)) {
 			return [];
 		}

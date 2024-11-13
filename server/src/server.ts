@@ -1,21 +1,17 @@
 import {
-	createConnection,
-	ProposedFeatures,
 	TextDocumentSyncKind,
 	CodeActionKind,
 	DidChangeConfigurationNotification,
 	DocumentDiagnosticReportKind,
 } from 'vscode-languageserver/node';
-import {docs, documentSettings} from './tasks';
+import {documentSettings, connection} from './tasks';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
-import {provideReferences, provideDef} from './reference';
+import {provideReferences, provideDefinition} from './reference';
 import {provideLinks} from './links';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
-
-const connection = createConnection(ProposedFeatures.all);
 
 const getSettings = ({uri}: TextDocumentIdentifier): Promise<Settings> => {
 	let result = documentSettings.get(uri);
@@ -76,12 +72,11 @@ connection.onColorPresentation(provideColorPresentations);
 // reference.ts
 connection.onReferences(provideReferences);
 connection.onDocumentHighlight(provideReferences);
-connection.onDefinition(provideDef);
+connection.onDefinition(provideDefinition);
 
 // links.ts
 connection.onDocumentLinks(
 	async ({textDocument}) => provideLinks(textDocument, (await getSettings(textDocument)).articlePath),
 );
 
-docs.listen(connection);
 connection.listen();

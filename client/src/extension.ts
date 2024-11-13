@@ -11,7 +11,7 @@ export const activate = (context: ExtensionContext): void => {
 		const serverModule = context.asAbsolutePath(path.join('server', 'dist', 'server.js')),
 			serverOptions: ServerOptions = {
 				run: {module: serverModule},
-				debug: {module: serverModule},
+				debug: {module: serverModule, args: ['--debug']},
 			},
 			clientOptions: LanguageClientOptions = {
 				documentSelector: [{scheme: 'file', language: 'wikitext'}],

@@ -9,9 +9,7 @@ import type {
 	Diagnostic,
 } from 'vscode-languageserver/node';
 
-export const diagnose = async (
-	{textDocument: {uri}}: DocumentDiagnosticParams,
-): Promise<Diagnostic[]> =>
+export const diagnose = async ({textDocument: {uri}}: DocumentDiagnosticParams): Promise<Diagnostic[]> =>
 	(await parse(uri)).lint().map(({startLine, startCol, endLine, endCol, severity, message, fix}) => ({
 		range: {
 			start: {line: startLine, character: startCol},

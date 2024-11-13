@@ -97,4 +97,5 @@ const provide = async (
 };
 
 export const provideReferences = (params: TextDocumentPositionParams): Promise<Location[] | null> => provide(params);
-export const provideDef = (params: TextDocumentPositionParams): Promise<Location[] | null> => provide(params, true);
+export const provideDefinition = (params: TextDocumentPositionParams): Promise<Location[] | null> =>
+	provide(params, true);

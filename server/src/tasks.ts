@@ -1,4 +1,4 @@
-import {TextDocuments} from 'vscode-languageserver/node';
+import {TextDocuments, createConnection, ProposedFeatures} from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
 import {Task} from './task';
 import type {Token} from 'wikilint';
@@ -8,13 +8,14 @@ export interface Settings {
 	articlePath: string;
 }
 
-const tasks = new Map<TextDocument, Task>();
+const tasks = new WeakMap<TextDocument, Task>();
 
 export const docs = new TextDocuments(TextDocument),
-	documentSettings = new Map<string, Promise<Settings>>();
+	documentSettings = new Map<string, Promise<Settings>>(),
+	connection = createConnection(ProposedFeatures.all);
 
 docs.onDidOpen(({document}) => {
-	tasks.set(document, new Task(document));
+	tasks.set(document, new Task(document, connection));
 });
 
 docs.onDidClose(({document}) => {
@@ -22,9 +23,6 @@ docs.onDidClose(({document}) => {
 	documentSettings.delete(document.uri);
 });
 
-export const parse = async (uri: string): Promise<Token> => {
-	const task = tasks.get(docs.get(uri)!)!,
-		root = await task.queue();
-	task.running = undefined;
-	return root;
-};
+docs.listen(connection);
+
+export const parse = (uri: string): Promise<Token> => tasks.get(docs.get(uri)!)!.queue();

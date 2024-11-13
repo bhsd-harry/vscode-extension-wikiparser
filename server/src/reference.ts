@@ -25,13 +25,13 @@ const getName = ({type, name, parentNode}: Token): string | undefined =>
 	type === 'ext' || type === 'html' ? name : parentNode!.name;
 
 const getRefName = (token: Token): string | number => {
-	const {type, parentNode} = token,
+	const {type, parentNode = {}} = token,
 		{name, tag} = parentNode as AttributeToken;
 	return type === 'attr-value' && tag === 'ref' && refAttrs.has(name) ? String(token).trim() : NaN;
 };
 
 const getRefGroup = (token: Token): string | number => {
-	const {type, parentNode} = token,
+	const {type, parentNode = {}} = token,
 		{name, tag} = parentNode as AttributeToken;
 	return type === 'attr-value' && name === 'group' && (tag === 'ref' || tag === 'references')
 		? String(token).trim()

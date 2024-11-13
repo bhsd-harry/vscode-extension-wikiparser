@@ -13,6 +13,7 @@ module.exports = {
 				allowModules: ['vscode'],
 			},
 		],
+		'jsdoc/require-jsdoc': 0,
 	},
 	overrides: [
 		json,

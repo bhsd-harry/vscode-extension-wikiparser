@@ -8,7 +8,7 @@ import {documentSettings, connection} from './tasks';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
-import {provideReferences, provideDefinition} from './reference';
+import {provideReferences, provideDefinition, prepareRename, provideRename} from './reference';
 import {provideLinks} from './links';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
@@ -43,6 +43,9 @@ connection.onInitialize(() => ({
 		documentLinkProvider: {
 			resolveProvider: false,
 		},
+		renameProvider: {
+			prepareProvider: true,
+		},
 	},
 }));
 
@@ -73,6 +76,8 @@ connection.onColorPresentation(provideColorPresentations);
 connection.onReferences(provideReferences);
 connection.onDocumentHighlight(provideReferences);
 connection.onDefinition(provideDefinition);
+connection.onPrepareRename(prepareRename);
+connection.onRenameRequest(provideRename);
 
 // links.ts
 connection.onDocumentLinks(

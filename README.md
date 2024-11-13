@@ -5,8 +5,9 @@ This is a language server extension for Visual Studio Code that provides languag
 ## Features
 
 - Linting and quick fixes, offered by [WikiLint](https://npmjs.com/package/wikilint)
-- Autocompletion for tags, parser functions, behavior switches, and URL protocols
+- Auto-completion
 - Color preview
-- Code navigation for tags, links and templates
+- Code navigation
 - Followable wiki and external links
+- Symbol renaming
 - More to come!

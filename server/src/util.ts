@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import {Range as TextRange} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {TokenTypes} from 'wikilint';

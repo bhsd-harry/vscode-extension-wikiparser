@@ -1,4 +1,5 @@
 import {Range as TextRange} from 'vscode-languageserver/node';
+import type {Position} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {TokenTypes, Token} from 'wikilint';
 
@@ -6,6 +7,11 @@ export const plainTypes = new Set<TokenTypes | 'text'>(['text', 'comment', 'noin
 
 export const createRange = (doc: TextDocument, start: number, end: number): TextRange =>
 	TextRange.create(doc.positionAt(start), doc.positionAt(end));
+
+export const createNodeRange = (doc: TextDocument, token: Token): TextRange => {
+	const start = token.getAbsoluteIndex();
+	return createRange(doc, start, start + String(token).length);
+};
 
 export function getText(
 	doc: TextDocument,
@@ -48,4 +54,10 @@ export const elementFromIndex = (root: Token, index: number): Token => {
 		node = child;
 	}
 	return node;
+};
+
+export const elementFromWord = (doc: TextDocument, root: Token, pos: Position): Token => {
+	const {line, character} = pos,
+		offset = doc.offsetAt(pos) + /^\w*/u.exec(getText(doc, line, character, line + 1, 0))![0].length;
+	return elementFromIndex(root, offset);
 };

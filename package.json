@@ -64,7 +64,7 @@
 		"lint": "tsc --noEmit --project server/tsconfig.json && tsc --noEmit --project client/tsconfig.json && eslint --cache ."
 	},
 	"dependencies": {
-		"@bhsd/common": "^0.4.2",
+		"@bhsd/common": "^0.4.3",
 		"color-rgba": "^3.0.0",
 		"vscode-languageclient": "^9.0.1",
 		"vscode-languageserver": "^9.0.1",

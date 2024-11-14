@@ -1,4 +1,4 @@
-import {getText, createRange, elementFromIndex} from './util';
+import {createNodeRange, elementFromWord} from './util';
 import {parse, docs} from './tasks';
 import type {
 	Range as TextRange,
@@ -6,7 +6,6 @@ import type {
 	RenameParams,
 	WorkspaceEdit,
 } from 'vscode-languageserver/node';
-import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {Token, TokenTypes, AttributeToken, ExtToken, HeadingToken} from 'wikilint';
 
 declare interface Location {
@@ -62,11 +61,6 @@ const getRefGroup = (token: Token): string | number => {
 		: NaN;
 };
 
-const createNodeRange = (doc: TextDocument, token: Token): TextRange => {
-	const start = token.getAbsoluteIndex();
-	return createRange(doc, start, start + String(token).length);
-};
-
 // @ts-expect-error function overload
 function provide(params: TextDocumentPositionParams, definition?: boolean): Promise<Location[] | null>;
 function provide(params: TextDocumentPositionParams, definition: false, prepare: true): Promise<TextRange | null>;
@@ -83,10 +77,8 @@ async function provide(
 	rename?: true,
 ): Promise<Location[] | TextRange | WorkspaceEdit | null> {
 	const doc = docs.get(uri)!,
-		{line, character} = position,
-		offset = doc.offsetAt(position) + /^\w*/u.exec(getText(doc, line, character, line + 1, 0))![0].length,
 		root = await parse(uri),
-		node = elementFromIndex(root, offset),
+		node = elementFromWord(doc, root, position),
 		{type} = node,
 		refName = getRefName(node),
 		refGroup = getRefGroup(node);

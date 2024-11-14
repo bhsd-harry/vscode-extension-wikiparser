@@ -1,6 +1,5 @@
-import {Range as TextRange} from 'vscode-languageserver/node';
 import Parser from 'wikilint';
-import {plainTypes} from './util';
+import {plainTypes, createRange} from './util';
 import {docs, parse} from './tasks';
 import type {Token, AttributeToken, TokenTypes} from 'wikilint';
 import type {DocumentLink, TextDocumentIdentifier} from 'vscode-languageserver/node';
@@ -57,12 +56,7 @@ export const provideLinks = async ({uri}: TextDocumentIdentifier, path: string):
 				}
 				new URL(target); // eslint-disable-line no-new
 				const from = token.getAbsoluteIndex();
-				return [
-					{
-						range: TextRange.create(doc.positionAt(from), doc.positionAt(from + String(token).length)),
-						target,
-					},
-				];
+				return [{range: createRange(doc, from, from + String(token).length), target}];
 			} catch {
 				return [];
 			}

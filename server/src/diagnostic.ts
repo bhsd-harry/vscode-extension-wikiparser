@@ -24,7 +24,7 @@ export const diagnose = async ({textDocument: {uri}}: DocumentDiagnosticParams):
 export const quickFix = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] => {
 	const doc = docs.get(uri)!;
 	return diagnostics.filter(({data}) => data).map(diagnostic => {
-		const fix = diagnostic.data as LintError.Fix;
+		const {range, text} = diagnostic.data as LintError.Fix;
 		return {
 			title: 'Fix',
 			kind: CodeActionKind.QuickFix,
@@ -32,7 +32,7 @@ export const quickFix = ({context: {diagnostics}, textDocument: {uri}}: CodeActi
 			isPreferred: true,
 			edit: {
 				changes: {
-					[uri]: [{range: createRange(doc, ...fix.range), newText: fix.text}],
+					[uri]: [{range: createRange(doc, ...range), newText: text}],
 				},
 			},
 		};

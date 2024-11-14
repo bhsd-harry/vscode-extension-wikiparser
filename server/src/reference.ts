@@ -1,4 +1,4 @@
-import {getText, createRange} from './util';
+import {getText, createRange, elementFromIndex} from './util';
 import {parse, docs} from './tasks';
 import type {
 	Range as TextRange,
@@ -7,7 +7,7 @@ import type {
 	WorkspaceEdit,
 } from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
-import type {Token, TokenTypes, AttributeToken, ExtToken} from 'wikilint';
+import type {Token, TokenTypes, AttributeToken, ExtToken, HeadingToken} from 'wikilint';
 
 declare interface Location {
 	range: TextRange;
@@ -15,13 +15,38 @@ declare interface Location {
 	kind: 1;
 }
 
-const renameTypes = new Set<TokenTypes>(['arg-name', 'template-name', 'magic-word-name', 'link-target']),
-	types = new Set<TokenTypes>(['ext', 'html', 'attr-key', ...renameTypes]),
-	refAttrs = new Set<string | undefined>(['name', 'extends', 'follow']),
-	re = /<ref(?:\s[^>]*)?\s(?:name|extends|follow)\s*=\s*(?:(["'])(?:(?!\1|>).)+|[^\s>"'][^\s>]*)$/iu;
+const renameTypes = new Set<TokenTypes>([
+		'arg-name',
+		'template-name',
+		'magic-word-name',
+		'link-target',
+		'parameter-key',
+	]),
+	types = new Set<TokenTypes>([
+		'ext',
+		'html',
+		'attr-key',
+		'image-parameter',
+		'heading-title',
+		'heading',
+		...renameTypes,
+	]),
+	namedTypes = new Set<TokenTypes>(['ext', 'html', 'image-parameter']),
+	refAttrs = new Set<string | undefined>(['name', 'extends', 'follow']);
 
-const getName = ({type, name, parentNode}: Token): string | undefined =>
-	type === 'ext' || type === 'html' ? name : parentNode!.name;
+const getName = (token: Token): string | number | undefined => {
+	const {type, name, parentNode} = token;
+	switch (type) {
+		case 'heading':
+			return (token as HeadingToken).level;
+		case 'heading-title':
+			return (parentNode as HeadingToken).level;
+		case 'parameter-key':
+			return `${parentNode!.parentNode!.name}|${parentNode!.name}`;
+		default:
+			return namedTypes.has(type) ? name : parentNode!.name;
+	}
+};
 
 const getRefName = (token: Token): string | number => {
 	const {type, parentNode = {}} = token,
@@ -59,48 +84,31 @@ async function provide(
 ): Promise<Location[] | TextRange | WorkspaceEdit | null> {
 	const doc = docs.get(uri)!,
 		{line, character} = position,
-		[word] = /^\w*/u.exec(getText(doc, line, character, line + 1, 0))!;
-	if (definition && !re.test(getText(doc, line, 0, line, character) + word)) {
-		return null;
-	}
-	const root = await parse(uri);
-	let offset = doc.offsetAt(position) + word.length,
-		node = root;
-	while (true) { // eslint-disable-line no-constant-condition
-		// eslint-disable-next-line @typescript-eslint/no-loop-func
-		const child = node.childNodes.find(ch => {
-			const i = ch.getRelativeIndex();
-			if (i < offset && i + String(ch).length >= offset) {
-				offset -= i;
-				return true;
-			}
-			return false;
-		});
-		if (!child || child.type === 'text') {
-			break;
-		}
-		node = child;
-	}
-	const {type} = node,
+		offset = doc.offsetAt(position) + /^\w*/u.exec(getText(doc, line, character, line + 1, 0))![0].length,
+		root = await parse(uri),
+		node = elementFromIndex(root, offset),
+		{type} = node,
 		refName = getRefName(node),
 		refGroup = getRefGroup(node);
 	if (!refName && (definition || !refGroup && !(prepare || rename ? renameTypes : types).has(type))) {
 		return null;
+	}
+	const name = getName(node);
+	if ((prepare || rename) && type === 'parameter-key' && /^[1-9]\d*$/u.test(node.parentNode!.name!)) {
+		return null;
 	} else if (prepare) {
 		return createNodeRange(doc, node);
 	}
-	const name = getName(node),
-		refs = root.querySelectorAll(type).filter(token => {
-			if (definition) {
-				const parent = token.parentNode as AttributeToken;
-				return parent.tag === 'ref' && parent.name === 'name'
-					&& !(parent.parentNode!.parentNode as ExtToken).selfClosing
-					&& getRefName(token) === refName;
-			}
-			return type === 'attr-value'
-				? getRefName(token) === refName || getRefGroup(token) === refGroup
-				: getName(token) === name;
-		});
+	const refs = root.querySelectorAll(type === 'heading-title' ? 'heading' : type).filter(token => {
+		if (definition) {
+			const {name: n, parentNode} = token.parentNode as AttributeToken;
+			return getRefName(token) === refName
+				&& n === 'name' && !(parentNode!.parentNode as ExtToken).selfClosing;
+		}
+		return type === 'attr-value'
+			? getRefName(token) === refName || getRefGroup(token) === refGroup
+			: getName(token) === name;
+	}).map(token => token.type === 'parameter-key' ? token.parentNode! : token);
 	if (refs.length === 0) {
 		return null;
 	}

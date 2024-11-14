@@ -1,6 +1,6 @@
 import {Range as TextRange} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
-import type {TokenTypes} from 'wikilint';
+import type {TokenTypes, Token} from 'wikilint';
 
 export const plainTypes = new Set<TokenTypes | 'text'>(['text', 'comment', 'noinclude', 'include']);
 
@@ -28,3 +28,24 @@ export function getText(
 			: TextRange.create(startOrStartLine, endOrStartCharacter, endLine, endCharacter),
 	);
 }
+
+export const elementFromIndex = (root: Token, index: number): Token => {
+	let offset = index,
+		node = root;
+	while (true) { // eslint-disable-line no-constant-condition
+		// eslint-disable-next-line @typescript-eslint/no-loop-func
+		const child = node.childNodes.find(ch => {
+			const i = ch.getRelativeIndex();
+			if (i < offset && i + String(ch).length >= offset) {
+				offset -= i;
+				return true;
+			}
+			return false;
+		});
+		if (!child || child.type === 'text') {
+			break;
+		}
+		node = child;
+	}
+	return node;
+};

@@ -10,4 +10,5 @@ This is a language server extension for Visual Studio Code that provides languag
 - Code navigation
 - Followable wiki and external links
 - Symbol renaming
+- Code folding
 - More to come!

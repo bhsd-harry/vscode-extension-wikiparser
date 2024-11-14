@@ -10,6 +10,7 @@ import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
 import {provideReferences, provideDefinition, prepareRename, provideRename} from './reference';
 import {provideLinks} from './links';
+import {provideFolding} from './folding';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
 
@@ -46,6 +47,7 @@ connection.onInitialize(() => ({
 		renameProvider: {
 			prepareProvider: true,
 		},
+		foldingRangeProvider: true,
 	},
 }));
 
@@ -83,5 +85,8 @@ connection.onRenameRequest(provideRename);
 connection.onDocumentLinks(
 	async ({textDocument}) => provideLinks(textDocument, (await getSettings(textDocument)).articlePath),
 );
+
+// folding.ts
+connection.onFoldingRanges(provideFolding);
 
 connection.listen();

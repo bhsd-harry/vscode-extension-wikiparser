@@ -10,7 +10,7 @@ import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
 import {provideReferences, provideDefinition, prepareRename, provideRename} from './reference';
 import {provideLinks} from './links';
-import {provideFolding} from './folding';
+import {provideFolding, provideSymbol} from './folding';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
 
@@ -48,6 +48,9 @@ connection.onInitialize(() => ({
 			prepareProvider: true,
 		},
 		foldingRangeProvider: true,
+		documentSymbolProvider: {
+			label: 'Sections',
+		},
 	},
 }));
 
@@ -88,5 +91,6 @@ connection.onDocumentLinks(
 
 // folding.ts
 connection.onFoldingRanges(provideFolding);
+connection.onDocumentSymbol(provideSymbol);
 
 connection.listen();

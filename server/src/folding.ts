@@ -1,32 +1,64 @@
-import {FoldingRangeKind} from 'vscode-languageserver/node';
+import {FoldingRangeKind, Range as TextRange, SymbolKind} from 'vscode-languageserver/node';
 import {parse, docs} from './tasks';
-import type {FoldingRangeParams, FoldingRange} from 'vscode-languageserver/node';
+import type {FoldingRangeParams, FoldingRange, DocumentSymbol} from 'vscode-languageserver/node';
 import type {HeadingToken, TableToken, TranscludeToken} from 'wikilint';
 
-export const provideFolding = async ({textDocument: {uri}}: FoldingRangeParams): Promise<FoldingRange[]> => {
+function provide(params: FoldingRangeParams): Promise<FoldingRange[]>;
+function provide(params: FoldingRangeParams, symbol: true): Promise<DocumentSymbol[]>;
+async function provide(
+	{textDocument: {uri}}: FoldingRangeParams,
+	symbol?: true,
+): Promise<FoldingRange[] | DocumentSymbol[]> {
 	const ranges: FoldingRange[] = [],
+		symbols: DocumentSymbol[] = [],
+		names = new Set<string>(),
 		doc = docs.get(uri)!,
 		{lineCount} = doc,
 		root = await parse(uri),
 		levels = new Array<number | undefined>(6),
+		sections = new Array<DocumentSymbol | undefined>(6),
 		tokens = root.querySelectorAll<HeadingToken | TableToken | TranscludeToken>(
-			'heading,table,template,magic-word',
+			symbol ? 'heading' : 'heading,table,template,magic-word',
 		);
 	for (const token of tokens) {
 		const index = token.getAbsoluteIndex(),
 			{line} = doc.positionAt(index),
 			lines = String(token).split('\n');
 		if (token.type === 'heading') {
-			const {level} = token;
-			if (levels[level] !== undefined && levels[level] < line - 1) {
-				ranges.push({
-					startLine: levels[level],
-					endLine: line - 1,
-					kind: FoldingRangeKind.Region,
-				});
+			const {level, firstChild} = token;
+			if (symbol) {
+				const section = firstChild.text().trim() || ' ',
+					name = names.has(section)
+						? new Array(symbols.length).fill('').map((_, i) => `${section.trim()}_${i + 2}`)
+							.find(s => !names.has(s))!
+						: section,
+					container = sections.slice(0, level).findLast(Boolean),
+					range = TextRange.create(line, 0, line + 1, 0),
+					info: DocumentSymbol = {
+						name,
+						kind: SymbolKind.String,
+						range,
+						selectionRange: range,
+					};
+				names.add(name);
+				sections[level] = info;
+				if (container) {
+					container.children ??= [];
+					container.children.push(info);
+				} else {
+					symbols.push(info);
+				}
+			} else {
+				if (levels[level] !== undefined && levels[level] < line - 1) {
+					ranges.push({
+						startLine: levels[level],
+						endLine: line - 1,
+						kind: FoldingRangeKind.Region,
+					});
+				}
+				levels[level] = line + lines.length - 1; // 从标题的最后一行开始折叠
 			}
-			levels[level] = line + lines.length - 1; // 从标题的最后一行开始折叠
-		} else if (lines.length > 2) {
+		} else if (!symbol && lines.length > 2) {
 			ranges.push({
 				startLine: line, // 从表格或模板的第一行开始折叠
 				endLine: line + lines.length - 2,
@@ -34,14 +66,19 @@ export const provideFolding = async ({textDocument: {uri}}: FoldingRangeParams):
 			});
 		}
 	}
-	for (const line of levels) {
-		if (line !== undefined && line < lineCount) {
-			ranges.push({
-				startLine: line,
-				endLine: lineCount - 1,
-				kind: FoldingRangeKind.Region,
-			});
+	if (!symbol) {
+		for (const line of levels) {
+			if (line !== undefined && line < lineCount) {
+				ranges.push({
+					startLine: line,
+					endLine: lineCount - 1,
+					kind: FoldingRangeKind.Region,
+				});
+			}
 		}
 	}
-	return ranges;
-};
+	return symbol ? symbols : ranges;
+}
+
+export const provideFolding = (params: FoldingRangeParams): Promise<FoldingRange[]> => provide(params);
+export const provideSymbol = (params: FoldingRangeParams): Promise<DocumentSymbol[]> => provide(params, true);

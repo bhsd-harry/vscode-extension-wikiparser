@@ -68,8 +68,8 @@ const createNodeRange = (doc: TextDocument, token: Token): TextRange => {
 };
 
 // @ts-expect-error function overload
-async function provide(params: TextDocumentPositionParams, definition?: boolean): Promise<Location[] | null>;
-async function provide(params: TextDocumentPositionParams, definition: false, prepare: true): Promise<TextRange | null>;
+function provide(params: TextDocumentPositionParams, definition?: boolean): Promise<Location[] | null>;
+function provide(params: TextDocumentPositionParams, definition: false, prepare: true): Promise<TextRange | null>;
 async function provide(
 	params: RenameParams,
 	definition: false,

@@ -5,7 +5,7 @@ import {getText, elementFromIndex} from './util';
 import {docs, parse} from './tasks';
 import type {Position, CompletionItem} from 'vscode-languageserver/node';
 import type {CompletionParams} from 'vscode-languageserver/node';
-import type {Token, AttributeToken} from 'wikilint';
+import type {Token, AttributeToken, ParameterToken} from 'wikilint';
 
 const {nsid, ext, html, parserFunction, doubleUnderscore, protocol, img} = Parser.getConfig(),
 	re = new RegExp(
@@ -20,7 +20,7 @@ const {nsid, ext, html, parserFunction, doubleUnderscore, protocol, img} = Parse
 		+ '|'
 		+ String.raw`\[\[\s*(?:${
 			Object.entries(nsid).filter(([, v]) => v === 6).map(([k]) => k).join('|')
-		})\s*:[^[\]{}<>]+\|\s*([^[\]{}<>|=]+)` // image parameter
+		})\s*:[^[\]{}<>]+\|([^[\]{}<>|=]+)` // image parameter
 		+ '|'
 		+ String.raw`<(\w+)(?:\s(?:[^<>{}|=]|=\s*(?:[^\s"']\S*|(["']).*?\8))*)?\s(\w+)` // attribute key
 		+ ')$',
@@ -58,12 +58,15 @@ export const completion = async (
 	const {line, character} = position,
 		doc = docs.get(uri)!,
 		mt = re.exec(getText(doc, line, 0, line, character));
-	let token: Token | undefined,
+	let root: Token | undefined,
+		token: Token | undefined,
 		offset: number | undefined;
 	if (!mt) {
 		offset = doc.offsetAt(position);
-		token = elementFromIndex(await parse(uri), offset);
+		root = await parse(uri);
+		token = elementFromIndex(root, offset);
 	}
+	const {type: t, parentNode: parent} = token ?? {};
 	if (mt?.[1]) { // tag
 		return getCompletion(allTags, CompletionItemKind.Class, mt[1], position);
 	} else if (mt?.[2] === '{{{') { // argument
@@ -99,10 +102,18 @@ export const completion = async (
 		return getCompletion(switches, CompletionItemKind.Constant, mt[4], position);
 	} else if (mt?.[5]) { // protocol
 		return getCompletion(protocols, CompletionItemKind.Reference, mt[5], position);
-	} else if (mt?.[6] || token?.type === 'image-parameter') { // image parameter
-		const match = mt?.[6] ?? getText(doc, token!.getAbsoluteIndex(), offset!).trimStart();
-		return getCompletion(params, CompletionItemKind.Property, match, position);
-	} else if (mt?.[7] || token?.type === 'attr-key') { // attribute key
+	} else if (mt?.[6]?.trim() || t === 'image-parameter') { // image parameter
+		const match = mt?.[6]?.trimStart() ?? getText(doc, token!.getAbsoluteIndex(), offset!).trimStart();
+		return [
+			...getCompletion(params, CompletionItemKind.Property, match, position),
+			...getCompletion(
+				(root ?? await parse(uri)).querySelectorAll('image-parameter#width').map(width => width.text()),
+				CompletionItemKind.Unit,
+				match,
+				position,
+			),
+		];
+	} else if (mt?.[7] || t === 'attr-key') { // attribute key
 		const tag = mt?.[7]?.toLowerCase() ?? (token!.parentNode as AttributeToken).tag;
 		if (!tags.has(tag)) {
 			return null;
@@ -126,6 +137,19 @@ export const completion = async (
 			...getCompletion(['data-'], CompletionItemKind.Variable, key, position),
 			...getCompletion(['xmlns:'], CompletionItemKind.Interface, key, position),
 		];
+	} else if (
+		(t === 'parameter-key' || t === 'parameter-value' && (parent as ParameterToken).anon)
+		&& parent!.parentNode!.type === 'template'
+	) { // parameter key
+		return getCompletion(
+			root!.querySelectorAll<ParameterToken>('parameter').filter(
+				({anon, parentNode}) => !anon && parentNode!.type === 'template'
+				&& parentNode!.name === parent!.parentNode!.name,
+			).map(({name}) => name),
+			CompletionItemKind.Variable,
+			String(token).trimStart(),
+			position,
+		);
 	}
 	return null;
 };

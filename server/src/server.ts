@@ -34,7 +34,7 @@ connection.onInitialize(() => ({
 		},
 		completionProvider: {
 			resolveProvider: false,
-			triggerCharacters: ['#'],
+			triggerCharacters: ['#', ...new Array(10).fill(0).map((_, i) => String(i))],
 		},
 		colorProvider: true,
 		referencesProvider: true,

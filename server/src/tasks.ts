@@ -1,6 +1,6 @@
-import {TextDocuments, createConnection, ProposedFeatures} from 'vscode-languageserver/node';
+import {TextDocuments} from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
-import {Task} from './task';
+import {Task, connection} from './task';
 import type {Token} from 'wikilint';
 
 export interface Settings {
@@ -11,11 +11,10 @@ export interface Settings {
 const tasks = new WeakMap<TextDocument, Task>();
 
 export const docs = new TextDocuments(TextDocument),
-	documentSettings = new Map<string, Promise<Settings>>(),
-	connection = createConnection(ProposedFeatures.all);
+	documentSettings = new Map<string, Promise<Settings>>();
 
 docs.onDidOpen(({document}) => {
-	tasks.set(document, new Task(document, connection));
+	tasks.set(document, new Task(document));
 });
 
 docs.onDidClose(({document}) => {

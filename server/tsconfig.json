@@ -1,11 +1,11 @@
 {
 	"include": [
-		"src/**/*",
-		"typings/**/*"
+		"src/**/*"
 	],
 	"compilerOptions": {
 		"target": "es2023",
 		"module": "NodeNext",
+		"resolveJsonModule": true,
 		"allowSyntheticDefaultImports": true,
 		"outDir": "dist",
 		"alwaysStrict": true,

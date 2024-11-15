@@ -1,0 +1,46 @@
+{
+	"type": "array",
+	"items": {
+		"type": "object",
+		"properties": {
+			"aliases": {
+				"type": "array",
+				"items": {
+					"type": "string"
+				},
+				"minItems": 1,
+				"uniqueItems": true
+			},
+			"description": {
+				"type": "string"
+			},
+			"signatures": {
+				"type": "array",
+				"items": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"label": {
+								"type": "string"
+							},
+							"const": {
+								"type": "boolean"
+							}
+						},
+						"required": [
+							"label"
+						],
+						"additionalProperties": false
+					}
+				},
+				"minItems": 1
+			}
+		},
+		"required": [
+			"aliases",
+			"description"
+		],
+		"additionalProperties": false
+	}
+}

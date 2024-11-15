@@ -11,6 +11,7 @@ import {provideDocumentColors, provideColorPresentations} from './color';
 import {provideReferences, provideDefinition, prepareRename, provideRename} from './reference';
 import {provideLinks} from './links';
 import {provideFolding, provideSymbol} from './folding';
+import {provideHover} from './hover';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
 
@@ -51,6 +52,7 @@ connection.onInitialize(() => ({
 		documentSymbolProvider: {
 			label: 'Sections',
 		},
+		hoverProvider: true,
 	},
 }));
 
@@ -92,5 +94,8 @@ connection.onDocumentLinks(
 // folding.ts
 connection.onFoldingRanges(provideFolding);
 connection.onDocumentSymbol(provideSymbol);
+
+// hover.ts
+connection.onHover(provideHover);
 
 connection.listen();

@@ -1,0 +1,1121 @@
+[
+	{
+		"aliases": [
+			"currentyear",
+			"今年"
+		],
+		"description": "Year"
+	},
+	{
+		"aliases": [
+			"localyear",
+			"本地年"
+		],
+		"description": "Year, but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentmonth",
+			"currentmonth2",
+			"本月",
+			"本月2"
+		],
+		"description": "Month (zero-padded number)"
+	},
+	{
+		"aliases": [
+			"localmonth",
+			"localmonth2",
+			"本地月",
+			"本地月2"
+		],
+		"description": "Month (zero-padded number), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentmonth1",
+			"本月1"
+		],
+		"description": "Month (unpadded number)"
+	},
+	{
+		"aliases": [
+			"localmonth1",
+			"本地月1"
+		],
+		"description": "Month (unpadded number), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentmonthname",
+			"本月名",
+			"本月名称"
+		],
+		"description": "Month (name)"
+	},
+	{
+		"aliases": [
+			"localmonthname",
+			"本地月份名"
+		],
+		"description": "Month (name), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentmonthnamegen",
+			"本月名属格",
+			"本月名称属格"
+		],
+		"description": "Month ([genitive form](https://en.wikipedia.org/wiki/Genitive_case))"
+	},
+	{
+		"aliases": [
+			"localmonthnamegen",
+			"本地月历"
+		],
+		"description": "Month ([genitive form](https://en.wikipedia.org/wiki/Genitive_case)), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentmonthabbrev",
+			"本月简称"
+		],
+		"description": "Month (abbreviation)"
+	},
+	{
+		"aliases": [
+			"localmonthabbrev",
+			"本地月缩写",
+			"本月縮寫"
+		],
+		"description": "Month (abbreviation), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentday",
+			"今天"
+		],
+		"description": "Day of the month (unpadded number)"
+	},
+	{
+		"aliases": [
+			"localday",
+			"本地日"
+		],
+		"description": "Day of the month (unpadded number), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentday2",
+			"今天2"
+		],
+		"description": "Day of the month (zero-padded number)"
+	},
+	{
+		"aliases": [
+			"localday2",
+			"本地日2"
+		],
+		"description": "Day of the month (zero-padded number), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentdow",
+			"当前DOW"
+		],
+		"description": "Day of the week (unpadded number), 0 (for Sunday) through 6 (for Saturday)"
+	},
+	{
+		"aliases": [
+			"localdow",
+			"本地DOW"
+		],
+		"description": "Day of the week (unpadded number), 0 (for Sunday) through 6 (for Saturday), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentdayname",
+			"今天名",
+			"今天名称"
+		],
+		"description": "Day of the week (name)"
+	},
+	{
+		"aliases": [
+			"localdayname",
+			"本地日名"
+		],
+		"description": "Day of the week (name), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currenttime",
+			"当前时间",
+			"目前時間",
+			"此时"
+		],
+		"description": "Time (24-hour HH:mm format)"
+	},
+	{
+		"aliases": [
+			"localtime",
+			"本地时间"
+		],
+		"description": "Time (24-hour HH:mm format), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currenthour",
+			"当前小时"
+		],
+		"description": "Hour (24-hour zero-padded number)"
+	},
+	{
+		"aliases": [
+			"localhour",
+			"本地小时"
+		],
+		"description": "Hour (24-hour zero-padded number), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currentweek",
+			"本周"
+		],
+		"description": "Week (number)"
+	},
+	{
+		"aliases": [
+			"localweek",
+			"本地周"
+		],
+		"description": "Week (number), but using the site's server config"
+	},
+	{
+		"aliases": [
+			"currenttimestamp",
+			"当前时间戳"
+		],
+		"description": "YYYYMMDDHHmmss timestamp"
+	},
+	{
+		"aliases": [
+			"localtimestamp",
+			"本地时间戳"
+		],
+		"description": "YYYYMMDDHHmmss timestamp, but using the site's server config"
+	},
+	{
+		"aliases": [
+			"sitename",
+			"站点名称",
+			"網站名稱"
+		],
+		"description": "The wiki's site name."
+	},
+	{
+		"aliases": [
+			"server",
+			"服务器",
+			"伺服器"
+		],
+		"description": "Domain URL."
+	},
+	{
+		"aliases": [
+			"servername",
+			"服务器名",
+			"伺服器名稱"
+		],
+		"description": "Subdomain and domain name."
+	},
+	{
+		"aliases": [
+			"dirmark",
+			"directionmark",
+			"方向标记"
+		],
+		"description": "Outputs a Unicode directional mark that matches the wiki's default language's direction (`&lrm`; on left-to-right wikis, `&rlm`; on right-to-left wikis), useful in text with multi-directional text. Since 1.19, it depends on the [page content language](https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:Language#page-content-lang)."
+	},
+	{
+		"aliases": [
+			"articlepath",
+			"条目路径"
+		],
+		"description": "Relative article path."
+	},
+	{
+		"aliases": [
+			"scriptpath",
+			"脚本路径"
+		],
+		"description": "Relative script path."
+	},
+	{
+		"aliases": [
+			"stylepath",
+			"样式路径"
+		],
+		"description": "Relative style path."
+	},
+	{
+		"aliases": [
+			"currentversion",
+			"当前版本",
+			"目前版本"
+		],
+		"description": "The wiki's MediaWiki version."
+	},
+	{
+		"aliases": [
+			"contentlanguage",
+			"contentlang",
+			"内容语言",
+			"內容語言"
+		],
+		"description": "The wiki's default interface language."
+	},
+	{
+		"aliases": [
+			"pageid",
+			"页面id",
+			"頁面id"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Returns the [page identifier (page ID)](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Page_ID).\n\n**[Expensive]** Returns the page identifier of the specified page."
+	},
+	{
+		"aliases": [
+			"pagelanguage"
+		],
+		"description": "Returns the language of the current page. The language code that this variable returns can be converted to a language name using `{{#language:...}}`."
+	},
+	{
+		"aliases": [
+			"protectionlevel",
+			"保护级别"
+		],
+		"signatures": [
+			[
+				{
+					"label": "action"
+				}
+			],
+			[
+				{
+					"label": "action"
+				},
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Outputs the protection level (e.g. \"autoconfirmed\", \"sysop\") for a given action (e.g. \"edit\", \"move\") on the current page. Returns an empty string if not protected.\n\n**[Expensive]** Outputs the protection level on the specified page."
+	},
+	{
+		"aliases": [
+			"protectionexpiry"
+		],
+		"signatures": [
+			[
+				{
+					"label": "action"
+				}
+			],
+			[
+				{
+					"label": "action"
+				},
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Outputs the protection expiry (e.g. \"20160418155030\", \"infinity\") for a given action (e.g. \"edit\", \"move\") on the current page. Returns \"infinity\" if not protected.\n\n**[Expensive]** Outputs the protection expiry on the specified page."
+	},
+	{
+		"aliases": [
+			"cascadingsources",
+			"级联来源"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "**[Expensive]** Returns the sources of any cascading protection acting on the current page or the specified page. Pages will not return their own title unless they transclude themselves."
+	},
+	{
+		"aliases": [
+			"revisionid",
+			"修订ID"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Unique revision ID. It is always empty in preview, thus one can show an error message only in preview. May be disabled in [miser mode (all WMF wikis)](https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:$wgMiserMode) returning `-` instead when not in preview.\n\n**[Expensive]** Unique revision ID of the last revision on the specified page."
+	},
+	{
+		"aliases": [
+			"revisionday",
+			"修订日"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Day edit was made (unpadded number).\n\n**[Expensive]** Day of edit from the last revision of the specified page."
+	},
+	{
+		"aliases": [
+			"revisionday2",
+			"修订日2"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Day edit was made (zero-padded number).\n\n**[Expensive]** Day of edit from the last revision of the specified page."
+	},
+	{
+		"aliases": [
+			"revisionmonth",
+			"修订月"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Month edit was made (zero-padded number as of 1.17+, unpadded number in prior versions).\n\n**[Expensive]** Month of edit from the last revision of the specified page."
+	},
+	{
+		"aliases": [
+			"revisionmonth1",
+			"修订月1"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Month edit was made (unpadded number).\n\n**[Expensive]** Month of edit from the last revision of the specified page."
+	},
+	{
+		"aliases": [
+			"revisionyear",
+			"修订年"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Year edit was made.\n\n**[Expensive]** Year of edit from the last revision of the specified page."
+	},
+	{
+		"aliases": [
+			"revisiontimestamp",
+			"修订时间戳"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Timestamp as of time of edit.\n\n**[Expensive]** Timestamp as of time of edit on the specified page."
+	},
+	{
+		"aliases": [
+			"revisionuser",
+			"修订用户",
+			"修訂使用者"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "The username of the user who made the edit in question, or the user previewing an edit.\n\n**[Expensive]** The username from the last revision on the specified page."
+	},
+	{
+		"aliases": [
+			"revisionsize",
+			"修订大小"
+		],
+		"description": "The size (bytes of wikitext) of the viewed revision of the page or preview."
+	},
+	{
+		"aliases": [
+			"displaytitle",
+			"显示标题",
+			"顯示標題"
+		],
+		"signatures": [
+			[
+				{
+					"label": "title"
+				}
+			],
+			[
+				{
+					"label": "title"
+				},
+				{
+					"label": "noerror",
+					"const": true
+				}
+			],
+			[
+				{
+					"label": "title"
+				},
+				{
+					"label": "noreplace",
+					"const": true
+				}
+			]
+		],
+		"description": "Format the [display title](https://www.mediawiki.org/wiki/Special:MyLanguage/Display_title) of the current page, which is what is typically shown in a page's title header. The value must be equivalent to the default title: only capitalization changes to certain parts of the title (not all) and replacing spaces with underscores are allowed.\n\nIt can take a second argument of *noerror* or *noreplace* to suppress error messages when multiple displaytitles are used on one page or to make this `displaytitle` do nothing if a `displaytitle` was already specified earlier in the page."
+	},
+	{
+		"aliases": [
+			"defaultsort",
+			"defaultsortkey",
+			"defaultcategorysort",
+			"默认排序",
+			"默认排序关键字",
+			"默认分类排序"
+		],
+		"signatures": [
+			[
+				{
+					"label": "sortkey"
+				}
+			],
+			[
+				{
+					"label": "sortkey"
+				},
+				{
+					"label": "noerror",
+					"const": true
+				}
+			],
+			[
+				{
+					"label": "sortkey"
+				},
+				{
+					"label": "noreplace",
+					"const": true
+				}
+			]
+		],
+		"description": "Used for categorizing pages, sets a default [category sort key](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Categories). It can take a second argument of *noerror* or *noreplace* to suppress error messages when multiple defaultsortkeys are used on one page or to make this `defaultsort` do nothing if a `defaultsort` was already specified earlier in the page."
+	},
+	{
+		"aliases": [
+			"numberofpages",
+			"页面数",
+			"頁面數"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of wiki pages."
+	},
+	{
+		"aliases": [
+			"numberofarticles",
+			"条目数",
+			"文章數"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of pages in [content namespaces](https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:Using_custom_namespaces#content-ns) that qualify as articles."
+	},
+	{
+		"aliases": [
+			"numberoffiles",
+			"文件数",
+			"檔案數"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of uploaded files."
+	},
+	{
+		"aliases": [
+			"numberofedits",
+			"编辑数"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of wiki edits."
+	},
+	{
+		"aliases": [
+			"numberofusers",
+			"用户数",
+			"使用者人數量"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of registered users."
+	},
+	{
+		"aliases": [
+			"numberofadmins",
+			"管理员数",
+			"管理員數"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of users in the *sysop* [group](https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:User_rights)."
+	},
+	{
+		"aliases": [
+			"numberofactiveusers",
+			"活跃用户数",
+			"活躍使用者人數"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of active users, based on the criteria used in Special:Statistics."
+	},
+	{
+		"aliases": [
+			"pagesincategory",
+			"pagesincat",
+			"分类中页面数"
+		],
+		"signatures": [
+			[
+				{
+					"label": "category name"
+				}
+			],
+			[
+				{
+					"label": "category name"
+				},
+				{
+					"label": "all",
+					"const": true
+				}
+			],
+			[
+				{
+					"label": "category name"
+				},
+				{
+					"label": "pages",
+					"const": true
+				}
+			],
+			[
+				{
+					"label": "category name"
+				},
+				{
+					"label": "subcats",
+					"const": true
+				}
+			],
+			[
+				{
+					"label": "category name"
+				},
+				{
+					"label": "files",
+					"const": true
+				}
+			]
+		],
+		"description": "**[Expensive]** Number of pages (including subcategories and files if no second argument is provided) in the given [category](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Categories)."
+	},
+	{
+		"aliases": [
+			"numberingroup",
+			"numingroup",
+			"组中用户数"
+		],
+		"signatures": [
+			[
+				{
+					"label": "group name"
+				}
+			],
+			[
+				{
+					"label": "group name"
+				},
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "Number of users in a specific [group](https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:User_rights)."
+	},
+	{
+		"aliases": [
+			"fullpagename",
+			"页面全称",
+			"完整页面名称"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Namespace and full page title (including all subpage levels)."
+	},
+	{
+		"aliases": [
+			"fullpagenamee",
+			"完整页面名称等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded namespace and full page title (including all subpage levels)."
+	},
+	{
+		"aliases": [
+			"pagename",
+			"页名",
+			"页面名",
+			"页面名称",
+			"頁面名稱"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Full page title (including all subpage levels) without the namespace."
+	},
+	{
+		"aliases": [
+			"pagenamee",
+			"页面名等同",
+			"页面名称等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded full page title (including all subpage levels) without the namespace."
+	},
+	{
+		"aliases": [
+			"basepagename",
+			"基础页面名称"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Page title of the page in the immediately superior [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) level without the namespace."
+	},
+	{
+		"aliases": [
+			"basepagenamee",
+			"基础页面名称等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded page title of the page in the immediately superior [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) level without the namespace."
+	},
+	{
+		"aliases": [
+			"rootpagename",
+			"根页面名称",
+			"根頁面名稱"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Name of the root of the current page."
+	},
+	{
+		"aliases": [
+			"rootpagenamee",
+			"根页面名称等同",
+			"根頁面名稱E"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded name of the root of the current page."
+	},
+	{
+		"aliases": [
+			"subpagename",
+			"子页面名称"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "The [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) title. If no subpage exists the value of `{{PAGENAME}}` is returned. "
+	},
+	{
+		"aliases": [
+			"subpagenamee",
+			"子页面名称等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "The URL encoded [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) title. If no subpage exists the value of `{{PAGENAME}}` is returned. "
+	},
+	{
+		"aliases": [
+			"subjectpagename",
+			"articlepagename",
+			"主名字空间页面名称",
+			"条目页面名称"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Full page name of the associated subject (e.g. article or file). Useful on talk pages."
+	},
+	{
+		"aliases": [
+			"subjectpagenamee",
+			"articlepagenamee",
+			"主名字空间页面名称等同",
+			"条目页面名称等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded full page name of the associated subject (e.g. article or file). Useful on talk pages."
+	},
+	{
+		"aliases": [
+			"talkpagename",
+			"讨论页面名称",
+			"对话页面名称"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Full page name of the associated talk page."
+	},
+	{
+		"aliases": [
+			"talkpagenamee",
+			"讨论页面名称等同",
+			"对话页面名称等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded full page name of the associated talk page."
+	},
+	{
+		"aliases": [
+			"namespace",
+			"名字空间",
+			"命名空間",
+			"命名空間數"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Name of the page's namespace (except for main space)"
+	},
+	{
+		"aliases": [
+			"namespacee",
+			"名字空间等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded name of the page's namespace (except for main space)"
+	},
+	{
+		"aliases": [
+			"namespacenumber",
+			"名字空间编号"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "[ID](https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:Namespace#Built-in_namespaces) of the page's namespace"
+	},
+	{
+		"aliases": [
+			"subjectspace",
+			"articlespace",
+			"主名字空间",
+			"条目名字空间"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Name of the associated content namespace"
+	},
+	{
+		"aliases": [
+			"subjectspacee",
+			"articlespacee",
+			"主名字空间等同",
+			"条目名字空间等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded name of the associated content namespace"
+	},
+	{
+		"aliases": [
+			"talkspace",
+			"讨论空间",
+			"讨论名字空间",
+			"對話空間"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "Name of the associated talk namespace"
+	},
+	{
+		"aliases": [
+			"talkspacee",
+			"讨论空间等同",
+			"讨论名字空间等同"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			]
+		],
+		"description": "URL encoded name of the associated talk namespace"
+	},
+	{
+		"aliases": [
+			"!"
+		],
+		"description": "Used to include a vertical bar (pipe).\n\nSee [Help:Extension:ParserFunctions#Escaping pipe characters in tables](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Extension:ParserFunctions#Escaping_pipe_characters_in_tables) for further explanation."
+	},
+	{
+		"aliases": [
+			"="
+		],
+		"description": "Used to include an equal sign.\n\nSee [Help:Extension:ParserFunctions#Raw equal signs](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Extension:ParserFunctions#Raw_equal_signs) for further explanation."
+	},
+	{
+		"aliases": [
+			"pagesize",
+			"页面大小"
+		],
+		"signatures": [
+			[],
+			[
+				{
+					"label": "page name"
+				}
+			],
+			[
+				{
+					"label": "page name"
+				},
+				{
+					"label": "R",
+					"const": true
+				}
+			]
+		],
+		"description": "**[Expensive]** Returns the byte size of the specified page."
+	}
+]

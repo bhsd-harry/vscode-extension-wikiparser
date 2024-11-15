@@ -12,4 +12,5 @@ This is a language server extension for Visual Studio Code that provides languag
 - Symbol renaming
 - Code folding
 - Outline view
+- Hover information
 - More to come!

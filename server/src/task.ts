@@ -1,22 +1,28 @@
 import {createHash} from 'crypto';
+import {createConnection, ProposedFeatures} from 'vscode-languageserver/node';
 import Parser from 'wikilint';
-import type {Connection} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {Token} from 'wikilint';
 
 const debugging = process.argv.includes('--debug');
 
+export const connection = createConnection(ProposedFeatures.all);
+
+export const debug = (arg: unknown): void => {
+	if (debugging) {
+		connection.console.debug(typeof arg === 'object' ? JSON.stringify(arg, null, '\t') : String(arg));
+	}
+};
+
 export class Task {
 	doc;
-	connection;
 	text: string;
 	running: Promise<Token> | undefined;
 	done: Token | undefined;
 
 	/** @class */
-	constructor(doc: TextDocument, connection: Connection) {
+	constructor(doc: TextDocument) {
 		this.doc = doc;
-		this.connection = connection;
 	}
 
 	/**
@@ -48,9 +54,7 @@ export class Task {
 	 */
 	async #parse(): Promise<Token> {
 		const {text} = this;
-		if (debugging) {
-			this.connection.console.debug(`Parsing document ${createHash('md5').update(text).digest('hex')}`);
-		}
+		debug(`Parsing document ${createHash('md5').update(text).digest('hex')}`);
 		const root = Parser.parse(text, true);
 		if (this.text === text) {
 			this.done = root;

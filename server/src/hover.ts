@@ -2,18 +2,26 @@ import {docs, parse} from './tasks';
 import {elementFromWord, createNodeRange} from './util';
 import behaviorSwitches from './data/behaviorSwitch.json';
 import variable from './data/variable.json';
+import parserFunctions from './data/parserFunction.json';
 import type {TextDocumentPositionParams, Hover} from 'vscode-languageserver/node';
 import type {DoubleUnderscoreToken} from 'wikilint';
 
 declare interface Parameter {
 	label: string;
 	const?: boolean;
+	rest?: boolean;
 }
-declare interface Info {
+export interface Info {
 	aliases: string[];
 	description: string;
 	signatures?: Parameter[][];
 }
+
+const variables: Info[] = [...variable, ...parserFunctions];
+
+export const getInfo = (name: string | undefined): Info | undefined => variables.find(
+	({aliases}) => aliases.some(alias => alias.replace(/^#/u, '') === name),
+);
 
 export const provideHover = async (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,
@@ -27,7 +35,7 @@ export const provideHover = async (
 			({aliases}) => aliases.includes((token as DoubleUnderscoreToken).innerText.toLowerCase()),
 		);
 	} else if (token.type === 'magic-word-name') {
-		info = variable.find(({aliases}) => aliases.includes(token.parentNode!.name!));
+		info = getInfo(token.parentNode!.name);
 		f = token.text().trim();
 	}
 	return info

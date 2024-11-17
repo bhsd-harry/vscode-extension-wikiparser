@@ -8,13 +8,15 @@ export interface Settings {
 	articlePath: string;
 }
 
-const tasks = new WeakMap<TextDocument, Task>();
+const tasks = new WeakMap<TextDocument, Task>(),
+	signatureTasks = new WeakMap<TextDocument, Task>();
 
 export const docs = new TextDocuments(TextDocument),
 	documentSettings = new Map<string, Promise<Settings>>();
 
 docs.onDidOpen(({document}) => {
 	tasks.set(document, new Task(document));
+	signatureTasks.set(document, new Task(document));
 });
 
 docs.onDidClose(({document}) => {
@@ -24,4 +26,5 @@ docs.onDidClose(({document}) => {
 
 docs.listen(connection);
 
-export const parse = (uri: string): Promise<Token> => tasks.get(docs.get(uri)!)!.queue();
+export const parse = (uri: string): Promise<Token> => tasks.get(docs.get(uri)!)!.queue(),
+	parseSignature = (uri: string, text: string): Promise<Token> => signatureTasks.get(docs.get(uri)!)!.queue(text);

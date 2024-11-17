@@ -27,13 +27,13 @@ export class Task {
 
 	/**
 	 * 提交解析任务
+	 * @param text 源代码
 	 * @description
 	 * - 总是更新`text`以便`parse`完成时可以判断是否需要重新解析
 	 * - 如果已有进行中的解析，则返回该解析的结果
 	 * - 否则开始新的解析
 	 */
-	async queue(): Promise<Token> {
-		const text = this.doc.getText();
+	async queue(text = this.doc.getText()): Promise<Token> {
 		if (this.text === text && !this.running && this.done) {
 			return this.done;
 		}

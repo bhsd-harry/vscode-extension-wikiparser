@@ -4,7 +4,8 @@ import {
 	DidChangeConfigurationNotification,
 	DocumentDiagnosticReportKind,
 } from 'vscode-languageserver/node';
-import {documentSettings, connection} from './tasks';
+import {documentSettings} from './tasks';
+import {connection} from './task';
 import {diagnose, quickFix} from './diagnostic';
 import {completion} from './completion';
 import {provideDocumentColors, provideColorPresentations} from './color';
@@ -12,6 +13,7 @@ import {provideReferences, provideDefinition, prepareRename, provideRename} from
 import {provideLinks} from './links';
 import {provideFolding, provideSymbol} from './folding';
 import {provideHover} from './hover';
+import {provideSignatureHelp} from './signature';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
 
@@ -53,6 +55,9 @@ connection.onInitialize(() => ({
 			label: 'Sections',
 		},
 		hoverProvider: true,
+		signatureHelpProvider: {
+			triggerCharacters: [':', '|'],
+		},
 	},
 }));
 
@@ -97,5 +102,8 @@ connection.onDocumentSymbol(provideSymbol);
 
 // hover.ts
 connection.onHover(provideHover);
+
+// signature.ts
+connection.onSignatureHelp(provideSignatureHelp);
 
 connection.listen();

@@ -26,6 +26,9 @@
 							},
 							"const": {
 								"type": "boolean"
+							},
+							"rest": {
+								"type": "boolean"
 							}
 						},
 						"required": [

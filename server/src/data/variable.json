@@ -885,7 +885,7 @@
 				}
 			]
 		],
-		"description": "The [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) title. If no subpage exists the value of `{{PAGENAME}}` is returned. "
+		"description": "The [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) title. If no subpage exists the value of `{{PAGENAME}}` is returned."
 	},
 	{
 		"aliases": [
@@ -900,7 +900,7 @@
 				}
 			]
 		],
-		"description": "The URL encoded [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) title. If no subpage exists the value of `{{PAGENAME}}` is returned. "
+		"description": "The URL encoded [subpage](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Subpages) title. If no subpage exists the value of `{{PAGENAME}}` is returned."
 	},
 	{
 		"aliases": [

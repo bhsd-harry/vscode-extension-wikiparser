@@ -62,11 +62,13 @@
 		"vscode:prepublish": "npm run lint && npm run build",
 		"build": "tsc --project server/tsconfig.json && tsc --project client/tsconfig.json",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && tsc --noEmit --project client/tsconfig.json && eslint --cache .",
-		"lint:json": "v8r -s server/src/data/.schema.json server/src/data/*.json",
-		"lint": "npm run lint:ts && npm run lint:json"
+		"lint:json": "v8r -s server/src/data/schema/info.json server/src/data/*.json",
+		"lint": "npm run lint:ts && npm run lint:json",
+		"package": "vsce package"
 	},
 	"dependencies": {
 		"@bhsd/common": "^0.4.4",
+		"@types/node": "^22.9.0",
 		"color-rgba": "^3.0.0",
 		"vscode-languageclient": "^9.0.1",
 		"vscode-languageserver": "^9.0.1",
@@ -74,10 +76,25 @@
 		"wikilint": "^2.13.4"
 	},
 	"devDependencies": {
+		"@stylistic/eslint-plugin": "^2.10.1",
 		"@types/color-rgba": "^2.1.3",
 		"@types/vscode": "^1.95.0",
+		"@typescript-eslint/eslint-plugin": "^8.14.0",
+		"@typescript-eslint/parser": "^8.14.0",
 		"@vscode/vsce": "^3.2.1",
-		"v8r": "^3.0.0"
+		"eslint": "^8.0.0",
+		"eslint-plugin-eslint-comments": "^3.2.0",
+		"eslint-plugin-jsdoc": "^50.5.0",
+		"eslint-plugin-json-es": "^1.6.0",
+		"eslint-plugin-n": "^17.13.2",
+		"eslint-plugin-promise": "^7.1.0",
+		"eslint-plugin-regexp": "^2.7.0",
+		"eslint-plugin-unicorn": "^56.0.0",
+		"typescript": "^5.6.0",
+		"v8r": "^4.2.0"
+	},
+	"resolutions": {
+		"strip-ansi": "6.0.1"
 	},
 	"engines": {
 		"node": ">=22.11.0",

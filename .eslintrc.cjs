@@ -14,6 +14,7 @@ module.exports = {
 			},
 		],
 		'jsdoc/require-jsdoc': 0,
+		'@stylistic/linebreak-style': [2, process.env.NODE_ENV === 'prod' ? 'unix' : 'windows'],
 	},
 	overrides: [
 		json,

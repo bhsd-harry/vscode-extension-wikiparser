@@ -22,7 +22,7 @@ const {nsid, ext, html, parserFunction, doubleUnderscore, protocol, img} = Parse
 			Object.entries(nsid).filter(([, v]) => v === 6).map(([k]) => k).join('|')
 		})\s*:[^[\]{}<>]+\|([^[\]{}<>|=]+)` // image parameter
 		+ '|'
-		+ String.raw`<(\w+)(?:\s(?:[^<>{}|=]|=\s*(?:[^\s"']\S*|(["']).*?\8))*)?\s(\w+)` // attribute key
+		+ String.raw`<(\w+)(?:\s(?:[^<>{}|=\s]+(?:\s*=\s*(?:[^\s"']\S*|(["']).*?\8))?(?=\s))*)?\s(\w+)` // attribute key
 		+ ')$',
 		'iu',
 	);
@@ -118,25 +118,23 @@ export const completion = async (
 		if (!tags.has(tag)) {
 			return null;
 		}
-		const type = ext.includes(tag) ? 'ext-attr' : 'html-attr',
-			key = mt?.[9] ?? String(token),
+		const key = mt?.[9] ?? String(token),
 			thisHtmlAttrs = htmlAttrs[tag],
 			thisExtAttrs = extAttrs[tag],
 			extCompletion = thisExtAttrs ? getCompletion(thisExtAttrs, CompletionItemKind.Field, key, position) : null;
-		if (type === 'ext-attr' && !thisHtmlAttrs) {
-			return extCompletion;
-		}
-		return [
-			...extCompletion ?? [],
-			...tag === 'meta' || tag === 'link'
-				? []
-				: getCompletion(commonHtmlAttrs, CompletionItemKind.Property, key, position),
-			...thisHtmlAttrs
-				? getCompletion(thisHtmlAttrs, CompletionItemKind.Property, key, position)
-				: [],
-			...getCompletion(['data-'], CompletionItemKind.Variable, key, position),
-			...getCompletion(['xmlns:'], CompletionItemKind.Interface, key, position),
-		];
+		return ext.includes(tag) && !thisHtmlAttrs
+			? extCompletion
+			: [
+				...extCompletion ?? [],
+				...tag === 'meta' || tag === 'link'
+					? []
+					: getCompletion(commonHtmlAttrs, CompletionItemKind.Property, key, position),
+				...thisHtmlAttrs
+					? getCompletion(thisHtmlAttrs, CompletionItemKind.Property, key, position)
+					: [],
+				...getCompletion(['data-'], CompletionItemKind.Variable, key, position),
+				...getCompletion(['xmlns:'], CompletionItemKind.Interface, key, position),
+			];
 	} else if (
 		(t === 'parameter-key' || t === 'parameter-value' && (parent as ParameterToken).anon)
 		&& parent!.parentNode!.type === 'template'

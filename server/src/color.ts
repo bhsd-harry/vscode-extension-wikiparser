@@ -1,4 +1,4 @@
-import {splitColors} from '@bhsd/common';
+import {splitColors, numToHex} from '@bhsd/common';
 import {TextEdit} from 'vscode-languageserver/node';
 import {createRange, plainTypes} from './util';
 import {parse, docs} from './tasks';
@@ -9,8 +9,6 @@ import type {
 	DocumentColorParams,
 } from 'vscode-languageserver/node';
 import type {AstText} from 'wikilint';
-
-const numToHex = (d: number): string => Math.round(d * 255).toString(16).padStart(2, '0');
 
 export const provideDocumentColors = async (
 	{textDocument: {uri}}: DocumentColorParams,

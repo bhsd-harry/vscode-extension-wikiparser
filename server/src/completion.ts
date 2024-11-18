@@ -142,7 +142,7 @@ export const completion = async (
 		return getCompletion(
 			root!.querySelectorAll<ParameterToken>('parameter').filter(
 				({anon, parentNode}) => !anon && parentNode!.type === 'template'
-				&& parentNode!.name === parent!.parentNode!.name,
+					&& parentNode!.name === parent!.parentNode!.name,
 			).map(({name}) => name),
 			CompletionItemKind.Variable,
 			String(token).trimStart(),

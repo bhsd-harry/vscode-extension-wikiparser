@@ -94,7 +94,7 @@
 		"v8r": "^4.2.0"
 	},
 	"resolutions": {
-		"strip-ansi": "6.0.1"
+		"eslint/**/strip-ansi": "6.0.1"
 	},
 	"engines": {
 		"node": ">=22.11.0",

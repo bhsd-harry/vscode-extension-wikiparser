@@ -6,3 +6,8 @@ dist/
 /page.wiki
 /personal_access_token
 package-lock.json
+
+# Packaged files
+*.vsix
+# logs
+**/*.log

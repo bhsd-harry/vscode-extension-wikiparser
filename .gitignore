@@ -1,7 +1,7 @@
 node_modules/
-dist/
-/.vscode/
-/.vscodeignore
+**/dist/
+# /.vscode/
+# /.vscodeignore
 /.eslintcache*
 /page.wiki
 /personal_access_token

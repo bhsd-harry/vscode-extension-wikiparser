@@ -11,7 +11,7 @@
 
 # Source code
 # out/
-**/src/
+# **/src/
 # scripts/
 
 # Modules

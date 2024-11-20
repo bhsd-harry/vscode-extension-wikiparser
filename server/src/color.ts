@@ -1,7 +1,7 @@
 import {splitColors, numToHex} from '@bhsd/common';
 import {TextEdit} from 'vscode-languageserver/node';
 import {createRange, plainTypes} from './util';
-import {parse, docs} from './tasks';
+import {parse} from './tasks';
 import type {
 	ColorInformation,
 	ColorPresentationParams,
@@ -14,8 +14,8 @@ export const provideDocumentColors = async (
 	{textDocument: {uri}}: DocumentColorParams,
 ): Promise<ColorInformation[]> => {
 	const rgba = (await import('color-rgba')).default;
-	const doc = docs.get(uri)!;
-	return (await parse(uri)).querySelectorAll('attr-value,parameter-value,arg-default').flatMap(token => {
+	const root = await parse(uri);
+	return root.querySelectorAll('attr-value,parameter-value,arg-default').flatMap(token => {
 		const {type, childNodes} = token;
 		if (type !== 'attr-value' && !childNodes.every(({type: t}) => plainTypes.has(t))) {
 			return [];
@@ -35,7 +35,7 @@ export const provideDocumentColors = async (
 						blue: color[2] / 255,
 						alpha: color[3],
 					},
-					range: createRange(doc, start + from, start + to),
+					range: createRange(root, start + from, start + to),
 				};
 			}).filter(Boolean) as ColorInformation[];
 		});

@@ -73,7 +73,7 @@
 		"vscode-languageclient": "^9.0.1",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",
-		"wikilint": "^2.13.4"
+		"wikilint": "^2.13.5"
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^2.10.1",

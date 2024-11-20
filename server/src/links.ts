@@ -1,6 +1,6 @@
 import Parser from 'wikilint';
 import {plainTypes, createRange} from './util';
-import {docs, parse} from './tasks';
+import {parse} from './tasks';
 import type {Token, AttributeToken, TokenTypes} from 'wikilint';
 import type {DocumentLink, TextDocumentIdentifier} from 'vscode-languageserver/node';
 
@@ -24,8 +24,8 @@ const parseMagicLink = (path: string, link: string): string => {
 };
 
 export const provideLinks = async ({uri}: TextDocumentIdentifier, path: string): Promise<DocumentLink[]> => {
-	const doc = docs.get(uri)!;
-	return (await parse(uri))
+	const root = await parse(uri);
+	return root
 		.querySelectorAll('link-target,template-name,invoke-module,magic-link,ext-link-url,free-ext-link,attr-value')
 		.filter(({type, parentNode, childNodes}) => {
 			const {name, tag} = parentNode as AttributeToken;
@@ -56,7 +56,7 @@ export const provideLinks = async ({uri}: TextDocumentIdentifier, path: string):
 				}
 				new URL(target); // eslint-disable-line no-new
 				const from = token.getAbsoluteIndex();
-				return [{range: createRange(doc, from, from + String(token).length), target}];
+				return [{range: createRange(root, from, from + String(token).length), target}];
 			} catch {
 				return [];
 			}

@@ -1,7 +1,7 @@
 import {Range as TextRange, CompletionItemKind} from 'vscode-languageserver/node';
 import Parser from 'wikilint';
 import {commonHtmlAttrs, htmlAttrs, extAttrs} from 'wikilint/dist/util/sharable';
-import {getText, elementFromIndex} from './util';
+import {getText, elementFromPosition, positionAt} from './util';
 import {docs, parse} from './tasks';
 import type {Position, CompletionItem} from 'vscode-languageserver/node';
 import type {CompletionParams} from 'vscode-languageserver/node';
@@ -59,12 +59,10 @@ export const completion = async (
 		doc = docs.get(uri)!,
 		mt = re.exec(getText(doc, line, 0, line, character));
 	let root: Token | undefined,
-		token: Token | undefined,
-		offset: number | undefined;
+		token: Token | undefined;
 	if (!mt) {
-		offset = doc.offsetAt(position);
 		root = await parse(uri);
-		token = elementFromIndex(root, offset);
+		token = elementFromPosition(root, position);
 	}
 	const {type: t, parentNode: parent} = token ?? {};
 	if (mt?.[1]) { // tag
@@ -103,7 +101,11 @@ export const completion = async (
 	} else if (mt?.[5]) { // protocol
 		return getCompletion(protocols, CompletionItemKind.Reference, mt[5], position);
 	} else if (mt?.[6]?.trim() || t === 'image-parameter') { // image parameter
-		const match = mt?.[6]?.trimStart() ?? getText(doc, token!.getAbsoluteIndex(), offset!).trimStart();
+		const match = mt?.[6]?.trimStart()
+			?? doc.getText({
+				start: positionAt(root!, token!.getAbsoluteIndex()),
+				end: position,
+			}).trimStart();
 		return [
 			...getCompletion(params, CompletionItemKind.Property, match, position),
 			...getCompletion(

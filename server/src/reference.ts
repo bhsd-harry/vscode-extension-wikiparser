@@ -76,9 +76,8 @@ async function provide(
 	prepare?: true,
 	rename?: true,
 ): Promise<Location[] | TextRange | WorkspaceEdit | null> {
-	const doc = docs.get(uri)!,
-		root = await parse(uri),
-		node = elementFromWord(doc, root, position),
+	const root = await parse(uri),
+		node = elementFromWord(docs.get(uri)!, root, position),
 		{type} = node,
 		refName = getRefName(node),
 		refGroup = getRefGroup(node);
@@ -89,7 +88,7 @@ async function provide(
 	if ((prepare || rename) && type === 'parameter-key' && /^[1-9]\d*$/u.test(node.parentNode!.name!)) {
 		return null;
 	} else if (prepare) {
-		return createNodeRange(doc, node);
+		return createNodeRange(root, node);
 	}
 	const refs = root.querySelectorAll(type === 'heading-title' ? 'heading' : type).filter(token => {
 		if (definition) {
@@ -108,14 +107,14 @@ async function provide(
 		? {
 			changes: {
 				[uri]: refs.map(ref => ({
-					range: createNodeRange(doc, ref),
+					range: createNodeRange(root, ref),
 					newText: newName,
 				})),
 			},
 		}
 		: refs.map((ref): Location => ({
-			range: createNodeRange(doc, ref),
-			uri: doc.uri,
+			range: createNodeRange(root, ref),
+			uri,
 			kind: 1,
 		}));
 }

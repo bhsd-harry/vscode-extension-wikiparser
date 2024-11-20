@@ -22,7 +22,7 @@ async function provide(
 		);
 	for (const token of tokens) {
 		const index = token.getAbsoluteIndex(),
-			{line} = doc.positionAt(index),
+			{top} = root.posFromIndex(index)!,
 			lines = String(token).replace(/\n$/u, '').split('\n');
 		if (token.type === 'heading') {
 			const {level, firstChild} = token;
@@ -33,7 +33,7 @@ async function provide(
 							.find(s => !names.has(s))!
 						: section,
 					container = sections.slice(0, level - 1).findLast(Boolean),
-					range = TextRange.create(line, 0, line + 1, 0),
+					range = TextRange.create(top, 0, top + 1, 0),
 					info: DocumentSymbol = {
 						name,
 						kind: SymbolKind.String,
@@ -51,20 +51,20 @@ async function provide(
 			} else {
 				for (let i = level - 1; i < 6; i++) {
 					const startLine = levels[i];
-					if (startLine !== undefined && startLine < line - 1) {
+					if (startLine !== undefined && startLine < top - 1) {
 						ranges.push({
 							startLine,
-							endLine: line - 1,
+							endLine: top - 1,
 							kind: FoldingRangeKind.Region,
 						});
 					}
 				}
-				levels[level - 1] = line + lines.length - 1; // 从标题的最后一行开始折叠
+				levels[level - 1] = top + lines.length - 1; // 从标题的最后一行开始折叠
 			}
 		} else if (!symbol && lines.length > 2) {
 			ranges.push({
-				startLine: line, // 从表格或模板的第一行开始折叠
-				endLine: line + lines.length - 2,
+				startLine: top, // 从表格或模板的第一行开始折叠
+				endLine: top + lines.length - 2,
 				kind: FoldingRangeKind.Region,
 			});
 		}

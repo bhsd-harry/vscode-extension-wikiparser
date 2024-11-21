@@ -1,0 +1,9 @@
+**/*.wiki
+personal_access_token
+.vscode/
+.github/
+.git/
+**/src/
+**/tsconfig.json
+.eslintcache*
+.gitignore

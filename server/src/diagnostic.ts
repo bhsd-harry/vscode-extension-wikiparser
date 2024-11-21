@@ -11,16 +11,17 @@ import type {
 
 export const diagnose = async ({textDocument: {uri}}: DocumentDiagnosticParams): Promise<Diagnostic[]> => {
 	const root = await parse(uri);
-	return root.lint().map(({startLine, startCol, endLine, endCol, severity, message, fix}) => ({
-		range: {
-			start: {line: startLine, character: startCol},
-			end: {line: endLine, character: endCol},
-		},
-		severity: severity === 'error' ? 1 : 2,
-		source: 'WikiLint',
-		message,
-		data: fix && {range: createRange(root, ...fix.range), newText: fix.text} as TextEdit,
-	}));
+	return root.lint().filter(({severity, rule}) => severity === 'error' && rule !== 'no-arg')
+		.map(({startLine, startCol, endLine, endCol, severity, message, fix}) => ({
+			range: {
+				start: {line: startLine, character: startCol},
+				end: {line: endLine, character: endCol},
+			},
+			severity: severity === 'error' ? 1 : 2,
+			source: 'WikiLint',
+			message,
+			data: fix && {range: createRange(root, ...fix.range), newText: fix.text} as TextEdit,
+		}));
 };
 
 export const quickFix = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] =>

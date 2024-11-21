@@ -26,8 +26,8 @@ export const getInfo = (name: string | undefined): Info | undefined => variables
 export const provideHover = async (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,
 ): Promise<Hover | null> => {
-	const doc = docs.get(uri)!,
-		token = elementFromWord(doc, await parse(uri), position);
+	const root = await parse(uri),
+		token = elementFromWord(docs.get(uri)!, root, position);
 	let info: Info | undefined,
 		f: string | undefined;
 	if (token.type === 'double-underscore') {
@@ -55,7 +55,7 @@ export const provideHover = async (
 				)
 				+ info.description,
 			},
-			range: createNodeRange(doc, token),
+			range: createNodeRange(root, token),
 		}
 		: null;
 };

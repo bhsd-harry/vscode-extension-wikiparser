@@ -5,38 +5,32 @@ import type {TokenTypes, Token} from 'wikilint';
 
 export const plainTypes = new Set<TokenTypes | 'text'>(['text', 'comment', 'noinclude', 'include']);
 
-export const createRange = (doc: TextDocument, start: number, end: number): TextRange =>
-	TextRange.create(doc.positionAt(start), doc.positionAt(end));
-
-export const createNodeRange = (doc: TextDocument, token: Token): TextRange => {
-	const start = token.getAbsoluteIndex();
-	return createRange(doc, start, start + String(token).length);
+export const positionAt = (root: Token, i: number): Position => {
+	const {top, left} = root.posFromIndex(i)!;
+	return {line: top, character: left};
 };
 
-export function getText(
+export const createRange = (root: Token, start: number, end: number): TextRange => ({
+	start: positionAt(root, start),
+	end: positionAt(root, end),
+});
+
+export const createNodeRange = (root: Token, token: Token): TextRange => {
+	const start = token.getAbsoluteIndex();
+	return createRange(root, start, start + String(token).length);
+};
+
+export const getText = (
 	doc: TextDocument,
 	startLine: number,
 	startCharacter: number,
 	endLine: number,
 	endCharacter: number,
-): string;
-export function getText(doc: TextDocument, start: number, end: number): string;
-export function getText(
-	doc: TextDocument,
-	startOrStartLine: number,
-	endOrStartCharacter: number,
-	endLine?: number,
-	endCharacter?: number,
-): string {
-	return doc.getText(
-		endLine === undefined || endCharacter === undefined
-			? createRange(doc, startOrStartLine, endOrStartCharacter)
-			: TextRange.create(startOrStartLine, endOrStartCharacter, endLine, endCharacter),
-	);
-}
+): string =>
+	doc.getText(TextRange.create(startLine, startCharacter, endLine, endCharacter));
 
-export const elementFromIndex = (root: Token, index: number): Token => {
-	let offset = index,
+export const elementFromPosition = (root: Token, {line, character}: Position): Token => {
+	let offset = root.indexFromPos(line, character)!,
 		node = root;
 	while (true) { // eslint-disable-line no-constant-condition
 		// eslint-disable-next-line @typescript-eslint/no-loop-func
@@ -58,6 +52,6 @@ export const elementFromIndex = (root: Token, index: number): Token => {
 
 export const elementFromWord = (doc: TextDocument, root: Token, pos: Position): Token => {
 	const {line, character} = pos,
-		offset = doc.offsetAt(pos) + /^\w*/u.exec(getText(doc, line, character, line + 1, 0))![0].length;
-	return elementFromIndex(root, offset);
+		[{length}] = /^\w*/u.exec(getText(doc, line, character, line + 1, 0))!;
+	return elementFromPosition(root, {line, character: character + length});
 };

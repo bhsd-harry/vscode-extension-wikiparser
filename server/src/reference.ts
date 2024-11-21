@@ -21,6 +21,7 @@ const renameTypes = new Set<TokenTypes>([
 		'link-target',
 		'parameter-key',
 	]),
+	linkTypes = new Set<TokenTypes>(['link', 'redirect-target']),
 	types = new Set<TokenTypes>([
 		'ext',
 		'html',
@@ -81,7 +82,15 @@ async function provide(
 		{type} = node,
 		refName = getRefName(node),
 		refGroup = getRefGroup(node);
-	if (!refName && (definition || !refGroup && !(prepare || rename ? renameTypes : types).has(type))) {
+	if (
+		!refName && (
+			definition || !refGroup && (
+				prepare || rename
+					? !renameTypes.has(type) || type === 'link-target' && linkTypes.has(node.parentNode!.type)
+					: !types.has(type)
+			)
+		)
+	) {
 		return null;
 	}
 	const name = getName(node);

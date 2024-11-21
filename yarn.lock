@@ -3158,10 +3158,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-wikilint@^2.13.4:
-  version "2.13.4"
-  resolved "https://registry.yarnpkg.com/wikilint/-/wikilint-2.13.4.tgz#4ac9b9fe238cb127df8c6c77df17c75364880308"
-  integrity sha512-esdou1ukgs4eDsoHfuCIRMxfBXFAKJVUMBl6HXn9bZNPQF4mRnVFg6dJ0py6RqlXOSTHf5YlO4rX9Xk7h3e/Bw==
+wikilint@^2.13.5:
+  version "2.13.5"
+  resolved "https://registry.yarnpkg.com/wikilint/-/wikilint-2.13.5.tgz#87d2ac2824067d7a7ff2e0c5d632e164d43ec74b"
+  integrity sha512-uhAy9sEPLr0dxCzPxRZeqZG102Y6le/5+GSKRLfglm3VqxdeSaw/16iJN9mjsdgUAWx0KFx8nX/985fapHUuAQ==
   dependencies:
     chalk "^4.1.2"
 

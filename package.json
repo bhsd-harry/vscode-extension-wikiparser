@@ -37,7 +37,7 @@
 				"wikiparser.articlePath": {
 					"type": "string",
 					"default": "",
-					"markdownDescription": "The global constant `wgArticlePath` of the wiki site (e.g. `https://en.wikipedia.org/wiki/$1`)."
+					"markdownDescription": "The global constant `wgArticlePath` of the wiki site (e.g. `https://en.wikipedia.org/wiki/` or `https://en.wikipedia.org/wiki/$1`)."
 				}
 			}
 		}

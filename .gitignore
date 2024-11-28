@@ -6,6 +6,7 @@ node_modules/
 /page.wiki
 /personal_access_token
 package-lock.json
+yarn.lock
 
 # Packaged files
 *.vsix

@@ -1,4 +1,4 @@
-# WikiParser Language Service
+# WikiParser Language Server
 
 This is a language server extension for Visual Studio Code that provides language supports for the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language.
 

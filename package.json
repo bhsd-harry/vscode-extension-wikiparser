@@ -27,7 +27,7 @@
 	"contributes": {
 		"configuration": {
 			"type": "object",
-			"title": "WikiParser Language Service",
+			"title": "WikiParser Language Server",
 			"properties": {
 				"wikiparser.lint": {
 					"type": "boolean",

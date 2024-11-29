@@ -1,6 +1,6 @@
 node_modules/
-**/dist/
-.vscode/settings.json
+dist/
+/.vscode/settings.json
 # /.vscodeignore
 /.eslintcache*
 /page.wiki

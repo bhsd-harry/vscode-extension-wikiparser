@@ -1,3 +1,6 @@
+**/*.wiki
+personal_access_token
+
 # Workspace config
 .vs/
 .vscode/
@@ -11,8 +14,7 @@
 
 # Source code
 # out/
-# **/src/
-server/src/
+**/src/
 # scripts/
 
 # Modules

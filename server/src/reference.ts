@@ -103,7 +103,7 @@ async function provide(
 		if (definition) {
 			const {name: n, parentNode} = token.parentNode as AttributeToken;
 			return getRefName(token) === refName
-				&& n === 'name' && !(parentNode!.parentNode as ExtToken).selfClosing;
+				&& n === 'name' && (parentNode!.parentNode as ExtToken).innerText;
 		}
 		return type === 'attr-value'
 			? getRefName(token) === refName || getRefGroup(token) === refGroup

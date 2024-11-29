@@ -1,6 +1,6 @@
 {
 	"name": "vscode-extension-wikiparser",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Language server extension for MediaWiki Wikitext that supports linting, autocomplete, and more.",
 	"displayName": "WikiParser Language Server",
 	"categories": [
@@ -47,34 +47,39 @@
 		"build": "tsc --project server/tsconfig.json",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",
 		"lint:json": "v8r -s server/src/data/schema/info.json server/src/data/*.json",
-		"lint": "npm run lint:ts && npm run lint:json",
-		"package": "vsce package"
+		"lint": "npm run lint:ts && npm run lint:json"
 	},
 	"dependencies": {
-		"@bhsd/common": "^0.4.4",
+		"@bhsd/common": "^0.4.5",
 		"color-rgba": "^3.0.0",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",
-		"wikilint": "^2.13.5"
+		"wikilint": "^2.13.6"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^2.10.1",
+		"@stylistic/eslint-plugin": "^2.3.0",
+		"@stylistic/stylelint-plugin": "^2.0.0",
 		"@types/color-rgba": "^2.1.3",
 		"@types/node": "^22.9.0",
-		"@types/vscode": "^1.95.0",
-		"@typescript-eslint/eslint-plugin": "^7.18.0",
-		"@typescript-eslint/parser": "^7.18.0",
+		"@typescript-eslint/eslint-plugin": "^7.15.0",
+		"@typescript-eslint/parser": "^7.15.0",
 		"@vscode/vsce": "^3.2.1",
-		"eslint": "^8.0.0",
+		"esbuild": "^0.21.4",
+		"eslint": "^8.56.0",
+		"eslint-plugin-es-x": "^8.0.0",
 		"eslint-plugin-eslint-comments": "^3.2.0",
-		"eslint-plugin-jsdoc": "^50.5.0",
+		"eslint-plugin-jsdoc": "^48.5.2",
 		"eslint-plugin-json-es": "^1.6.0",
-		"eslint-plugin-n": "^17.13.2",
-		"eslint-plugin-promise": "^7.1.0",
-		"eslint-plugin-regexp": "^2.7.0",
-		"eslint-plugin-unicorn": "^56.0.0",
-		"typescript": "^5.6.0",
-		"v8r": "^4.2.0"
+		"eslint-plugin-markdown": "^4.0.1",
+		"eslint-plugin-n": "^17.9.0",
+		"eslint-plugin-promise": "^6.2.0",
+		"eslint-plugin-regexp": "^2.6.0",
+		"eslint-plugin-unicorn": "^54.0.0",
+		"http-server": "^14.1.0",
+		"stylelint": "^16.6.1",
+		"stylelint-config-recommended": "^14.0.0",
+		"typescript": "^5.5.3",
+		"v8r": "^3.0.0"
 	},
 	"resolutions": {
 		"eslint/**/strip-ansi": "6.0.1"

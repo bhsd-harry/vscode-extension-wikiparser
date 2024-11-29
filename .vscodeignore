@@ -1,9 +1,49 @@
 **/*.wiki
 personal_access_token
+
+# Workspace config
+.vs/
 .vscode/
 .github/
 .git/
+
+# Test
+.vscode-test/
+.vscode-test-web/
+**/test/
+
+# Source code
+# out/
 **/src/
+# scripts/
+
+# Modules
+# node_modules/
+
+# YAML files
+# snippets/*.yaml
+# syntaxes/*.yaml
+# language-configuration.yaml
+
+# Compiled config
 **/tsconfig.json
+**/tslint.json
+**/.eslintrc.*
 .eslintcache*
+# webpack.config.js
+.yarnrc
+# yarn.lock
+# package-lock.json
+
+# Uncompiled files
+**/*.map
+**/*.ts
+
+# Git Ignore file
 .gitignore
+
+# Packaged extensions
+**/*.vsix
+
+# Log file
+**/*.log

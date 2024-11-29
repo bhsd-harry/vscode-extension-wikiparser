@@ -1,11 +1,12 @@
 node_modules/
 dist/
-/.vscode/
+/.vscode/settings.json
 # /.vscodeignore
 /.eslintcache*
 /page.wiki
 /personal_access_token
 package-lock.json
+yarn.lock
 
 # Packaged files
 *.vsix

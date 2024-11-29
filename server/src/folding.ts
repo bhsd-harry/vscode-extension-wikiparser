@@ -23,7 +23,7 @@ async function provide(
 	for (const token of tokens) {
 		const index = token.getAbsoluteIndex(),
 			{top} = root.posFromIndex(index)!,
-			lines = String(token).replace(/\n$/u, '').split('\n');
+			lines = String(token).replace(/(?<!\n)\n+$/u, '').split('\n');
 		if (token.type === 'heading') {
 			const {level, firstChild} = token;
 			if (symbol) {

@@ -3,6 +3,7 @@ personal_access_token
 .vscode/
 .github/
 .git/
+assets/
 */src/
 **/tsconfig.json
 .eslintcache*

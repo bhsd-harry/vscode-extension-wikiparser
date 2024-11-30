@@ -21,8 +21,7 @@ async function provide(
 			symbol ? 'heading' : 'heading,table,template,magic-word',
 		);
 	for (const token of tokens) {
-		const index = token.getAbsoluteIndex(),
-			{top} = root.posFromIndex(index)!;
+		const {top, height} = token.getBoundingClientRect();
 		if (token.type === 'heading') {
 			const {level, firstChild} = token;
 			if (symbol) {
@@ -58,17 +57,14 @@ async function provide(
 						});
 					}
 				}
-				levels[level - 1] = top + String(token.firstChild).split('\n').length - 1; // 从标题的最后一行开始折叠
+				levels[level - 1] = top + token.firstChild.offsetHeight - 1; // 从标题的最后一行开始折叠
 			}
-		} else if (!symbol) {
-			const {length} = String(token).split('\n');
-			if (length > 2) {
-				ranges.push({
-					startLine: top, // 从表格或模板的第一行开始折叠
-					endLine: top + length - 2,
-					kind: FoldingRangeKind.Region,
-				});
-			}
+		} else if (!symbol && height > 2) {
+			ranges.push({
+				startLine: top, // 从表格或模板的第一行开始折叠
+				endLine: top + height - 2,
+				kind: FoldingRangeKind.Region,
+			});
 		}
 	}
 	if (!symbol) {

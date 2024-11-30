@@ -35,32 +35,32 @@ new LanguageClient(
 
 ## Features
 
-- Linting and quick fixes, offered by [WikiLint](https://npmjs.com/package/wikilint)
+### Linting and quick fixes, offered by [WikiLint](https://npmjs.com/package/wikilint)
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
 
-- Auto-completion
+### Auto-completion
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/autocomplete.gif?raw=true" width="250" alt="Auto-completion"></div>
 
-- Color preview
-<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/color.png?raw=true" width="400" alt="Color preview"></div>
+### Color preview
+<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/color.png?raw=true" width="450" alt="Color preview"></div>
 
-- Code navigation
+### Code navigation
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/navigation.png?raw=true" width="400" alt="Code navigation"></div>
 
-- Followable wiki and external links
+### Followable wiki and external links
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/link.png?raw=true" width="300" alt="Followable links"></div>
 
-- Symbol renaming
+### Symbol renaming
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/rename.gif?raw=true" width="400" alt="Symbol renaming"></div>
 
-- Code folding
-<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/folding.gif?raw=true" width="600" alt="Code Folding"></div>
+### Code folding
+<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/folding.gif?raw=true" width="800" alt="Code Folding"></div>
 
-- Outline view
+### Outline view
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/outline.png?raw=true" width="300" alt="Outline"></div>
 
-- Hover information
-<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/hover.png?raw=true" width="600" alt="Hover information"></div>
+### Hover information
+<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/hover.png?raw=true" width="700" alt="Hover information"></div>
 
-- Help with parser function signatures
-<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/signature.gif?raw=true" width="500" alt="Parser function signatures"></div>
+### Help with parser function signatures
+<div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/signature.gif?raw=true" width="550" alt="Parser function signatures"></div>

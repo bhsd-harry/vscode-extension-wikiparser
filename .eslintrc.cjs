@@ -37,6 +37,10 @@ module.exports = {
 				ecmaVersion: 'latest',
 				project: './server/tsconfig.json',
 			},
+			rules: {
+				...ts.rules,
+				'@typescript-eslint/no-base-to-string': 0,
+			},
 		},
 	],
 };

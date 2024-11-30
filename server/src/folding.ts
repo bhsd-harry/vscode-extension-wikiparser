@@ -22,8 +22,7 @@ async function provide(
 		);
 	for (const token of tokens) {
 		const index = token.getAbsoluteIndex(),
-			{top} = root.posFromIndex(index)!,
-			lines = String(token).replace(/(?<!\n)\n+$/u, '').split('\n');
+			{top} = root.posFromIndex(index)!;
 		if (token.type === 'heading') {
 			const {level, firstChild} = token;
 			if (symbol) {
@@ -59,14 +58,17 @@ async function provide(
 						});
 					}
 				}
-				levels[level - 1] = top + lines.length - 1; // 从标题的最后一行开始折叠
+				levels[level - 1] = top + String(token.firstChild).split('\n').length - 1; // 从标题的最后一行开始折叠
 			}
-		} else if (!symbol && lines.length > 2) {
-			ranges.push({
-				startLine: top, // 从表格或模板的第一行开始折叠
-				endLine: top + lines.length - 2,
-				kind: FoldingRangeKind.Region,
-			});
+		} else if (!symbol) {
+			const {length} = String(token).split('\n');
+			if (length > 2) {
+				ranges.push({
+					startLine: top, // 从表格或模板的第一行开始折叠
+					endLine: top + length - 2,
+					kind: FoldingRangeKind.Region,
+				});
+			}
 		}
 	}
 	if (!symbol) {

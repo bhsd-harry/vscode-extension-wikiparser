@@ -1,7 +1,7 @@
 import {FoldingRangeKind, Range as TextRange, SymbolKind} from 'vscode-languageserver/node';
 import {parse, docs} from './tasks';
 import type {FoldingRangeParams, FoldingRange, DocumentSymbol} from 'vscode-languageserver/node';
-import type {HeadingToken, TableToken, TranscludeToken} from 'wikilint';
+import type {Token, HeadingToken} from 'wikilint';
 
 function provide(params: FoldingRangeParams): Promise<FoldingRange[]>;
 function provide(params: FoldingRangeParams, symbol: true): Promise<DocumentSymbol[]>;
@@ -17,15 +17,13 @@ async function provide(
 		root = await parse(uri),
 		levels = new Array<number | undefined>(6),
 		sections = new Array<DocumentSymbol | undefined>(6),
-		tokens = root.querySelectorAll<HeadingToken | TableToken | TranscludeToken>(
-			symbol ? 'heading' : 'heading,table,template,magic-word',
-		);
+		tokens = root.querySelectorAll<Token>(symbol ? 'heading-title' : 'heading-title,table,template,magic-word');
 	for (const token of tokens) {
 		const {top, height} = token.getBoundingClientRect();
-		if (token.type === 'heading') {
-			const {level, firstChild} = token;
+		if (token.type === 'heading-title') {
+			const {level} = token.parentNode as HeadingToken;
 			if (symbol) {
-				const section = firstChild.text().trim() || ' ',
+				const section = token.text().trim() || ' ',
 					name = names.has(section)
 						? new Array(symbols.length).fill('').map((_, i) => `${section.trim()}_${i + 2}`)
 							.find(s => !names.has(s))!
@@ -57,7 +55,7 @@ async function provide(
 						});
 					}
 				}
-				levels[level - 1] = top + token.firstChild.offsetHeight - 1; // 从标题的最后一行开始折叠
+				levels[level - 1] = top + height - 1; // 从标题的最后一行开始折叠
 			}
 		} else if (!symbol && height > 2) {
 			ranges.push({

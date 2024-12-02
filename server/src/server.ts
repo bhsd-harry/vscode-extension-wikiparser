@@ -20,13 +20,13 @@ import type {Settings} from './tasks';
 const getSettings = ({uri}: TextDocumentIdentifier): Promise<Settings> => {
 	let result = documentSettings.get(uri);
 	if (!result) {
-		result = connection.workspace.getConfiguration({scopeUri: uri, section: 'wikiparser'});
+		result = connection!.workspace.getConfiguration({scopeUri: uri, section: 'wikiparser'});
 		documentSettings.set(uri, result);
 	}
 	return result;
 };
 
-connection.onInitialize(() => ({
+connection?.onInitialize(() => ({
 	capabilities: {
 		textDocumentSync: TextDocumentSyncKind.Full,
 		diagnosticProvider: {
@@ -61,49 +61,49 @@ connection.onInitialize(() => ({
 	},
 }));
 
-connection.onInitialized(() => {
-	void connection.client.register(DidChangeConfigurationNotification.type);
+connection?.onInitialized(() => {
+	void connection?.client.register(DidChangeConfigurationNotification.type);
 });
 
-connection.onDidChangeConfiguration(() => {
+connection?.onDidChangeConfiguration(() => {
 	documentSettings.clear();
-	connection.languages.diagnostics.refresh();
+	connection?.languages.diagnostics.refresh();
 });
 
 // diagnostic.ts
-connection.languages.diagnostics.on(async params => ({
+connection?.languages.diagnostics.on(async params => ({
 	kind: DocumentDiagnosticReportKind.Full,
 	items: (await getSettings(params.textDocument)).lint ? await diagnose(params) : [],
 }));
-connection.onCodeAction(quickFix);
+connection?.onCodeAction(quickFix);
 
 // completion.ts
-connection.onCompletion(completion);
+connection?.onCompletion(completion);
 
 // color.ts
-connection.onDocumentColor(provideDocumentColors);
-connection.onColorPresentation(provideColorPresentations);
+connection?.onDocumentColor(provideDocumentColors);
+connection?.onColorPresentation(provideColorPresentations);
 
 // reference.ts
-connection.onReferences(provideReferences);
-connection.onDocumentHighlight(provideReferences);
-connection.onDefinition(provideDefinition);
-connection.onPrepareRename(prepareRename);
-connection.onRenameRequest(provideRename);
+connection?.onReferences(provideReferences);
+connection?.onDocumentHighlight(provideReferences);
+connection?.onDefinition(provideDefinition);
+connection?.onPrepareRename(prepareRename);
+connection?.onRenameRequest(provideRename);
 
 // links.ts
-connection.onDocumentLinks(
+connection?.onDocumentLinks(
 	async ({textDocument}) => provideLinks(textDocument, (await getSettings(textDocument)).articlePath),
 );
 
 // folding.ts
-connection.onFoldingRanges(provideFolding);
-connection.onDocumentSymbol(provideSymbol);
+connection?.onFoldingRanges(provideFolding);
+connection?.onDocumentSymbol(provideSymbol);
 
 // hover.ts
-connection.onHover(provideHover);
+connection?.onHover(provideHover);
 
 // signature.ts
-connection.onSignatureHelp(provideSignatureHelp);
+connection?.onSignatureHelp(provideSignatureHelp);
 
-connection.listen();
+connection?.listen();

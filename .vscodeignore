@@ -4,6 +4,7 @@ personal_access_token
 .github/
 .git/
 assets/
+**/test/
 */src/
 **/tsconfig.json
 .eslintcache*

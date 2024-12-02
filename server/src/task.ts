@@ -1,16 +1,23 @@
 import {createHash} from 'crypto';
 import {createConnection, ProposedFeatures} from 'vscode-languageserver/node';
 import Parser from 'wikilint';
+import type {Connection} from 'vscode-languageserver/node';
 import type {TextDocument} from 'vscode-languageserver-textdocument';
 import type {Token} from 'wikilint';
 
 const debugging = process.argv.includes('--debug');
 
-export const connection = createConnection(ProposedFeatures.all);
+let connection: Connection | undefined;
+try {
+	connection = createConnection(ProposedFeatures.all);
+} catch {}
+export {
+	connection,
+};
 
 export const debug = (arg: unknown): void => {
 	if (debugging) {
-		connection.console.debug(typeof arg === 'object' ? JSON.stringify(arg, null, '\t') : String(arg));
+		connection?.console.debug(typeof arg === 'object' ? JSON.stringify(arg, null, '\t') : String(arg));
 	}
 };
 

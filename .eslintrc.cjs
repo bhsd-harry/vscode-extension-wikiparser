@@ -24,14 +24,6 @@ module.exports = {
 		json,
 		{
 			...ts,
-			files: 'client/**/*.ts',
-			parserOptions: {
-				ecmaVersion: 'latest',
-				project: './client/tsconfig.json',
-			},
-		},
-		{
-			...ts,
 			files: 'server/**/*.ts',
 			parserOptions: {
 				ecmaVersion: 'latest',

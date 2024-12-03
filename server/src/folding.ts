@@ -1,5 +1,6 @@
 import {FoldingRangeKind, Range as TextRange, SymbolKind} from 'vscode-languageserver/node';
 import {parse, docs} from './tasks';
+import {getText} from './util';
 import type {FoldingRangeParams, FoldingRange, DocumentSymbol} from 'vscode-languageserver/node';
 import type {Token, HeadingToken} from 'wikilint';
 
@@ -19,28 +20,38 @@ async function provide(
 		sections = new Array<DocumentSymbol | undefined>(6),
 		tokens = root.querySelectorAll<Token>(symbol ? 'heading-title' : 'heading-title,table,template,magic-word');
 	for (const token of tokens) {
-		const {top, height} = token.getBoundingClientRect();
+		const {top, left, height, width} = token.getBoundingClientRect();
 		if (token.type === 'heading-title') {
 			const {level} = token.parentNode as HeadingToken;
 			if (symbol) {
+				for (let i = level - 1; i < 6; i++) {
+					if (sections[i]) {
+						const {end} = sections[i]!.range;
+						end.line = top - 1;
+						end.character = getText(doc, top - 1, 0, top, 0).length - 1;
+					}
+					sections[i] = undefined;
+				}
 				const section = token.text().trim() || ' ',
 					name = names.has(section)
 						? new Array(names.size).fill('').map((_, i) => `${section.trim()}_${i + 2}`)
 							.find(s => !names.has(s))!
 						: section,
 					container = sections.slice(0, level - 1).findLast(Boolean),
-					range = TextRange.create(top, 0, top + height, 0),
+					range = TextRange.create(
+						top,
+						left - level,
+						top + height - 1,
+						(height === 1 ? left : 0) + width + level,
+					),
 					info: DocumentSymbol = {
 						name,
 						kind: SymbolKind.String,
 						range,
-						selectionRange: range,
+						selectionRange: structuredClone(range),
 					};
 				names.add(name);
 				sections[level - 1] = info;
-				for (let i = level; i < 6; i++) {
-					sections[i] = undefined;
-				}
 				if (container) {
 					container.children ??= [];
 					container.children.push(info);
@@ -69,7 +80,15 @@ async function provide(
 			});
 		}
 	}
-	if (!symbol) {
+	if (symbol) {
+		for (const section of sections) {
+			if (section) {
+				const {end} = section.range;
+				end.line = lineCount - 1;
+				end.character = getText(doc, lineCount - 1, 0, lineCount, 0).length;
+			}
+		}
+	} else {
 		for (const line of levels) {
 			if (line !== undefined && line < lineCount) {
 				ranges.push({

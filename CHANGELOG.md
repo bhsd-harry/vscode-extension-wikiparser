@@ -5,6 +5,7 @@
 **Added**
 
 - New parser function signatures
+- Sticky scroll by sections
 
 **Fixed**
 

@@ -54,8 +54,7 @@ export const provideLinks = async ({uri}: TextDocumentIdentifier, path: string):
 				if (target.startsWith('//')) {
 					target = `https:${target}`;
 				}
-				new URL(target); // eslint-disable-line no-new
-				return [{range: createNodeRange(root, token), target}];
+				return [{range: createNodeRange(root, token), target: new URL(target).href}];
 			} catch {
 				return [];
 			}

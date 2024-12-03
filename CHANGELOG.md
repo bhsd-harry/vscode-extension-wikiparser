@@ -9,6 +9,7 @@
 **Fixed**
 
 - Wrong parser function names of `#dateformat`, `#formatdate` and `#time`
+- Issue with duplicate section names in the outline
 
 ## v1.0.3
 

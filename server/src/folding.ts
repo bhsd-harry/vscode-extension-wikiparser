@@ -25,11 +25,11 @@ async function provide(
 			if (symbol) {
 				const section = token.text().trim() || ' ',
 					name = names.has(section)
-						? new Array(symbols.length).fill('').map((_, i) => `${section.trim()}_${i + 2}`)
+						? new Array(names.size).fill('').map((_, i) => `${section.trim()}_${i + 2}`)
 							.find(s => !names.has(s))!
 						: section,
 					container = sections.slice(0, level - 1).findLast(Boolean),
-					range = TextRange.create(top, 0, top + 1, 0),
+					range = TextRange.create(top, 0, top + height, 0),
 					info: DocumentSymbol = {
 						name,
 						kind: SymbolKind.String,
@@ -38,6 +38,9 @@ async function provide(
 					};
 				names.add(name);
 				sections[level - 1] = info;
+				for (let i = level; i < 6; i++) {
+					sections[i] = undefined;
+				}
 				if (container) {
 					container.children ??= [];
 					container.children.push(info);
@@ -54,6 +57,7 @@ async function provide(
 							kind: FoldingRangeKind.Region,
 						});
 					}
+					levels[i] = undefined;
 				}
 				levels[level - 1] = top + height - 1; // 从标题的最后一行开始折叠
 			}

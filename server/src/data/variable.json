@@ -121,14 +121,14 @@
 	{
 		"aliases": [
 			"currentdow",
-			"当前DOW"
+			"当前dow"
 		],
 		"description": "Day of the week (unpadded number), 0 (for Sunday) through 6 (for Saturday)"
 	},
 	{
 		"aliases": [
 			"localdow",
-			"本地DOW"
+			"本地dow"
 		],
 		"description": "Day of the week (unpadded number), 0 (for Sunday) through 6 (for Saturday), but using the site's server config"
 	},
@@ -358,7 +358,7 @@
 	{
 		"aliases": [
 			"revisionid",
-			"修订ID"
+			"修订id"
 		],
 		"signatures": [
 			[],
@@ -860,7 +860,7 @@
 		"aliases": [
 			"rootpagenamee",
 			"根页面名称等同",
-			"根頁面名稱E"
+			"根頁面名稱e"
 		],
 		"signatures": [
 			[],

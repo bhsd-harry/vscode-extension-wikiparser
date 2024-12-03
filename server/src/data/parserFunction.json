@@ -293,8 +293,8 @@
 	},
 	{
 		"aliases": [
-			"dateformat",
-			"formatdate",
+			"#dateformat",
+			"#formatdate",
 			"#格式化日期",
 			"#日期格式化"
 		],
@@ -624,6 +624,41 @@
 	},
 	{
 		"aliases": [
+			"#interwikilink"
+		],
+		"signatures": [
+			[
+				{
+					"label": "link prefix"
+				},
+				{
+					"label": "page title"
+				},
+				{
+					"label": "link text"
+				}
+			]
+		],
+		"description": "Creates an interwiki link."
+	},
+	{
+		"aliases": [
+			"#interlanguagelink"
+		],
+		"signatures": [
+			[
+				{
+					"label": "link prefix"
+				},
+				{
+					"label": "page title"
+				}
+			]
+		],
+		"description": "Creates an interlanguage link."
+	},
+	{
+		"aliases": [
 			"#special",
 			"#特殊"
 		],
@@ -846,7 +881,7 @@
 	},
 	{
 		"aliases": [
-			"time",
+			"#time",
 			"#时间",
 			"#時間"
 		],
@@ -1147,5 +1182,228 @@
 			]
 		],
 		"description": "`#urldecode` converts the escape characters from an '[URL encoded](https://en.wikipedia.org/wiki/URL_encoding)' string back to readable text."
+	},
+	{
+		"aliases": [
+			"#invoke",
+			"#调用",
+			"#調動"
+		],
+		"signatures": [
+			[
+				{
+					"label": "module name"
+				},
+				{
+					"label": "function name"
+				},
+				{
+					"label": "args",
+					"rest": true
+				}
+			]
+		],
+		"description": "Call a function from a Lua module"
+	},
+	{
+		"aliases": [
+			"#while"
+		],
+		"signatures": [
+			[
+				{
+					"label": "",
+					"const": true
+				},
+				{
+					"label": "condition"
+				},
+				{
+					"label": "block statement"
+				}
+			]
+		],
+		"description": "`{{#while}}` performs a loop (i.e. it repeatedly parses a given wiki markup block statement) so long as the condition mark-up evaluates to non-whitespace."
+	},
+	{
+		"aliases": [
+			"#dowhile"
+		],
+		"signatures": [
+			[
+				{
+					"label": "",
+					"const": true
+				},
+				{
+					"label": "condition"
+				},
+				{
+					"label": "block statement"
+				}
+			]
+		],
+		"description": "`{{#dowhile}}` performs a loop (i.e. it repeatedly parses a given wiki markup block statement) so long as the condition mark-up evaluates to non-whitespace. The block statement is guaranteed to be parsed and displayed (if it results in displayable text) at least once."
+	},
+	{
+		"aliases": [
+			"#loop"
+		],
+		"signatures": [
+			[
+				{
+					"label": "variable name"
+				},
+				{
+					"label": "starting value"
+				},
+				{
+					"label": "number of loops to be performed"
+				},
+				{
+					"label": "block statement"
+				}
+			]
+		],
+		"description": "`{{#loop}}` repeatedly parses and displays `block statement` a number of times equal to the absolute value of `number of loops to be performed`. `Starting value` is placed in a variable (accessible by [Variables](https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:Variables) extension's `{{#var:}}` parser function) using the name `variable name`. After each loop, the variable is incremented by one if `number of loops to be performed` is positive, or decremented by one if `number of loops to be performed` is negative."
+	},
+	{
+		"aliases": [
+			"#forargs"
+		],
+		"signatures": [
+			[
+				{
+					"label": "prefix"
+				},
+				{
+					"label": "key"
+				},
+				{
+					"label": "value"
+				},
+				{
+					"label": "block statement"
+				}
+			]
+		],
+		"description": "`{{#forargs}}` is to be used in templates.\n\nIt takes arguments that are passed to the template and puts them in variables accessible by [Variables](https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:Variables) extension's `{{#var:}}` parser function.\n\nThis function iterates through each argument whose name begins with `prefix`.\n\nWith each iteration it puts the argument name minus `prefix` into `key` as if calling `{{#vardefine: <key> }}`.\n\nIt then takes the value of the argument and puts it into `value` in a similar method.\n\nThe block statement is then expanded.\n\nThe block statement may contain `{{#var: <key> }}` and `{{#var: <value> }}` to access the stored arguments."
+	},
+	{
+		"aliases": [
+			"#fornumargs"
+		],
+		"signatures": [
+			[
+				{
+					"label": "key"
+				},
+				{
+					"label": "value"
+				},
+				{
+					"label": "block statement"
+				}
+			]
+		],
+		"description": "`{{#fornumargs}}` performs similarly to `{{#forargs}}` with two major differences: It doesn't take a prefix argument, and it only works on numbered arguments whether they're explicitly numbered or implicitly numbered."
+	},
+	{
+		"aliases": [
+			"#vardefine"
+		],
+		"signatures": [
+			[
+				{
+					"label": "variable name"
+				},
+				{
+					"label": "value"
+				}
+			]
+		],
+		"description": "Assigns the `value` to the (already existing or hereby introduced) variable `variable name`."
+	},
+	{
+		"aliases": [
+			"#vardefineecho"
+		],
+		"signatures": [
+			[
+				{
+					"label": "variable name"
+				},
+				{
+					"label": "value"
+				}
+			]
+		],
+		"description": "Assigns the `value` to the (already existing or hereby introduced) variable `variable name`, and `value` is printed."
+	},
+	{
+		"aliases": [
+			"#var"
+		],
+		"signatures": [
+			[
+				{
+					"label": "variable name"
+				}
+			],
+			[
+				{
+					"label": "variable name"
+				},
+				{
+					"label": "default value"
+				}
+			]
+		],
+		"description": "The value of the variable `variable name`.\n\nIf undefined, this produces an empty string; it does not give an error message.\n\nIt is possible to get a default value for the case that the variable is undefined or void."
+	},
+	{
+		"aliases": [
+			"#varexists"
+		],
+		"signatures": [
+			[
+				{
+					"label": "variable name"
+				}
+			],
+			[
+				{
+					"label": "variable name"
+				},
+				{
+					"label": "if-value"
+				},
+				{
+					"label": "else-value"
+				}
+			]
+		],
+		"description": "Returns *1* if the variable is already defined. If the variable is not defined the return value is void.\n\nIt supports a second and a third parameter to replace these values."
+	},
+	{
+		"aliases": [
+			"#var_final"
+		],
+		"signatures": [
+			[
+				{
+					"label": "variable name"
+				}
+			],
+			[
+				{
+					"label": "variable name"
+				},
+				{
+					"label": "default value"
+				}
+			]
+		],
+		"description": "This function will output the final, last value a variable has at the end of the page rendering. Naturally, the value will be inserted after the parser went over the entire wiki markup, so this function can't be used in other functions, expecting the right value is being used.\n\nThe `default value` will be used if the variable doesn't exist at the final page rendering stage or if its value is an empty string. The default will be expanded right where the function is used, so the parameter will be expanded, even if it won't be needed."
 	}
 ]

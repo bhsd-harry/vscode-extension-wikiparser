@@ -1,6 +1,6 @@
 {
 	"name": "vscode-extension-wikiparser",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Language server extension for MediaWiki Wikitext that supports linting, autocomplete, and more.",
 	"displayName": "WikiParser Language Server",
 	"categories": [

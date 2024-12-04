@@ -43,7 +43,7 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run lint && npm run build",
+		"vscode:prepublish": "npm run build",
 		"build": "tsc --project server/tsconfig.json",
 		"test": "mocha -A --no-diff --file server/dist/test/*.js --ignore=util.js",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",

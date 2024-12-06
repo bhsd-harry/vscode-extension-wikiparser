@@ -100,10 +100,11 @@ y }} z
 	];
 
 describe('foldingRangeProvider', () => {
+	const params = getParams(__filename, wikitext);
 	it('FoldingRange', async () => {
-		assert.deepStrictEqual(await provideFolding(getParams(__filename, wikitext)), foldingRanges);
+		assert.deepStrictEqual(await provideFolding(params), foldingRanges);
 	});
 	it('DocumentSymbol', async () => {
-		assert.deepStrictEqual(await provideSymbol(getParams(__filename, wikitext)), symbols);
+		assert.deepStrictEqual(await provideSymbol(params), symbols);
 	});
 });

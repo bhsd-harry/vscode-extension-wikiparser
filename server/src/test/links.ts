@@ -89,22 +89,14 @@ News:e
 	];
 
 describe('documentLinkProvider', () => {
+	const {textDocument} = getParams(__filename, wikitext);
 	it('https://mediawiki.org/wiki/$1', async () => {
-		assert.deepStrictEqual(
-			await provideLinks(getParams(__filename, wikitext).textDocument, 'https://mediawiki.org/wiki/$1'),
-			results,
-		);
+		assert.deepStrictEqual(await provideLinks(textDocument, 'https://mediawiki.org/wiki/$1'), results);
 	});
 	it('https://mediawiki.org/wiki/', async () => {
-		assert.deepStrictEqual(
-			await provideLinks(getParams(__filename, wikitext).textDocument, 'https://mediawiki.org/wiki/'),
-			results,
-		);
+		assert.deepStrictEqual(await provideLinks(textDocument, 'https://mediawiki.org/wiki/'), results);
 	});
 	it('https://mediawiki.org/wiki', async () => {
-		assert.deepStrictEqual(
-			await provideLinks(getParams(__filename, wikitext).textDocument, 'https://mediawiki.org/wiki'),
-			results,
-		);
+		assert.deepStrictEqual(await provideLinks(textDocument, 'https://mediawiki.org/wiki'), results);
 	});
 });

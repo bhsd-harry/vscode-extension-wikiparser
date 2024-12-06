@@ -1,3 +1,11 @@
+## v1.0.5
+
+*2024-12-06*
+
+**Added**
+
+- More suggested code actions for syntax errors
+
 ## v1.0.4
 
 *2024-12-03*

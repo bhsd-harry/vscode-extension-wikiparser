@@ -3,17 +3,18 @@ import {CodeActionKind} from 'vscode-languageserver/node';
 import {getParams} from './util';
 import {diagnose, quickFix} from '../diagnostic';
 import type {Diagnostic, CodeAction, CodeActionParams} from 'vscode-languageserver/node';
+import type {QuickFixData} from '../diagnostic';
 
 const wikitext = `
 http://a]
 </p>
 `,
 	params = getParams(__filename, wikitext),
-	diagnostics: Diagnostic[] = [
+	diagnostics: (Diagnostic & {data: QuickFixData[]})[] = [
 		{
 			range: {
-				start: {line: 1, character: 7},
-				end: {line: 1, character: 8},
+				start: {line: 1, character: 8},
+				end: {line: 1, character: 9},
 			},
 			severity: 1,
 			source: 'WikiLint',
@@ -22,7 +23,7 @@ http://a]
 				{
 					range: {
 						start: {line: 1, character: 0},
-						end: {line: 1, character: 1},
+						end: {line: 1, character: 0},
 					},
 					newText: '[',
 					title: 'Fix: left bracket',
@@ -35,7 +36,7 @@ http://a]
 				start: {line: 2, character: 0},
 				end: {line: 2, character: 4},
 			},
-			severity: 2,
+			severity: 1,
 			source: 'WikiLint',
 			message: 'unmatched closing tag',
 			data: [
@@ -58,7 +59,7 @@ http://a]
 			diagnostics: [diagnostics[0]!],
 			isPreferred: true,
 			edit: {
-				changes: {[params.textDocument.uri]: [diagnostics[0]!.data]},
+				changes: {[params.textDocument.uri]: diagnostics[0]!.data satisfies QuickFixData[]},
 			},
 		},
 		{
@@ -67,7 +68,7 @@ http://a]
 			diagnostics: [diagnostics[1]!],
 			isPreferred: false,
 			edit: {
-				changes: {[params.textDocument.uri]: [diagnostics[1]!.data]},
+				changes: {[params.textDocument.uri]: diagnostics[1]!.data satisfies QuickFixData[]},
 			},
 		},
 	];

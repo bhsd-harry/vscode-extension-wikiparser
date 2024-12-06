@@ -9,7 +9,7 @@ import type {
 	TextEdit,
 } from 'vscode-languageserver/node';
 
-declare interface QuickFixData extends TextEdit {
+export interface QuickFixData extends TextEdit {
 	title: string;
 	fix: boolean;
 }

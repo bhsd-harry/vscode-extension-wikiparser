@@ -1,7 +1,7 @@
 #!/usr/local/bin/bash
 if [[ $2 == 'npm' ]]
 then
-	vsce publish
+	npx vsce publish
 else
 	npm run lint && npm run build && npm test
 	if [[ $? -eq 0 ]]

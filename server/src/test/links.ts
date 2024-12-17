@@ -14,6 +14,8 @@ ISBN 1-2-3-4-5-6-7-8-9-0
 News:e
 <templatestyles src = f />
 <q cite = "HTTPS://G/G">
+[[file:a|link=a]]
+[[file:a|link=//a]]
 `,
 	results: DocumentLink[] = [
 		{
@@ -85,6 +87,34 @@ News:e
 				end: {line: 10, character: 22},
 			},
 			target: 'https://g/G',
+		},
+		{
+			range: {
+				start: {line: 11, character: 2},
+				end: {line: 11, character: 8},
+			},
+			target: 'https://mediawiki.org/wiki/File%3AA',
+		},
+		{
+			range: {
+				start: {line: 11, character: 14},
+				end: {line: 11, character: 15},
+			},
+			target: 'https://mediawiki.org/wiki/A',
+		},
+		{
+			range: {
+				start: {line: 12, character: 2},
+				end: {line: 12, character: 8},
+			},
+			target: 'https://mediawiki.org/wiki/File%3AA',
+		},
+		{
+			range: {
+				start: {line: 12, character: 14},
+				end: {line: 12, character: 17},
+			},
+			target: 'https://a/',
 		},
 	];
 

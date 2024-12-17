@@ -1,3 +1,11 @@
+## v1.0.7
+
+*2024-12-20*
+
+**Added**
+
+- Document link provider for the `link` parameter of images
+
 ## v1.0.5
 
 *2024-12-06*

@@ -45,13 +45,19 @@
 	"scripts": {
 		"vscode:prepublish": "npm run build",
 		"build": "tsc --project server/tsconfig.json",
-		"test": "mocha -A --no-diff --file server/dist/test/*.js --ignore=util.js",
+		"test": "mocha",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",
 		"lint:json": "v8r -s server/src/data/schema/info.json server/src/data/*.json",
 		"lint": "npm run lint:ts && npm run lint:json"
 	},
+	"mocha": {
+		"asyncOnly": true,
+		"diff": false,
+		"spec": "server/dist/test/*.js",
+		"ignore": "server/dist/test/util.js"
+	},
 	"dependencies": {
-		"@bhsd/common": "^0.4.6",
+		"@bhsd/common": "^0.5.0",
 		"color-rgba": "^3.0.0",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",

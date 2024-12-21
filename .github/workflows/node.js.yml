@@ -26,4 +26,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build
+    - run: npm prune --omit=dev
+    - run: npm i --save-dev mocha
     - run: npm test

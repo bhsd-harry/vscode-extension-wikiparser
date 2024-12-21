@@ -1,0 +1,5 @@
+{
+	"diff": false,
+	"spec": "server/dist/test/*.js",
+	"ignore": "server/dist/test/util.js"
+}

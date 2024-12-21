@@ -50,12 +50,6 @@
 		"lint:json": "v8r -s server/src/data/schema/info.json server/src/data/*.json",
 		"lint": "npm run lint:ts && npm run lint:json"
 	},
-	"mocha": {
-		"asyncOnly": true,
-		"diff": false,
-		"spec": "server/dist/test/*.js",
-		"ignore": "server/dist/test/util.js"
-	},
 	"dependencies": {
 		"@bhsd/common": "^0.5.0",
 		"color-rgba": "^3.0.0",

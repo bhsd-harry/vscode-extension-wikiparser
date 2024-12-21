@@ -10,3 +10,4 @@ assets/
 *.sh
 .eslintcache*
 .gitignore
+.mocharc.json

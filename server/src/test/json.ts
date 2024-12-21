@@ -10,28 +10,25 @@ const {doubleUnderscore, parserFunction} = Parser.getConfig(),
 		.map(s => s.toLowerCase());
 
 describe('JSON data', () => {
-	it('behaviorSwitch.json', done => {
+	it('behaviorSwitch.json', () => {
 		const words = behaviorSwitch.flatMap(({aliases}) => aliases);
 		assert.equal(words.length, new Set(words).size, 'Duplicate magic words');
 		for (const word of words) {
 			assert.ok(doubleUnderscores.includes(word), `Missing: ${word}`);
 		}
-		done();
 	});
-	it('parserFunction.json', done => {
+	it('parserFunction.json', () => {
 		const words = parserFunctions.flatMap(({aliases}) => aliases);
 		assert.equal(words.length, new Set(words).size, 'Duplicate magic words');
 		for (const word of words) {
 			assert.ok(magicWords.includes(word), `Missing: ${word}`);
 		}
-		done();
 	});
-	it('variable.json', done => {
+	it('variable.json', () => {
 		const words = variable.flatMap(({aliases}) => aliases);
 		assert.equal(words.length, new Set(words).size, 'Duplicate magic words');
 		for (const word of words) {
 			assert.ok(magicWords.includes(word), `Missing: ${word}`);
 		}
-		done();
 	});
 });

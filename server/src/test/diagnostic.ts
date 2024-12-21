@@ -77,8 +77,7 @@ describe('diagnosticProvider', () => {
 	it('Diagnostic', async () => {
 		assert.deepStrictEqual(await diagnose(params), diagnostics);
 	});
-	it('QuickFix', done => {
+	it('QuickFix', () => {
 		assert.deepStrictEqual(quickFix({...params, context: {diagnostics}} as unknown as CodeActionParams), actions);
-		done();
 	});
 });

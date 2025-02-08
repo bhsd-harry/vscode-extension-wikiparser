@@ -61,7 +61,7 @@ export class Task {
 	 */
 	async #parse(): Promise<Token> {
 		const {text} = this;
-		debug(`Parsing document ${createHash('md5').update(text).digest('hex')}`);
+		debug(`Parsing document ${createHash('sha512').update(text).digest('hex')}`);
 		const root = Parser.parse(text, true);
 		if (this.text === text) {
 			this.done = root;

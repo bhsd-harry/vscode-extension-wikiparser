@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import {getParams} from './util';
-import {provideDocumentColors} from '../color';
+import {provideDocumentColor} from '../color';
 import type {ColorInformation} from 'vscode-languageserver/node';
 
 const wikitext = `
@@ -58,6 +58,6 @@ const wikitext = `
 
 describe('colorProvider', () => {
 	it('ColorInformation', async () => {
-		assert.deepStrictEqual(await provideDocumentColors(getParams(__filename, wikitext)), results);
+		assert.deepStrictEqual(await provideDocumentColor(getParams(__filename, wikitext)), results);
 	});
 });

@@ -3,7 +3,7 @@
 		"src/**/*"
 	],
 	"compilerOptions": {
-		"target": "es2023",
+		"target": "es2024",
 		"module": "NodeNext",
 		"resolveJsonModule": true,
 		"allowSyntheticDefaultImports": true,

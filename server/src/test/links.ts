@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import {getParams} from './util';
-import {provideLinks} from '../links';
+import provideDocumentLinks from '../links';
 import type {DocumentLink} from 'vscode-languageserver/node';
 
 const wikitext = `
@@ -121,12 +121,12 @@ News:e
 describe('documentLinkProvider', () => {
 	const {textDocument} = getParams(__filename, wikitext);
 	it('https://mediawiki.org/wiki/$1', async () => {
-		assert.deepStrictEqual(await provideLinks(textDocument, 'https://mediawiki.org/wiki/$1'), results);
+		assert.deepStrictEqual(await provideDocumentLinks(textDocument, 'https://mediawiki.org/wiki/$1'), results);
 	});
 	it('https://mediawiki.org/wiki/', async () => {
-		assert.deepStrictEqual(await provideLinks(textDocument, 'https://mediawiki.org/wiki/'), results);
+		assert.deepStrictEqual(await provideDocumentLinks(textDocument, 'https://mediawiki.org/wiki/'), results);
 	});
 	it('https://mediawiki.org/wiki', async () => {
-		assert.deepStrictEqual(await provideLinks(textDocument, 'https://mediawiki.org/wiki'), results);
+		assert.deepStrictEqual(await provideDocumentLinks(textDocument, 'https://mediawiki.org/wiki'), results);
 	});
 });

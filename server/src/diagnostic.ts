@@ -1,5 +1,4 @@
 import {CodeActionKind} from 'vscode-languageserver/node';
-import {createRange} from './util';
 import {parse} from './tasks';
 import type {
 	CodeActionParams,
@@ -7,12 +6,25 @@ import type {
 	DocumentDiagnosticParams,
 	Diagnostic,
 	TextEdit,
+	Range as TextRange,
+	Position,
 } from 'vscode-languageserver/node';
+import type {Token} from 'wikilint';
 
 export interface QuickFixData extends TextEdit {
 	title: string;
 	fix: boolean;
 }
+
+const positionAt = (root: Token, i: number): Position => {
+	const {top, left} = root.posFromIndex(i)!;
+	return {line: top, character: left};
+};
+
+const createRange = (root: Token, start: number, end: number): TextRange => ({
+	start: positionAt(root, start),
+	end: positionAt(root, end),
+});
 
 export const diagnose = async ({textDocument: {uri}}: DocumentDiagnosticParams): Promise<Diagnostic[]> => {
 	const root = await parse(uri);

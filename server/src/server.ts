@@ -7,23 +7,24 @@ import {
 import {documentSettings} from './tasks';
 import {connection} from './task';
 import {diagnose, quickFix} from './diagnostic';
-import {completion} from './completion';
-import {provideDocumentColors, provideColorPresentations} from './color';
+import provideCompletion from './completion';
+import {provideDocumentColor, provideColorPresentation} from './color';
 import {provideReferences, provideDefinition, prepareRename, provideRename} from './reference';
-import {provideLinks} from './links';
-import {provideFolding, provideSymbol} from './folding';
+import provideDocumentLinks from './links';
+import {provideFoldingRanges, provideDocumentSymbol} from './folding';
 import {provideHover} from './hover';
-import {provideSignatureHelp} from './signature';
+import provideSignatureHelp from './signature';
 import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
 import type {Settings} from './tasks';
 
 const getSettings = ({uri}: TextDocumentIdentifier): Promise<Settings> => {
-	let result = documentSettings.get(uri);
-	if (!result) {
-		result = connection!.workspace.getConfiguration({scopeUri: uri, section: 'wikiparser'});
-		documentSettings.set(uri, result);
+	if (!documentSettings.has(uri)) {
+		documentSettings.set(
+			uri,
+			connection!.workspace.getConfiguration({scopeUri: uri, section: 'wikiparser'}) as Promise<Settings>,
+		);
 	}
-	return result;
+	return documentSettings.get(uri)!;
 };
 
 connection?.onInitialize(() => ({
@@ -78,11 +79,11 @@ connection?.languages.diagnostics.on(async params => ({
 connection?.onCodeAction(quickFix);
 
 // completion.ts
-connection?.onCompletion(completion);
+connection?.onCompletion(provideCompletion);
 
 // color.ts
-connection?.onDocumentColor(provideDocumentColors);
-connection?.onColorPresentation(provideColorPresentations);
+connection?.onDocumentColor(provideDocumentColor);
+connection?.onColorPresentation(provideColorPresentation);
 
 // reference.ts
 connection?.onReferences(provideReferences);
@@ -93,12 +94,12 @@ connection?.onRenameRequest(provideRename);
 
 // links.ts
 connection?.onDocumentLinks(
-	async ({textDocument}) => provideLinks(textDocument, (await getSettings(textDocument)).articlePath),
+	async ({textDocument}) => provideDocumentLinks(textDocument, (await getSettings(textDocument)).articlePath),
 );
 
 // folding.ts
-connection?.onFoldingRanges(provideFolding);
-connection?.onDocumentSymbol(provideSymbol);
+connection?.onFoldingRanges(provideFoldingRanges);
+connection?.onDocumentSymbol(provideDocumentSymbol);
 
 // hover.ts
 connection?.onHover(provideHover);

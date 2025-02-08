@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import {CompletionItemKind} from 'vscode-languageserver/node';
 import {getPositionParams} from './util';
-import {completion} from '../completion';
+import provideCompletion from '../completion';
 
 const wikitext = `
 <Im
@@ -22,7 +22,7 @@ __T
 describe('completionProvider', () => {
 	it('tag completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 1, 3)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 1, 3)))
 				?.filter(({label}) => label.startsWith('im')),
 			[
 				{
@@ -46,7 +46,7 @@ describe('completionProvider', () => {
 	});
 	it('argument completion', async () => {
 		assert.deepStrictEqual(
-			await completion(getPositionParams(__filename, wikitext, 2, 5)),
+			await provideCompletion(getPositionParams(__filename, wikitext, 2, 5)),
 			[
 				{
 					label: 'a',
@@ -61,7 +61,7 @@ describe('completionProvider', () => {
 	});
 	it('link completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 3, 4)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 3, 4)))
 				?.filter(({label}) => /^a/iu.test(label)),
 			[
 				{
@@ -77,7 +77,7 @@ describe('completionProvider', () => {
 	});
 	it('file completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 4, 11)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 4, 11)))
 				?.filter(({label}) => /^file:/iu.test(label)),
 			[
 				{
@@ -101,7 +101,7 @@ describe('completionProvider', () => {
 	});
 	it('parser function completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 5, 9)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 5, 9)))
 				?.filter(({label}) => /^#ifexp/iu.test(label)),
 			[
 				{
@@ -117,7 +117,7 @@ describe('completionProvider', () => {
 	});
 	it('template completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 6, 12)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 6, 12)))
 				?.filter(({label}) => /^pagenamee/iu.test(label)),
 			[
 				{
@@ -141,7 +141,7 @@ describe('completionProvider', () => {
 	});
 	it('behavior switch completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 7, 3)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 7, 3)))
 				?.filter(({label}) => /^__t/iu.test(label)),
 			[
 				{
@@ -157,7 +157,7 @@ describe('completionProvider', () => {
 	});
 	it('protocol completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 8, 3)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 8, 3)))
 				?.filter(({label}) => label.startsWith('gi')),
 			[
 				{
@@ -173,7 +173,7 @@ describe('completionProvider', () => {
 	});
 	it('image parameter completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 9, 20)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 9, 20)))
 				?.filter(({label}) => label.startsWith('thumbn')),
 			[
 				{
@@ -197,7 +197,7 @@ describe('completionProvider', () => {
 	});
 	it('image width completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 10, 15)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 10, 15)))
 				?.filter(({label}) => label.startsWith('1')),
 			[
 				{
@@ -221,7 +221,7 @@ describe('completionProvider', () => {
 	});
 	it('extension tag attribute completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 11, 7)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 11, 7)))
 				?.filter(({label}) => label.startsWith('c')),
 			[
 				{
@@ -245,7 +245,7 @@ describe('completionProvider', () => {
 	});
 	it('HTML tag attribute completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 12, 5)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 12, 5)))
 				?.filter(({label}) => label.startsWith('da')),
 			[
 				{
@@ -269,7 +269,7 @@ describe('completionProvider', () => {
 	});
 	it('template parameter completion', async () => {
 		assert.deepStrictEqual(
-			(await completion(getPositionParams(__filename, wikitext, 13, 8)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 13, 8)))
 				?.filter(({label}) => /^c/iu.test(label)),
 			[
 				{

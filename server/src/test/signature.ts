@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import {getPositionParams} from './util';
-import {provideSignatureHelp} from '../signature';
+import provideSignatureHelp from '../signature';
 
 const wikitext = `
 {{ #invoke: a | b | c | d }}
@@ -11,7 +11,7 @@ const wikitext = `
 describe('signatureHelpProvider', () => {
 	it('#invoke-1', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 12, true)),
+			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 12)),
 			{
 				signatures: [
 					{
@@ -30,7 +30,7 @@ describe('signatureHelpProvider', () => {
 	});
 	it('#invoke-2', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 16, true)),
+			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 16)),
 			{
 				signatures: [
 					{
@@ -49,7 +49,7 @@ describe('signatureHelpProvider', () => {
 	});
 	it('#invoke-4', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 25, true)),
+			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 25)),
 			{
 				signatures: [
 					{
@@ -68,7 +68,7 @@ describe('signatureHelpProvider', () => {
 	});
 	it('PAGENAME-1', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 2, 11, true)),
+			await provideSignatureHelp(getPositionParams(__filename, wikitext, 2, 11)),
 			{
 				signatures: [
 					{
@@ -86,7 +86,7 @@ describe('signatureHelpProvider', () => {
 	});
 	it('PAGESIZE-1', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 13, true)),
+			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 13)),
 			{
 				signatures: [
 					{
@@ -103,7 +103,7 @@ describe('signatureHelpProvider', () => {
 	});
 	it('PAGESIZE-2', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 17, true)),
+			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 17)),
 			{
 				signatures: [
 					{

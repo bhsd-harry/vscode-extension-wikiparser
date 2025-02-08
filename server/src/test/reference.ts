@@ -30,12 +30,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 1, character: 3}, end: {line: 1, character: 6}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 2, character: 3}, end: {line: 2, character: 4}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -47,12 +45,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 3, character: 2}, end: {line: 3, character: 5}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 4, character: 2}, end: {line: 4, character: 18}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -64,12 +60,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 5, character: 2}, end: {line: 5, character: 12}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 6, character: 2}, end: {line: 6, character: 10}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -81,12 +75,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 7, character: 2}, end: {line: 7, character: 12}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 8, character: 2}, end: {line: 8, character: 11}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -98,12 +90,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 9, character: 6}, end: {line: 9, character: 11}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 10, character: 13}, end: {line: 10, character: 15}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -115,12 +105,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 11, character: 0}, end: {line: 11, character: 32}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 12, character: 0}, end: {line: 12, character: 37}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -132,12 +120,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 13, character: 0}, end: {line: 13, character: 3}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 13, character: 3}, end: {line: 13, character: 7}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -149,17 +135,14 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 11, character: 5}, end: {line: 11, character: 10}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 12, character: 5}, end: {line: 12, character: 10}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 14, character: 12}, end: {line: 14, character: 17}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -171,12 +154,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 7, character: 13}, end: {line: 7, character: 20}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 15, character: 9}, end: {line: 15, character: 18}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -188,12 +169,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 16, character: 0}, end: {line: 16, character: 7}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 17, character: 0}, end: {line: 17, character: 7}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -205,12 +184,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 16, character: 0}, end: {line: 16, character: 7}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 17, character: 0}, end: {line: 17, character: 7}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -222,12 +199,10 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 11, character: 22}, end: {line: 11, character: 23}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 12, character: 30}, end: {line: 12, character: 33}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -239,17 +214,14 @@ describe('referencesProvider', () => {
 				{
 					range: {start: {line: 11, character: 13}, end: {line: 11, character: 14}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 12, character: 14}, end: {line: 12, character: 17}},
 					uri: __filename,
-					kind: 1,
 				},
 				{
 					range: {start: {line: 14, character: 20}, end: {line: 14, character: 21}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -264,7 +236,6 @@ describe('definitionProvider', () => {
 				{
 					range: {start: {line: 11, character: 22}, end: {line: 11, character: 23}},
 					uri: __filename,
-					kind: 1,
 				},
 			],
 		);
@@ -385,11 +356,11 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 9, character: 6}, end: {line: 9, character: 11}},
+							range: {start: {line: 9, character: 6}, end: {line: 9, character: 9}},
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 10, character: 13}, end: {line: 10, character: 15}},
+							range: {start: {line: 10, character: 13}, end: {line: 10, character: 14}},
 							newText: 'x',
 						},
 					],

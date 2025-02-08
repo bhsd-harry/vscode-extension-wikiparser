@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import {FoldingRangeKind, SymbolKind} from 'vscode-languageserver/node';
 import {getParams} from './util';
-import {provideFolding, provideSymbol} from '../folding';
+import {provideFoldingRanges, provideDocumentSymbol} from '../folding';
 import type {FoldingRange, DocumentSymbol} from 'vscode-languageserver/node';
 
 const wikitext = `
@@ -102,9 +102,9 @@ y }} z
 describe('foldingRangeProvider', () => {
 	const params = getParams(__filename, wikitext);
 	it('FoldingRange', async () => {
-		assert.deepStrictEqual(await provideFolding(params), foldingRanges);
+		assert.deepStrictEqual(await provideFoldingRanges(params), foldingRanges);
 	});
 	it('DocumentSymbol', async () => {
-		assert.deepStrictEqual(await provideSymbol(params), symbols);
+		assert.deepStrictEqual(await provideDocumentSymbol(params), symbols);
 	});
 });

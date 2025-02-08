@@ -1,15 +1,14 @@
-import {parseSignature, docs} from './tasks';
-import {getText} from './util';
+import {docs, parse, getText} from './tasks';
 import {getInfo} from './hover';
 import type {SignatureHelp, SignatureHelpParams, SignatureInformation} from 'vscode-languageserver/node';
 import type {Info} from './hover';
 
-export const provideSignatureHelp = async (
+export default async (
 	{textDocument: {uri}, position: {line, character}}: SignatureHelpParams,
 ): Promise<SignatureHelp | null> => {
 	const doc = docs.get(uri)!,
 		[after] = /^[^{}<]*/u.exec(getText(doc, line, character, line + 1, 0))!,
-		{lastChild} = await parseSignature(uri, `${getText(doc, line, 0, line, character)}${after}}}`),
+		{lastChild} = await parse(uri, `${getText(doc, line, 0, line, character)}${after}}}`),
 		{type, name, childNodes, firstChild} = lastChild!;
 	if (type !== 'magic-word') {
 		return null;

@@ -1,3 +1,11 @@
+## v1.1.0
+
+*2025-02-09*
+
+**Fixed**
+
+- Renaming of template parameter names
+
 ## v1.0.7
 
 *2024-12-20*

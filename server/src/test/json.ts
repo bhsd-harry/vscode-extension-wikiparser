@@ -6,7 +6,7 @@ import variable from '../data/variable.json';
 
 const {doubleUnderscore, parserFunction} = Parser.getConfig(),
 	doubleUnderscores = (doubleUnderscore.slice(0, 2) as string[][]).flat().map(s => s.toLowerCase()),
-	magicWords = [Object.keys(parserFunction[0]), parserFunction.slice(1) as string[][]].flat(2)
+	magicWords = [parserFunction.slice(0, 2).map(Object.keys), parserFunction.slice(2) as string[][]].flat(2)
 		.map(s => s.toLowerCase());
 
 describe('JSON data', () => {

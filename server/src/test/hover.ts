@@ -5,7 +5,7 @@ import {provideHover} from '../hover';
 const wikitext = `
 __NOTOC__
 {{ #LEN: }}
-{{ PAGESIZE }}
+{{ NUMBEROFPAGES }}
 `;
 
 describe('hoverProvider', () => {
@@ -41,15 +41,14 @@ The #len function returns the length of the given string.`,
 			contents: {
 				kind: 'markdown',
 				value:
-`- **{{ PAGESIZE** **}}**
-- **{{ PAGESIZE:** *page name* **}}**
-- **{{ PAGESIZE:** *page name* **|** R **}}**
+`- **{{ NUMBEROFPAGES** **}}**
+- **{{ NUMBEROFPAGES:** R **}}**
 
-**[Expensive]** Returns the byte size of the specified page.`,
+Number of wiki pages.`,
 			},
 			range: {
 				start: {line: 3, character: 2},
-				end: {line: 3, character: 12},
+				end: {line: 3, character: 17},
 			},
 		});
 	});

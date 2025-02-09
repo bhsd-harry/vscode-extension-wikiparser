@@ -3,19 +3,45 @@ import {
 	CodeActionKind,
 	DidChangeConfigurationNotification,
 	DocumentDiagnosticReportKind,
+	createConnection,
+	ProposedFeatures,
 } from 'vscode-languageserver/node';
-import {documentSettings} from './tasks';
-import {connection} from './task';
-import {diagnose, quickFix} from './diagnostic';
-import provideCompletion from './completion';
-import {provideDocumentColor, provideColorPresentation} from './color';
-import {provideReferences, provideDefinition, prepareRename, provideRename} from './reference';
-import provideDocumentLinks from './links';
-import {provideFoldingRanges, provideDocumentSymbol} from './folding';
-import {provideHover} from './hover';
-import provideSignatureHelp from './signature';
-import type {TextDocumentIdentifier} from 'vscode-languageserver/node';
-import type {Settings} from './tasks';
+import {
+	docs,
+	provideDocumentColor,
+	provideColorPresentation,
+	provideCompletion,
+	provideFoldingRanges,
+	provideDocumentSymbol,
+	provideDocumentLinks,
+	provideReferences,
+	provideDefinition,
+	prepareRename,
+	provideRename,
+	provideDiagnostics,
+	provideCodeAction,
+	provideHover,
+	provideSignatureHelp,
+} from './lsp';
+import type {TextDocumentIdentifier, Connection} from 'vscode-languageserver/node';
+
+declare interface Settings {
+	lint: boolean;
+	articlePath: string;
+}
+
+const documentSettings = new Map<string, Promise<Settings>>();
+
+docs.onDidClose(({document}) => {
+	documentSettings.delete(document.uri);
+});
+
+let connection: Connection | undefined;
+
+try {
+	connection = createConnection(ProposedFeatures.all);
+	docs.listen(connection);
+} catch {}
 
 const getSettings = ({uri}: TextDocumentIdentifier): Promise<Settings> => {
 	if (!documentSettings.has(uri)) {
@@ -63,20 +89,20 @@ connection?.onInitialize(() => ({
 }));
 
 connection?.onInitialized(() => {
-	void connection?.client.register(DidChangeConfigurationNotification.type);
+	void connection.client.register(DidChangeConfigurationNotification.type);
 });
 
 connection?.onDidChangeConfiguration(() => {
 	documentSettings.clear();
-	connection?.languages.diagnostics.refresh();
+	connection.languages.diagnostics.refresh();
 });
 
 // diagnostic.ts
 connection?.languages.diagnostics.on(async params => ({
 	kind: DocumentDiagnosticReportKind.Full,
-	items: (await getSettings(params.textDocument)).lint ? await diagnose(params) : [],
+	items: (await getSettings(params.textDocument)).lint ? await provideDiagnostics(params) : [],
 }));
-connection?.onCodeAction(quickFix);
+connection?.onCodeAction(provideCodeAction);
 
 // completion.ts
 connection?.onCompletion(provideCompletion);

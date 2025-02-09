@@ -1,5 +1,6 @@
 import {TextDocument} from 'vscode-languageserver-textdocument';
-import {docs} from '../tasks';
+import {Range as TextRange} from 'vscode-languageserver/node';
+import {docs} from '../lsp';
 import type {Position} from 'vscode-languageserver/node';
 
 const testDocs = new Map<string, TextDocument>();
@@ -9,6 +10,8 @@ Object.defineProperty(docs, 'get', {
 		return testDocs.get(uri);
 	},
 });
+
+export const range = TextRange.create;
 
 export const getParams = (file: string, content: string): {textDocument: TextDocument} => {
 	const textDocument = TextDocument.create(file, 'wikitext', 0, content);

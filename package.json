@@ -43,19 +43,18 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run build && npm prune --omit=dev",
+		"vscode:prepublish": "npm run build",
 		"build": "tsc --project server/tsconfig.json",
 		"test": "mocha",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",
-		"lint:json": "v8r -s server/src/data/schema/info.json server/src/data/*.json",
-		"lint": "npm run lint:ts && npm run lint:json"
+		"lint": "npm run lint:ts"
 	},
 	"dependencies": {
 		"@bhsd/common": "^0.6.3",
 		"color-rgba": "^3.0.0",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",
-		"wikilint": "^2.16.0"
+		"wikilint": "^2.16.1"
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^3.1.0",

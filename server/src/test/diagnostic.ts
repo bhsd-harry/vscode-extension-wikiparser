@@ -1,9 +1,9 @@
 import * as assert from 'assert';
 import {CodeActionKind} from 'vscode-languageserver/node';
-import {getParams} from './util';
-import {diagnose, quickFix} from '../diagnostic';
+import {getParams, range} from './util';
+import {provideDiagnostics, provideCodeAction} from '../lsp';
 import type {Diagnostic, CodeAction, CodeActionParams} from 'vscode-languageserver/node';
-import type {QuickFixData} from '../diagnostic';
+import type {QuickFixData} from '../lsp';
 
 const wikitext = `
 http://a]
@@ -12,19 +12,14 @@ http://a]
 	params = getParams(__filename, wikitext),
 	diagnostics: (Diagnostic & {data: QuickFixData[]})[] = [
 		{
-			range: {
-				start: {line: 1, character: 8},
-				end: {line: 1, character: 9},
-			},
+			range: range(1, 8, 1, 9),
 			severity: 1,
 			source: 'WikiLint',
+			code: 'lonely-bracket',
 			message: 'lonely "]"',
 			data: [
 				{
-					range: {
-						start: {line: 1, character: 0},
-						end: {line: 1, character: 0},
-					},
+					range: range(1, 0, 1, 0),
 					newText: '[',
 					title: 'Fix: left bracket',
 					fix: true,
@@ -32,19 +27,14 @@ http://a]
 			],
 		},
 		{
-			range: {
-				start: {line: 2, character: 0},
-				end: {line: 2, character: 4},
-			},
+			range: range(2, 0, 2, 4),
 			severity: 1,
 			source: 'WikiLint',
+			code: 'unmatched-tag',
 			message: 'unmatched closing tag',
 			data: [
 				{
-					range: {
-						start: {line: 2, character: 0},
-						end: {line: 2, character: 4},
-					},
+					range: range(2, 0, 2, 4),
 					newText: '',
 					title: 'Suggestion: remove',
 					fix: false,
@@ -75,9 +65,12 @@ http://a]
 
 describe('diagnosticProvider', () => {
 	it('Diagnostic', async () => {
-		assert.deepStrictEqual(await diagnose(params), diagnostics);
+		assert.deepStrictEqual(await provideDiagnostics(params), diagnostics);
 	});
 	it('QuickFix', () => {
-		assert.deepStrictEqual(quickFix({...params, context: {diagnostics}} as unknown as CodeActionParams), actions);
+		assert.deepStrictEqual(
+			provideCodeAction({...params, context: {diagnostics}} as unknown as CodeActionParams),
+			actions,
+		);
 	});
 });

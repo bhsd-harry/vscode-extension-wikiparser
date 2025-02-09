@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import {getPositionParams} from './util';
-import {provideReferences, provideDefinition, prepareRename, provideRename} from '../reference';
+import {getPositionParams, range} from './util';
+import {provideReferences, provideDefinition, prepareRename, provideRename} from '../lsp';
 
 const wikitext = `
 {{{ a }}}
@@ -28,11 +28,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 1, 4)),
 			[
 				{
-					range: {start: {line: 1, character: 3}, end: {line: 1, character: 6}},
+					range: range(1, 3, 1, 6),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 2, character: 3}, end: {line: 2, character: 4}},
+					range: range(2, 3, 2, 4),
 					uri: __filename,
 				},
 			],
@@ -43,11 +43,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 3, 4)),
 			[
 				{
-					range: {start: {line: 3, character: 2}, end: {line: 3, character: 5}},
+					range: range(3, 2, 3, 5),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 4, character: 2}, end: {line: 4, character: 18}},
+					range: range(4, 2, 4, 18),
 					uri: __filename,
 				},
 			],
@@ -58,11 +58,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 5, 4)),
 			[
 				{
-					range: {start: {line: 5, character: 2}, end: {line: 5, character: 12}},
+					range: range(5, 2, 5, 12),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 6, character: 2}, end: {line: 6, character: 10}},
+					range: range(6, 2, 6, 10),
 					uri: __filename,
 				},
 			],
@@ -73,11 +73,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 7, 4)),
 			[
 				{
-					range: {start: {line: 7, character: 2}, end: {line: 7, character: 12}},
+					range: range(7, 2, 7, 12),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 8, character: 2}, end: {line: 8, character: 11}},
+					range: range(8, 2, 8, 11),
 					uri: __filename,
 				},
 			],
@@ -88,11 +88,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 9, 8)),
 			[
 				{
-					range: {start: {line: 9, character: 6}, end: {line: 9, character: 11}},
+					range: range(9, 6, 9, 11),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 10, character: 13}, end: {line: 10, character: 15}},
+					range: range(10, 13, 10, 15),
 					uri: __filename,
 				},
 			],
@@ -103,11 +103,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 11, 2)),
 			[
 				{
-					range: {start: {line: 11, character: 0}, end: {line: 11, character: 32}},
+					range: range(11, 0, 11, 32),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 12, character: 0}, end: {line: 12, character: 37}},
+					range: range(12, 0, 12, 37),
 					uri: __filename,
 				},
 			],
@@ -118,11 +118,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 13, 2)),
 			[
 				{
-					range: {start: {line: 13, character: 0}, end: {line: 13, character: 3}},
+					range: range(13, 0, 13, 3),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 13, character: 3}, end: {line: 13, character: 7}},
+					range: range(13, 3, 13, 7),
 					uri: __filename,
 				},
 			],
@@ -133,15 +133,15 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 11, 6)),
 			[
 				{
-					range: {start: {line: 11, character: 5}, end: {line: 11, character: 10}},
+					range: range(11, 5, 11, 10),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 12, character: 5}, end: {line: 12, character: 10}},
+					range: range(12, 5, 12, 10),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 14, character: 12}, end: {line: 14, character: 17}},
+					range: range(14, 12, 14, 17),
 					uri: __filename,
 				},
 			],
@@ -152,11 +152,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 15, 10)),
 			[
 				{
-					range: {start: {line: 7, character: 13}, end: {line: 7, character: 20}},
+					range: range(7, 13, 7, 20),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 15, character: 9}, end: {line: 15, character: 18}},
+					range: range(15, 9, 15, 18),
 					uri: __filename,
 				},
 			],
@@ -167,11 +167,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 16, 4)),
 			[
 				{
-					range: {start: {line: 16, character: 0}, end: {line: 16, character: 7}},
+					range: range(16, 0, 16, 7),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 17, character: 0}, end: {line: 17, character: 7}},
+					range: range(17, 0, 17, 7),
 					uri: __filename,
 				},
 			],
@@ -182,11 +182,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 16, 1)),
 			[
 				{
-					range: {start: {line: 16, character: 0}, end: {line: 16, character: 7}},
+					range: range(16, 0, 16, 7),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 17, character: 0}, end: {line: 17, character: 7}},
+					range: range(17, 0, 17, 7),
 					uri: __filename,
 				},
 			],
@@ -197,11 +197,11 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 11, 23)),
 			[
 				{
-					range: {start: {line: 11, character: 22}, end: {line: 11, character: 23}},
+					range: range(11, 22, 11, 23),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 12, character: 30}, end: {line: 12, character: 33}},
+					range: range(12, 30, 12, 33),
 					uri: __filename,
 				},
 			],
@@ -212,15 +212,15 @@ describe('referencesProvider', () => {
 			await provideReferences(getPositionParams(__filename, wikitext, 11, 14)),
 			[
 				{
-					range: {start: {line: 11, character: 13}, end: {line: 11, character: 14}},
+					range: range(11, 13, 11, 14),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 12, character: 14}, end: {line: 12, character: 17}},
+					range: range(12, 14, 12, 17),
 					uri: __filename,
 				},
 				{
-					range: {start: {line: 14, character: 20}, end: {line: 14, character: 21}},
+					range: range(14, 20, 14, 21),
 					uri: __filename,
 				},
 			],
@@ -234,7 +234,7 @@ describe('definitionProvider', () => {
 			await provideDefinition(getPositionParams(__filename, wikitext, 12, 32)),
 			[
 				{
-					range: {start: {line: 11, character: 22}, end: {line: 11, character: 23}},
+					range: range(11, 22, 11, 23),
 					uri: __filename,
 				},
 			],
@@ -246,7 +246,7 @@ describe('renameProvider', () => {
 	it('prepare: arg-name', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 1, 4)),
-			{start: {line: 1, character: 3}, end: {line: 1, character: 6}},
+			range(1, 3, 1, 6),
 		);
 	});
 	it('rename: arg-name', async () => {
@@ -256,11 +256,11 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 1, character: 3}, end: {line: 1, character: 6}},
+							range: range(1, 3, 1, 6),
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 2, character: 3}, end: {line: 2, character: 4}},
+							range: range(2, 3, 2, 4),
 							newText: 'x',
 						},
 					],
@@ -271,7 +271,7 @@ describe('renameProvider', () => {
 	it('prepare: template-name', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 3, 4)),
-			{start: {line: 3, character: 2}, end: {line: 3, character: 5}},
+			range(3, 2, 3, 5),
 		);
 	});
 	it('rename: template-name', async () => {
@@ -281,11 +281,11 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 3, character: 2}, end: {line: 3, character: 5}},
+							range: range(3, 2, 3, 5),
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 4, character: 2}, end: {line: 4, character: 18}},
+							range: range(4, 2, 4, 18),
 							newText: 'x',
 						},
 					],
@@ -296,7 +296,7 @@ describe('renameProvider', () => {
 	it('prepare: magic-word-name', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 5, 4)),
-			{start: {line: 5, character: 2}, end: {line: 5, character: 12}},
+			range(5, 2, 5, 12),
 		);
 	});
 	it('rename: magic-word-name', async () => {
@@ -306,11 +306,11 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 5, character: 2}, end: {line: 5, character: 12}},
+							range: range(5, 2, 5, 12),
 							newText: 'PAGENAMEE',
 						},
 						{
-							range: {start: {line: 6, character: 2}, end: {line: 6, character: 10}},
+							range: range(6, 2, 6, 10),
 							newText: 'PAGENAMEE',
 						},
 					],
@@ -321,7 +321,7 @@ describe('renameProvider', () => {
 	it('prepare: link-target', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 7, 4)),
-			{start: {line: 7, character: 2}, end: {line: 7, character: 12}},
+			range(7, 2, 7, 12),
 		);
 	});
 	it('rename: link-target', async () => {
@@ -331,11 +331,11 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 7, character: 2}, end: {line: 7, character: 12}},
+							range: range(7, 2, 7, 12),
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 8, character: 2}, end: {line: 8, character: 11}},
+							range: range(8, 2, 8, 11),
 							newText: 'x',
 						},
 					],
@@ -346,7 +346,7 @@ describe('renameProvider', () => {
 	it('prepare: parameter-key', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 9, 8)),
-			{start: {line: 9, character: 6}, end: {line: 9, character: 9}},
+			range(9, 6, 9, 9),
 		);
 	});
 	it('rename: parameter-key', async () => {
@@ -356,11 +356,11 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 9, character: 6}, end: {line: 9, character: 9}},
+							range: range(9, 6, 9, 9),
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 10, character: 13}, end: {line: 10, character: 14}},
+							range: range(10, 13, 10, 14),
 							newText: 'x',
 						},
 					],
@@ -371,7 +371,7 @@ describe('renameProvider', () => {
 	it('prepare: attr-value#name', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 11, 23)),
-			{start: {line: 11, character: 22}, end: {line: 11, character: 23}},
+			range(11, 22, 11, 23),
 		);
 	});
 	it('rename: attr-value#name', async () => {
@@ -381,11 +381,11 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 11, character: 22}, end: {line: 11, character: 23}},
+							range: range(11, 22, 11, 23),
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 12, character: 30}, end: {line: 12, character: 33}},
+							range: range(12, 30, 12, 33),
 							newText: 'x',
 						},
 					],
@@ -396,7 +396,7 @@ describe('renameProvider', () => {
 	it('prepare: attr-value#group', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 11, 14)),
-			{start: {line: 11, character: 13}, end: {line: 11, character: 14}},
+			range(11, 13, 11, 14),
 		);
 	});
 	it('rename: attr-value#group', async () => {
@@ -406,15 +406,15 @@ describe('renameProvider', () => {
 				changes: {
 					[__filename]: [
 						{
-							range: {start: {line: 11, character: 13}, end: {line: 11, character: 14}},
+							range: range(11, 13, 11, 14),
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 12, character: 14}, end: {line: 12, character: 17}},
+							range: range(12, 14, 12, 17),
 							newText: 'x',
 						},
 						{
-							range: {start: {line: 14, character: 20}, end: {line: 14, character: 21}},
+							range: range(14, 20, 14, 21),
 							newText: 'x',
 						},
 					],

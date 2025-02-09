@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import {getPositionParams} from './util';
-import {provideHover} from '../hover';
+import {getPositionParams, range} from './util';
+import {provideHover} from '../lsp';
 
 const wikitext = `
 __NOTOC__
@@ -15,10 +15,7 @@ describe('hoverProvider', () => {
 				kind: 'markdown',
 				value: 'Hides the table of contents (TOC).',
 			},
-			range: {
-				start: {line: 1, character: 0},
-				end: {line: 1, character: 9},
-			},
+			range: range(1, 0, 1, 9),
 		});
 	});
 	it('parser function', async () => {
@@ -30,10 +27,7 @@ describe('hoverProvider', () => {
 
 The #len function returns the length of the given string.`,
 			},
-			range: {
-				start: {line: 2, character: 2},
-				end: {line: 2, character: 7},
-			},
+			range: range(2, 2, 2, 7),
 		});
 	});
 	it('variable', async () => {
@@ -46,10 +40,7 @@ The #len function returns the length of the given string.`,
 
 Number of wiki pages.`,
 			},
-			range: {
-				start: {line: 3, character: 2},
-				end: {line: 3, character: 17},
-			},
+			range: range(3, 2, 3, 17),
 		});
 	});
 });

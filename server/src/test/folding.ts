@@ -1,8 +1,14 @@
 import * as assert from 'assert';
 import {FoldingRangeKind, SymbolKind} from 'vscode-languageserver/node';
-import {getParams} from './util';
-import {provideFoldingRanges, provideDocumentSymbol} from '../folding';
+import {getParams, range} from './util';
+import {provideFoldingRanges, provideDocumentSymbol} from '../lsp';
 import type {FoldingRange, DocumentSymbol} from 'vscode-languageserver/node';
+
+const foldingRange = (startLine: number, endLine: number): FoldingRange => ({
+	startLine,
+	endLine,
+	kind: FoldingRangeKind.Region,
+});
 
 const wikitext = `
 <!--
@@ -36,40 +42,40 @@ y }} z
 
 `,
 	foldingRanges: FoldingRange[] = [
-		{startLine: 15, endLine: 17, kind: FoldingRangeKind.Region},
-		{startLine: 7, endLine: 19, kind: FoldingRangeKind.Region},
-		{startLine: 11, endLine: 19, kind: FoldingRangeKind.Region},
-		{startLine: 17, endLine: 19, kind: FoldingRangeKind.Region},
-		{startLine: 3, endLine: 22, kind: FoldingRangeKind.Region},
-		{startLine: 20, endLine: 22, kind: FoldingRangeKind.Region},
-		{startLine: 25, endLine: 27, kind: FoldingRangeKind.Region},
-		{startLine: 23, endLine: 30, kind: FoldingRangeKind.Region},
-		{startLine: 27, endLine: 30, kind: FoldingRangeKind.Region},
+		foldingRange(15, 17),
+		foldingRange(7, 19),
+		foldingRange(11, 19),
+		foldingRange(17, 19),
+		foldingRange(3, 22),
+		foldingRange(20, 22),
+		foldingRange(25, 27),
+		foldingRange(23, 30),
+		foldingRange(27, 30),
 	],
 	symbols: DocumentSymbol[] = [
 		{
 			name: '1',
 			kind: SymbolKind.String,
-			range: {start: {line: 3, character: 3}, end: {line: 22, character: 0}},
-			selectionRange: {start: {line: 3, character: 3}, end: {line: 3, character: 8}},
+			range: range(3, 3, 22, 0),
+			selectionRange: range(3, 3, 3, 8),
 			children: [
 				{
 					name: '2',
 					kind: SymbolKind.String,
-					range: {start: {line: 7, character: 8}, end: {line: 19, character: 0}},
-					selectionRange: {start: {line: 7, character: 8}, end: {line: 7, character: 15}},
+					range: range(7, 8, 19, 0),
+					selectionRange: range(7, 8, 7, 15),
 					children: [
 						{
 							name: '3',
 							kind: SymbolKind.String,
-							range: {start: {line: 11, character: 0}, end: {line: 19, character: 0}},
-							selectionRange: {start: {line: 11, character: 0}, end: {line: 11, character: 13}},
+							range: range(11, 0, 19, 0),
+							selectionRange: range(11, 0, 11, 13),
 							children: [
 								{
 									name: '4_2',
 									kind: SymbolKind.String,
-									range: {start: {line: 16, character: 0}, end: {line: 19, character: 0}},
-									selectionRange: {start: {line: 16, character: 0}, end: {line: 17, character: 11}},
+									range: range(16, 0, 19, 0),
+									selectionRange: range(16, 0, 17, 11),
 								},
 							],
 						},
@@ -78,22 +84,22 @@ y }} z
 				{
 					name: '4',
 					kind: SymbolKind.String,
-					range: {start: {line: 20, character: 0}, end: {line: 22, character: 0}},
-					selectionRange: {start: {line: 20, character: 0}, end: {line: 20, character: 7}},
+					range: range(20, 0, 22, 0),
+					selectionRange: range(20, 0, 20, 7),
 				},
 			],
 		},
 		{
 			name: '4_3',
 			kind: SymbolKind.String,
-			range: {start: {line: 23, character: 0}, end: {line: 30, character: 0}},
-			selectionRange: {start: {line: 23, character: 0}, end: {line: 23, character: 5}},
+			range: range(23, 0, 30, 0),
+			selectionRange: range(23, 0, 23, 5),
 			children: [
 				{
 					name: '4_4',
 					kind: SymbolKind.String,
-					range: {start: {line: 27, character: 0}, end: {line: 30, character: 0}},
-					selectionRange: {start: {line: 27, character: 0}, end: {line: 27, character: 9}},
+					range: range(27, 0, 30, 0),
+					selectionRange: range(27, 0, 27, 9),
 				},
 			],
 		},

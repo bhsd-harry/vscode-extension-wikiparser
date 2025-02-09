@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import {getPositionParams} from './util';
-import provideSignatureHelp from '../signature';
+import {provideSignatureHelp} from '../lsp';
 
 const wikitext = `
 {{ #invoke: a | b | c | d }}

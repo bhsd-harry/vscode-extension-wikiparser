@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import {CompletionItemKind} from 'vscode-languageserver/node';
-import {getPositionParams} from './util';
-import provideCompletion from '../completion';
+import {getPositionParams, range} from './util';
+import {provideCompletion} from '../lsp';
 
 const wikitext = `
 <Im
@@ -29,7 +29,7 @@ describe('completionProvider', () => {
 					label: 'imagemap',
 					kind: CompletionItemKind.Class,
 					textEdit: {
-						range: {start: {line: 1, character: 1}, end: {line: 1, character: 3}},
+						range: range(1, 1, 1, 3),
 						newText: 'imagemap',
 					},
 				},
@@ -37,7 +37,7 @@ describe('completionProvider', () => {
 					label: 'img',
 					kind: CompletionItemKind.Class,
 					textEdit: {
-						range: {start: {line: 1, character: 1}, end: {line: 1, character: 3}},
+						range: range(1, 1, 1, 3),
 						newText: 'img',
 					},
 				},
@@ -52,7 +52,7 @@ describe('completionProvider', () => {
 					label: 'a',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
-						range: {start: {line: 2, character: 4}, end: {line: 2, character: 5}},
+						range: range(2, 4, 2, 5),
 						newText: 'a',
 					},
 				},
@@ -68,7 +68,7 @@ describe('completionProvider', () => {
 					label: 'A',
 					kind: CompletionItemKind.Folder,
 					textEdit: {
-						range: {start: {line: 3, character: 3}, end: {line: 3, character: 4}},
+						range: range(3, 3, 3, 4),
 						newText: 'A',
 					},
 				},
@@ -84,7 +84,7 @@ describe('completionProvider', () => {
 					label: 'File:B',
 					kind: CompletionItemKind.Folder,
 					textEdit: {
-						range: {start: {line: 4, character: 5}, end: {line: 4, character: 11}},
+						range: range(4, 5, 4, 11),
 						newText: 'File:B',
 					},
 				},
@@ -92,7 +92,7 @@ describe('completionProvider', () => {
 					label: 'File:C',
 					kind: CompletionItemKind.Folder,
 					textEdit: {
-						range: {start: {line: 4, character: 5}, end: {line: 4, character: 11}},
+						range: range(4, 5, 4, 11),
 						newText: 'File:C',
 					},
 				},
@@ -108,7 +108,7 @@ describe('completionProvider', () => {
 					label: '#ifexpr',
 					kind: CompletionItemKind.Function,
 					textEdit: {
-						range: {start: {line: 5, character: 3}, end: {line: 5, character: 9}},
+						range: range(5, 3, 5, 9),
 						newText: '#ifexpr',
 					},
 				},
@@ -124,7 +124,7 @@ describe('completionProvider', () => {
 					label: 'PAGENAMEE',
 					kind: CompletionItemKind.Function,
 					textEdit: {
-						range: {start: {line: 6, character: 3}, end: {line: 6, character: 12}},
+						range: range(6, 3, 6, 12),
 						newText: 'PAGENAMEE',
 					},
 				},
@@ -132,7 +132,7 @@ describe('completionProvider', () => {
 					label: 'Pagenamee',
 					kind: CompletionItemKind.Folder,
 					textEdit: {
-						range: {start: {line: 6, character: 3}, end: {line: 6, character: 12}},
+						range: range(6, 3, 6, 12),
 						newText: 'Pagenamee',
 					},
 				},
@@ -148,7 +148,7 @@ describe('completionProvider', () => {
 					label: '__toc__',
 					kind: CompletionItemKind.Constant,
 					textEdit: {
-						range: {start: {line: 7, character: 0}, end: {line: 7, character: 3}},
+						range: range(7, 0, 7, 3),
 						newText: '__toc__',
 					},
 				},
@@ -164,7 +164,7 @@ describe('completionProvider', () => {
 					label: 'git://',
 					kind: CompletionItemKind.Reference,
 					textEdit: {
-						range: {start: {line: 8, character: 1}, end: {line: 8, character: 3}},
+						range: range(8, 1, 8, 3),
 						newText: 'git://',
 					},
 				},
@@ -180,7 +180,7 @@ describe('completionProvider', () => {
 					label: 'thumbnail',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: {start: {line: 9, character: 14}, end: {line: 9, character: 20}},
+						range: range(9, 14, 9, 20),
 						newText: 'thumbnail',
 					},
 				},
@@ -188,7 +188,7 @@ describe('completionProvider', () => {
 					label: 'thumbnail=',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: {start: {line: 9, character: 14}, end: {line: 9, character: 20}},
+						range: range(9, 14, 9, 20),
 						newText: 'thumbnail=',
 					},
 				},
@@ -204,7 +204,7 @@ describe('completionProvider', () => {
 					label: '100x100px',
 					kind: CompletionItemKind.Unit,
 					textEdit: {
-						range: {start: {line: 10, character: 14}, end: {line: 10, character: 15}},
+						range: range(10, 14, 10, 15),
 						newText: '100x100px',
 					},
 				},
@@ -212,7 +212,7 @@ describe('completionProvider', () => {
 					label: '100px',
 					kind: CompletionItemKind.Unit,
 					textEdit: {
-						range: {start: {line: 10, character: 14}, end: {line: 10, character: 15}},
+						range: range(10, 14, 10, 15),
 						newText: '100px',
 					},
 				},
@@ -228,7 +228,7 @@ describe('completionProvider', () => {
 					label: 'compact',
 					kind: CompletionItemKind.Field,
 					textEdit: {
-						range: {start: {line: 11, character: 6}, end: {line: 11, character: 7}},
+						range: range(11, 6, 11, 7),
 						newText: 'compact',
 					},
 				},
@@ -236,7 +236,7 @@ describe('completionProvider', () => {
 					label: 'class',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: {start: {line: 11, character: 6}, end: {line: 11, character: 7}},
+						range: range(11, 6, 11, 7),
 						newText: 'class',
 					},
 				},
@@ -252,7 +252,7 @@ describe('completionProvider', () => {
 					label: 'datatype',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: {start: {line: 12, character: 3}, end: {line: 12, character: 5}},
+						range: range(12, 3, 12, 5),
 						newText: 'datatype',
 					},
 				},
@@ -260,7 +260,7 @@ describe('completionProvider', () => {
 					label: 'data-',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
-						range: {start: {line: 12, character: 3}, end: {line: 12, character: 5}},
+						range: range(12, 3, 12, 5),
 						newText: 'data-',
 					},
 				},
@@ -276,7 +276,7 @@ describe('completionProvider', () => {
 					label: 'CC',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
-						range: {start: {line: 13, character: 6}, end: {line: 13, character: 8}},
+						range: range(13, 6, 13, 8),
 						newText: 'CC',
 					},
 				},

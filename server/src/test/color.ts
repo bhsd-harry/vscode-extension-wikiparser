@@ -1,6 +1,7 @@
 import * as assert from 'assert';
-import {getParams} from './util';
-import {provideDocumentColor} from '../color';
+import {Color} from 'vscode-languageserver/node';
+import {getParams, range} from './util';
+import {provideDocumentColor} from '../lsp';
 import type {ColorInformation} from 'vscode-languageserver/node';
 
 const wikitext = `
@@ -13,46 +14,28 @@ const wikitext = `
 `,
 	results: ColorInformation[] = [
 		{
-			range: {
-				start: {line: 1, character: 17},
-				end: {line: 1, character: 36},
-			},
-			color: {red: 1, green: 0, blue: 0, alpha: 0.7},
+			range: range(1, 17, 1, 36),
+			color: Color.create(1, 0, 0, 0.7),
 		},
 		{
-			range: {
-				start: {line: 2, character: 20},
-				end: {line: 2, character: 29},
-			},
-			color: {red: 0, green: 1, blue: 0, alpha: 1},
+			range: range(2, 20, 2, 29),
+			color: Color.create(0, 1, 0, 1),
 		},
 		{
-			range: {
-				start: {line: 3, character: 18},
-				end: {line: 3, character: 23},
-			},
-			color: {red: 1, green: 0, blue: 0, alpha: 0},
+			range: range(3, 18, 3, 23),
+			color: Color.create(1, 0, 0, 0),
 		},
 		{
-			range: {
-				start: {line: 4, character: 8},
-				end: {line: 4, character: 26},
-			},
-			color: {red: 0, green: 0, blue: 1, alpha: 0.5},
+			range: range(4, 8, 4, 26),
+			color: Color.create(0, 0, 1, 0.5),
 		},
 		{
-			range: {
-				start: {line: 5, character: 10},
-				end: {line: 5, character: 33},
-			},
-			color: {red: 1, green: 0, blue: 0, alpha: 0.5},
+			range: range(5, 10, 5, 33),
+			color: Color.create(1, 0, 0, 0.5),
 		},
 		{
-			range: {
-				start: {line: 6, character: 4},
-				end: {line: 6, character: 20},
-			},
-			color: {red: 1, green: 0, blue: 0, alpha: 1},
+			range: range(6, 4, 6, 20),
+			color: Color.create(1, 0, 0, 1),
 		},
 	];
 

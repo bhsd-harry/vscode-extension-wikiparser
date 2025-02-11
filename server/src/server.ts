@@ -27,7 +27,15 @@ import {
 import type {TextDocumentIdentifier, Connection} from 'vscode-languageserver/node';
 
 declare interface Settings {
-	lint: boolean;
+	linter: {
+		enable: boolean;
+		severity: 'errors only' | 'errors and warnings';
+	};
+	inlay: boolean;
+	completion: boolean;
+	color: boolean;
+	hover: boolean;
+	signature: boolean;
 	articlePath: string;
 }
 
@@ -44,7 +52,7 @@ try {
 	docs.listen(connection);
 } catch {}
 
-const getSettings = ({uri}: TextDocumentIdentifier): Promise<Settings> => {
+const getSetting = ({textDocument: {uri}}: {textDocument: TextDocumentIdentifier}): Promise<Settings> => {
 	if (!documentSettings.has(uri)) {
 		documentSettings.set(
 			uri,
@@ -101,27 +109,28 @@ connection?.onDidChangeConfiguration(() => {
 	connection.languages.diagnostics.refresh();
 });
 
-connection?.languages.diagnostics.on(async params => ({
-	kind: DocumentDiagnosticReportKind.Full,
-	items: (await getSettings(params.textDocument)).lint ? await provideDiagnostics(params) : [],
-}));
-connection?.languages.inlayHint.on(provideInlayHints);
+connection?.languages.diagnostics.on(async params => {
+	const {linter: {enable, severity}} = await getSetting(params);
+	return {
+		kind: DocumentDiagnosticReportKind.Full,
+		items: enable ? await provideDiagnostics(params, severity === 'errors and warnings') : [],
+	};
+});
+connection?.languages.inlayHint.on(async params => (await getSetting(params)).inlay ? provideInlayHints(params) : []);
 
 connection?.onCodeAction(provideCodeAction);
-connection?.onCompletion(provideCompletion);
-connection?.onDocumentColor(provideDocumentColor);
+connection?.onCompletion(async params => (await getSetting(params)).completion ? provideCompletion(params) : null);
+connection?.onDocumentColor(async params => (await getSetting(params)).color ? provideDocumentColor(params) : []);
 connection?.onColorPresentation(provideColorPresentation);
 connection?.onReferences(provideReferences);
 connection?.onDocumentHighlight(provideReferences);
 connection?.onDefinition(provideDefinition);
 connection?.onPrepareRename(prepareRename);
 connection?.onRenameRequest(provideRename);
-connection?.onDocumentLinks(
-	async ({textDocument}) => provideDocumentLinks(textDocument, (await getSettings(textDocument)).articlePath),
-);
+connection?.onDocumentLinks(async params => provideDocumentLinks(params, (await getSetting(params)).articlePath));
 connection?.onFoldingRanges(provideFoldingRanges);
 connection?.onDocumentSymbol(provideDocumentSymbol);
-connection?.onHover(provideHover);
-connection?.onSignatureHelp(provideSignatureHelp);
+connection?.onHover(async params => (await getSetting(params)).hover ? provideHover(params) : null);
+connection?.onSignatureHelp(async params => (await getSetting(params)).signature ? provideSignatureHelp(params) : null);
 
 connection?.listen();

@@ -5,22 +5,24 @@
 **Added**
 
 - Inlay hints for template anonymous parameters
+- Configuration options to disable inlay hints, code completions, color decorators, hovers, and parser function signature help
+- Configuration option to include warnings in diagnostics
+
+**Changed**
+
+- The configuration option to enable/disable diagnostics is now renamed from `wikiparser.lint` to `wikiparser.linter.enable`
 
 ## v1.1.0
 
 *2025-02-10*
 
-**Fixed**
-
-- Renaming of template parameter names
-
-## v1.0.7
-
-*2024-12-20*
-
 **Added**
 
 - Document link provider for the `link` parameter of images
+
+**Fixed**
+
+- Renaming of template parameter names
 
 ## v1.0.5
 

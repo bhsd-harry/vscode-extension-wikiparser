@@ -12,7 +12,7 @@ import type {
 	FoldingRange,
 	DocumentSymbol,
 	DocumentLink,
-	TextDocumentIdentifier,
+	DocumentLinkParams,
 	Range as TextRange,
 	Location as TextLocation,
 	WorkspaceEdit,
@@ -77,7 +77,10 @@ export const provideDocumentSymbol = ({textDocument: {uri}}: FoldingRangeParams)
 	return lsp.provideDocumentSymbols(doc);
 };
 
-export const provideDocumentLinks = ({uri}: TextDocumentIdentifier, path: string): Promise<DocumentLink[]> => {
+export const provideDocumentLinks = (
+	{textDocument: {uri}}: DocumentLinkParams,
+	path: string,
+): Promise<DocumentLink[]> => {
 	Parser.getConfig();
 	Object.assign(Parser.config, {articlePath: path});
 	const [doc, lsp] = getLSP(uri);
@@ -123,9 +126,12 @@ export const provideRename = async (
 	};
 };
 
-export const provideDiagnostics = ({textDocument: {uri}}: DocumentDiagnosticParams): Promise<Diagnostic[]> => {
+export const provideDiagnostics = (
+	{textDocument: {uri}}: DocumentDiagnosticParams,
+	warning: boolean,
+): Promise<Diagnostic[]> => {
 	const [doc, lsp] = getLSP(uri);
-	return lsp.provideDiagnostics(doc);
+	return lsp.provideDiagnostics(doc, warning);
 };
 
 export const provideCodeAction = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] =>

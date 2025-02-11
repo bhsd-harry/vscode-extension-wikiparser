@@ -8,6 +8,7 @@ import type {QuickFixData} from '../lsp';
 const wikitext = `
 http://a]
 </p>
+[
 `,
 	params = getParams(__filename, wikitext),
 	diagnostics: (Diagnostic & {data: QuickFixData[]})[] = [
@@ -41,6 +42,14 @@ http://a]
 				},
 			],
 		},
+		{
+			range: range(3, 0, 3, 1),
+			severity: 2,
+			source: 'WikiLint',
+			code: 'lonely-bracket',
+			message: 'lonely "["',
+			data: [],
+		},
 	],
 	actions: CodeAction[] = [
 		{
@@ -65,12 +74,15 @@ http://a]
 
 describe('diagnosticProvider', () => {
 	it('diagnostic', async () => {
-		assert.deepStrictEqual(await provideDiagnostics(params), diagnostics);
+		assert.deepStrictEqual(await provideDiagnostics(params, true), diagnostics);
 	});
 	it('quickFix', () => {
 		assert.deepStrictEqual(
 			provideCodeAction({...params, context: {diagnostics}} as unknown as CodeActionParams),
 			actions,
 		);
+	});
+	it('no warning', async () => {
+		assert.deepStrictEqual(await provideDiagnostics(params, false), diagnostics.slice(0, 2));
 	});
 });

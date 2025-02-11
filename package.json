@@ -29,10 +29,44 @@
 			"type": "object",
 			"title": "WikiParser Language Server",
 			"properties": {
-				"wikiparser.lint": {
+				"wikiparser.linter.enable": {
 					"type": "boolean",
 					"default": true,
-					"description": "Enable linting for Wikitext files."
+					"description": "Enable diagnostics for Wikitext files."
+				},
+				"wikiparser.linter.severity": {
+					"type": "string",
+					"default": "errors only",
+					"enum": [
+						"errors only",
+						"errors and warnings"
+					],
+					"description": "Severity of diagnostics to show."
+				},
+				"wikiparser.inlay": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable inlay hints for Wikitext files."
+				},
+				"wikiparser.completion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable code completions for Wikitext files."
+				},
+				"wikiparser.color": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable color decorators for Wikitext files."
+				},
+				"wikiparser.hover": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable hovers for Wikitext files."
+				},
+				"wikiparser.signature": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable parser function signature help for Wikitext files."
 				},
 				"wikiparser.articlePath": {
 					"type": "string",

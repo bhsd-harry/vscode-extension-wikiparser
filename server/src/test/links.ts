@@ -77,14 +77,14 @@ News:e
 	];
 
 describe('documentLinkProvider', () => {
-	const {textDocument} = getParams(__filename, wikitext);
+	const params = getParams(__filename, wikitext);
 	it('https://mediawiki.org/wiki/$1', async () => {
-		assert.deepStrictEqual(await provideDocumentLinks(textDocument, 'https://mediawiki.org/wiki/$1'), results);
+		assert.deepStrictEqual(await provideDocumentLinks(params, 'https://mediawiki.org/wiki/$1'), results);
 	});
 	it('https://mediawiki.org/wiki/', async () => {
-		assert.deepStrictEqual(await provideDocumentLinks(textDocument, 'https://mediawiki.org/wiki/'), results);
+		assert.deepStrictEqual(await provideDocumentLinks(params, 'https://mediawiki.org/wiki/'), results);
 	});
 	it('https://mediawiki.org/wiki', async () => {
-		assert.deepStrictEqual(await provideDocumentLinks(textDocument, 'https://mediawiki.org/wiki'), results);
+		assert.deepStrictEqual(await provideDocumentLinks(params, 'https://mediawiki.org/wiki'), results);
 	});
 });

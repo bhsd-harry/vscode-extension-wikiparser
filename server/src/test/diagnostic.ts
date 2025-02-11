@@ -64,10 +64,10 @@ http://a]
 	];
 
 describe('diagnosticProvider', () => {
-	it('Diagnostic', async () => {
+	it('diagnostic', async () => {
 		assert.deepStrictEqual(await provideDiagnostics(params), diagnostics);
 	});
-	it('QuickFix', () => {
+	it('quickFix', () => {
 		assert.deepStrictEqual(
 			provideCodeAction({...params, context: {diagnostics}} as unknown as CodeActionParams),
 			actions,

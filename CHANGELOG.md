@@ -1,3 +1,11 @@
+## v1.1.1
+
+*2025-02-12*
+
+**Added**
+
+- Inlay hints for template anonymous parameters
+
 ## v1.1.0
 
 *2025-02-10*

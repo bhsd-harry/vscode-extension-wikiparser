@@ -25,6 +25,8 @@ import type {
 	TextEdit,
 	Hover,
 	SignatureHelp,
+	InlayHintParams,
+	InlayHint,
 } from 'vscode-languageserver/node';
 import type {LanguageService} from 'wikilint';
 
@@ -148,4 +150,9 @@ export const provideSignatureHelp = (
 ): Promise<SignatureHelp | undefined> => {
 	const [doc, lsp] = getLSP(uri, true);
 	return lsp.provideSignatureHelp(doc, position);
+};
+
+export const provideInlayHints = ({textDocument: {uri}}: InlayHintParams): Promise<InlayHint[]> => {
+	const [doc, lsp] = getLSP(uri);
+	return lsp.provideInlayHints(doc);
 };

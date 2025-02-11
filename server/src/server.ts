@@ -22,6 +22,7 @@ import {
 	provideCodeAction,
 	provideHover,
 	provideSignatureHelp,
+	provideInlayHints,
 } from './lsp';
 import type {TextDocumentIdentifier, Connection} from 'vscode-languageserver/node';
 
@@ -85,6 +86,9 @@ connection?.onInitialize(() => ({
 		signatureHelpProvider: {
 			triggerCharacters: [':', '|'],
 		},
+		inlayHintProvider: {
+			resolveProvider: false,
+		},
 	},
 }));
 
@@ -97,40 +101,27 @@ connection?.onDidChangeConfiguration(() => {
 	connection.languages.diagnostics.refresh();
 });
 
-// diagnostic.ts
 connection?.languages.diagnostics.on(async params => ({
 	kind: DocumentDiagnosticReportKind.Full,
 	items: (await getSettings(params.textDocument)).lint ? await provideDiagnostics(params) : [],
 }));
+connection?.languages.inlayHint.on(provideInlayHints);
+
 connection?.onCodeAction(provideCodeAction);
-
-// completion.ts
 connection?.onCompletion(provideCompletion);
-
-// color.ts
 connection?.onDocumentColor(provideDocumentColor);
 connection?.onColorPresentation(provideColorPresentation);
-
-// reference.ts
 connection?.onReferences(provideReferences);
 connection?.onDocumentHighlight(provideReferences);
 connection?.onDefinition(provideDefinition);
 connection?.onPrepareRename(prepareRename);
 connection?.onRenameRequest(provideRename);
-
-// links.ts
 connection?.onDocumentLinks(
 	async ({textDocument}) => provideDocumentLinks(textDocument, (await getSettings(textDocument)).articlePath),
 );
-
-// folding.ts
 connection?.onFoldingRanges(provideFoldingRanges);
 connection?.onDocumentSymbol(provideDocumentSymbol);
-
-// hover.ts
 connection?.onHover(provideHover);
-
-// signature.ts
 connection?.onSignatureHelp(provideSignatureHelp);
 
 connection?.listen();

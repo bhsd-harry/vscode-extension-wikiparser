@@ -40,7 +40,7 @@ News:e
 		},
 		{
 			range: range(6, 0, 6, 24),
-			target: 'https://mediawiki.org/wiki/Special%3ABooksources%2F1234567890',
+			target: 'https://mediawiki.org/wiki/Special%3ABookSources%2F1234567890',
 		},
 		{
 			range: range(7, 1, 7, 4),
@@ -74,7 +74,7 @@ News:e
 			range: range(12, 14, 12, 17),
 			target: 'https://a/',
 		},
-	];
+	].reverse();
 
 describe('documentLinkProvider', () => {
 	const params = getParams(__filename, wikitext);

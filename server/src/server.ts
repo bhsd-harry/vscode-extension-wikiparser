@@ -3,11 +3,10 @@ import {
 	CodeActionKind,
 	DidChangeConfigurationNotification,
 	DocumentDiagnosticReportKind,
-	createConnection,
-	ProposedFeatures,
 } from 'vscode-languageserver/node';
 import {
 	docs,
+	connection,
 	provideDocumentColor,
 	provideColorPresentation,
 	provideCompletion,
@@ -24,7 +23,7 @@ import {
 	provideSignatureHelp,
 	provideInlayHints,
 } from './lsp';
-import type {TextDocumentIdentifier, Connection} from 'vscode-languageserver/node';
+import type {TextDocumentIdentifier, FullDocumentDiagnosticReport} from 'vscode-languageserver/node';
 
 declare interface Settings {
 	linter: {
@@ -44,13 +43,6 @@ const documentSettings = new Map<string, Promise<Settings>>();
 docs.onDidClose(({document}) => {
 	documentSettings.delete(document.uri);
 });
-
-let connection: Connection | undefined;
-
-try {
-	connection = createConnection(ProposedFeatures.all);
-	docs.listen(connection);
-} catch {}
 
 const getSetting = ({textDocument: {uri}}: {textDocument: TextDocumentIdentifier}): Promise<Settings> => {
 	if (!documentSettings.has(uri)) {
@@ -101,15 +93,15 @@ connection?.onInitialize(() => ({
 }));
 
 connection?.onInitialized(() => {
-	void connection.client.register(DidChangeConfigurationNotification.type);
+	void connection!.client.register(DidChangeConfigurationNotification.type);
 });
 
 connection?.onDidChangeConfiguration(() => {
 	documentSettings.clear();
-	connection.languages.diagnostics.refresh();
+	connection!.languages.diagnostics.refresh();
 });
 
-connection?.languages.diagnostics.on(async params => {
+connection?.languages.diagnostics.on(async (params): Promise<FullDocumentDiagnosticReport> => {
 	const {linter: {enable, severity}} = await getSetting(params);
 	return {
 		kind: DocumentDiagnosticReportKind.Full,

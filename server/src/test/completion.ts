@@ -5,11 +5,11 @@ import {provideCompletion} from '../lsp';
 
 const wikitext = `
 <Im
-{{{ a }}}
-[[ a ]]
+{{{ a }}}{{{aa}}}
+[[ b ]]
 [[ : file : b ]]
 {{ #Ifexp
-{{ pagenamee }}
+{{ pagenamee }}{{PageNamee}}
 __T
 [Gi
 [[ file : c | Thumbnail | 100x100px ]]
@@ -17,6 +17,7 @@ __T
 <poem C
 <p Da
 {{ c | c | CC = }}
+{| st
 `;
 
 describe('completionProvider', () => {
@@ -49,11 +50,11 @@ describe('completionProvider', () => {
 			await provideCompletion(getPositionParams(__filename, wikitext, 2, 5)),
 			[
 				{
-					label: 'a',
+					label: 'aa',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
 						range: range(2, 4, 2, 5),
-						newText: 'a',
+						newText: 'aa',
 					},
 				},
 			],
@@ -62,14 +63,14 @@ describe('completionProvider', () => {
 	it('link completion', async () => {
 		assert.deepStrictEqual(
 			(await provideCompletion(getPositionParams(__filename, wikitext, 3, 4)))
-				?.filter(({label}) => /^a/iu.test(label)),
+				?.filter(({label}) => /b/iu.test(label)),
 			[
 				{
-					label: 'A',
+					label: 'File:B',
 					kind: CompletionItemKind.Folder,
 					textEdit: {
 						range: range(3, 3, 3, 4),
-						newText: 'A',
+						newText: 'File:B',
 					},
 				},
 			],
@@ -80,14 +81,6 @@ describe('completionProvider', () => {
 			(await provideCompletion(getPositionParams(__filename, wikitext, 4, 11)))
 				?.filter(({label}) => /^file:/iu.test(label)),
 			[
-				{
-					label: 'File:B',
-					kind: CompletionItemKind.Folder,
-					textEdit: {
-						range: range(4, 5, 4, 11),
-						newText: 'File:B',
-					},
-				},
 				{
 					label: 'File:C',
 					kind: CompletionItemKind.Folder,
@@ -129,11 +122,11 @@ describe('completionProvider', () => {
 					},
 				},
 				{
-					label: 'Pagenamee',
+					label: 'PageNamee',
 					kind: CompletionItemKind.Folder,
 					textEdit: {
 						range: range(6, 3, 6, 12),
-						newText: 'Pagenamee',
+						newText: 'PageNamee',
 					},
 				},
 			],
@@ -208,14 +201,6 @@ describe('completionProvider', () => {
 						newText: '100x100px',
 					},
 				},
-				{
-					label: '100px',
-					kind: CompletionItemKind.Unit,
-					textEdit: {
-						range: range(10, 14, 10, 15),
-						newText: '100px',
-					},
-				},
 			],
 		);
 	});
@@ -277,7 +262,23 @@ describe('completionProvider', () => {
 					kind: CompletionItemKind.Variable,
 					textEdit: {
 						range: range(13, 6, 13, 8),
-						newText: 'CC',
+						newText: 'CC=',
+					},
+				},
+			],
+		);
+	});
+	it('table attribute completion', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 5)))
+				?.filter(({label}) => label.startsWith('st')),
+			[
+				{
+					label: 'style',
+					kind: CompletionItemKind.Property,
+					textEdit: {
+						range: range(14, 3, 14, 5),
+						newText: 'style',
 					},
 				},
 			],

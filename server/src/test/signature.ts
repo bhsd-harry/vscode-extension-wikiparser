@@ -4,7 +4,7 @@ import {provideSignatureHelp} from '../lsp';
 
 const wikitext = `
 {{ #invoke: a | b | c | d }}
-{{ PAGENAME }}
+{{ PAGENAME: }}
 {{ PAGESIZE: a | R }}
 `;
 
@@ -68,13 +68,9 @@ describe('signatureHelpProvider', () => {
 	});
 	it('PAGENAME-1', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 2, 11)),
+			await provideSignatureHelp(getPositionParams(__filename, wikitext, 2, 2)),
 			{
 				signatures: [
-					{
-						label: '{{PAGENAME}}',
-						parameters: [],
-					},
 					{
 						label: '{{PAGENAME:page name}}',
 						parameters: [{label: 'page name'}],

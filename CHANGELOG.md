@@ -1,6 +1,6 @@
 ## v1.1.1
 
-*2025-02-12*
+*2025-02-21*
 
 **Added**
 
@@ -10,19 +10,16 @@
 
 **Changed**
 
+- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.16.4](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1164)
 - The configuration option to enable/disable diagnostics is now renamed from `wikiparser.lint` to `wikiparser.linter.enable`
 
 ## v1.1.0
 
 *2025-02-10*
 
-**Added**
+**Changed**
 
-- Document link provider for the `link` parameter of images
-
-**Fixed**
-
-- Renaming of template parameter names
+- All language server features are now directly provided by the [WikiLint](https://npmjs.com/package/wikilint) package [v2.16.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1161)
 
 ## v1.0.5
 

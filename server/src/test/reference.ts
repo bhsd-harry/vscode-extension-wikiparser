@@ -14,7 +14,7 @@ const wikitext = `
 {{ e | e = }}
 {{Template:E|e=}}
 <ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' />
+<ref group = " f " name = ' f ' />
 <b></b>
 <references group = f />
 [[file:g|thumbnail]]
@@ -107,7 +107,7 @@ describe('referencesProvider', () => {
 					uri: __filename,
 				},
 				{
-					range: range(12, 0, 12, 37),
+					range: range(12, 0, 12, 34),
 					uri: __filename,
 				},
 			],
@@ -201,7 +201,7 @@ describe('referencesProvider', () => {
 					uri: __filename,
 				},
 				{
-					range: range(12, 30, 12, 33),
+					range: range(12, 27, 12, 30),
 					uri: __filename,
 				},
 			],
@@ -231,10 +231,10 @@ describe('referencesProvider', () => {
 describe('definitionProvider', () => {
 	it('ref name', async () => {
 		assert.deepStrictEqual(
-			await provideDefinition(getPositionParams(__filename, wikitext, 12, 32)),
+			await provideDefinition(getPositionParams(__filename, wikitext, 12, 28)),
 			[
 				{
-					range: range(11, 22, 11, 23),
+					range: range(11, 25, 11, 26),
 					uri: __filename,
 				},
 			],
@@ -320,20 +320,16 @@ describe('renameProvider', () => {
 	});
 	it('prepare: link-target', async () => {
 		assert.deepStrictEqual(
-			await prepareRename(getPositionParams(__filename, wikitext, 7, 4)),
-			range(7, 2, 7, 12),
+			await prepareRename(getPositionParams(__filename, wikitext, 8, 4)),
+			range(8, 2, 8, 11),
 		);
 	});
 	it('rename: link-target', async () => {
 		assert.deepStrictEqual(
-			await provideRename({...getPositionParams(__filename, wikitext, 7, 4), newName: 'x'}),
+			await provideRename({...getPositionParams(__filename, wikitext, 8, 4), newName: 'x'}),
 			{
 				changes: {
 					[__filename]: [
-						{
-							range: range(7, 2, 7, 12),
-							newText: 'x',
-						},
 						{
 							range: range(8, 2, 8, 11),
 							newText: 'x',
@@ -385,7 +381,7 @@ describe('renameProvider', () => {
 							newText: 'x',
 						},
 						{
-							range: range(12, 30, 12, 33),
+							range: range(12, 27, 12, 30),
 							newText: 'x',
 						},
 					],

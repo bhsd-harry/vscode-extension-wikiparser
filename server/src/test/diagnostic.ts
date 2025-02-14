@@ -11,7 +11,7 @@ http://a]
 [
 `,
 	params = getParams(__filename, wikitext),
-	diagnostics: (Diagnostic & {data: QuickFixData[]})[] = [
+	diagnostics: (Omit<Diagnostic, 'data'> & {data: QuickFixData[]})[] = [
 		{
 			range: range(1, 8, 1, 9),
 			severity: 1,
@@ -58,7 +58,7 @@ http://a]
 			diagnostics: [diagnostics[0]!],
 			isPreferred: true,
 			edit: {
-				changes: {[params.textDocument.uri]: diagnostics[0]!.data satisfies QuickFixData[]},
+				changes: {[params.textDocument.uri]: diagnostics[0]!.data},
 			},
 		},
 		{
@@ -67,7 +67,7 @@ http://a]
 			diagnostics: [diagnostics[1]!],
 			isPreferred: false,
 			edit: {
-				changes: {[params.textDocument.uri]: diagnostics[1]!.data satisfies QuickFixData[]},
+				changes: {[params.textDocument.uri]: diagnostics[1]!.data},
 			},
 		},
 	];

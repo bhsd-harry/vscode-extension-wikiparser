@@ -1,7 +1,8 @@
 import Parser from 'wikilint';
-import {CompletionItemKind, TextDocuments} from 'vscode-languageserver/node';
+import {CompletionItemKind, TextDocuments, createConnection, ProposedFeatures} from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
 import type {
+	Connection,
 	ColorInformation,
 	DocumentColorParams,
 	ColorPresentation,
@@ -35,7 +36,20 @@ export interface QuickFixData extends TextEdit {
 	fix: boolean;
 }
 
-export const docs = new TextDocuments(TextDocument);
+export const docs = new TextDocuments(TextDocument),
+
+	/** `connection?.console.debug()` 可以用于调试 */
+	connection = ((): Connection | undefined => {
+		try {
+			return createConnection(ProposedFeatures.all);
+		} catch {
+			return undefined;
+		}
+	})();
+
+if (connection) {
+	docs.listen(connection);
+}
 
 const uris = new WeakMap<TextDocument, Record<never, never>>();
 
@@ -57,11 +71,12 @@ export const provideDocumentColor = async (
 export const provideColorPresentation = (param: ColorPresentationParams): ColorPresentation[] =>
 	getLSP(param.textDocument.uri)[1].provideColorPresentations(param);
 
+// 有时 VSCode 不会触发自动补全，需要手动触发
 export const provideCompletion = async (
 	{textDocument: {uri}, position}: CompletionParams,
 ): Promise<CompletionItem[] | undefined> => {
 	const [doc, lsp] = getLSP(uri);
-	return (await lsp.provideCompletionItems(doc, position))?.map(item => ({
+	return (await lsp.provideCompletionItems(doc, position))?.map((item): CompletionItem => ({
 		...item,
 		kind: CompletionItemKind[item.kind],
 	}));
@@ -91,7 +106,7 @@ export const provideReferences = async (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,
 ): Promise<TextLocation[] | undefined> => {
 	const [doc, lsp] = getLSP(uri);
-	return (await lsp.provideReferences(doc, position))?.map(location => ({
+	return (await lsp.provideReferences(doc, position))?.map((location): TextLocation => ({
 		...location,
 		uri,
 	}));
@@ -101,7 +116,7 @@ export const provideDefinition = async (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,
 ): Promise<TextLocation[] | undefined> => {
 	const [doc, lsp] = getLSP(uri);
-	return (await lsp.provideDefinition(doc, position))?.map(location => ({
+	return (await lsp.provideDefinition(doc, position))?.map((location): TextLocation => ({
 		...location,
 		uri,
 	}));
@@ -135,14 +150,15 @@ export const provideDiagnostics = (
 };
 
 export const provideCodeAction = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] =>
-	getLSP(uri)[1].provideCodeAction(diagnostics).map((action): CodeAction => ({
-		...action,
-		edit: {
-			changes: {
-				[uri]: action.edit!.changes!['']!,
+	getLSP(uri)[1].provideCodeAction(diagnostics as Required<Diagnostic>[])
+		.map((action): CodeAction => ({
+			...action,
+			edit: {
+				changes: {
+					[uri]: action.edit!.changes!['']!,
+				},
 			},
-		},
-	}));
+		}));
 
 export const provideHover = (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,

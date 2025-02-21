@@ -20,7 +20,17 @@ const wikitext = `
 [[file:g|thumbnail]]
 == h ==
 == i ==
-`;
+`,
+	headings = [
+		{
+			range: range(16, 0, 16, 7),
+			uri: __filename,
+		},
+		{
+			range: range(17, 0, 17, 7),
+			uri: __filename,
+		},
+	];
 
 describe('referencesProvider', () => {
 	it('arg-name', async () => {
@@ -165,31 +175,13 @@ describe('referencesProvider', () => {
 	it('heading-title', async () => {
 		assert.deepStrictEqual(
 			await provideReferences(getPositionParams(__filename, wikitext, 16, 4)),
-			[
-				{
-					range: range(16, 0, 16, 7),
-					uri: __filename,
-				},
-				{
-					range: range(17, 0, 17, 7),
-					uri: __filename,
-				},
-			],
+			headings,
 		);
 	});
 	it('heading', async () => {
 		assert.deepStrictEqual(
 			await provideReferences(getPositionParams(__filename, wikitext, 16, 1)),
-			[
-				{
-					range: range(16, 0, 16, 7),
-					uri: __filename,
-				},
-				{
-					range: range(17, 0, 17, 7),
-					uri: __filename,
-				},
-			],
+			headings,
 		);
 	});
 	it('attr-value#name', async () => {

@@ -51,14 +51,9 @@ if (connection) {
 	docs.listen(connection);
 }
 
-const uris = new WeakMap<TextDocument, Record<never, never>>();
-
-const getLSP = (uri: string, signature?: boolean): [string, LanguageService] => {
+const getLSP = (uri: string): [string, LanguageService] => {
 	const doc = docs.get(uri)!;
-	if (signature && !uris.has(doc)) {
-		uris.set(doc, {});
-	}
-	return [doc.getText(), Parser.createLanguageService(signature ? uris.get(doc)! : doc)];
+	return [doc.getText(), Parser.createLanguageService(doc)];
 };
 
 export const provideDocumentColor = async (
@@ -170,7 +165,7 @@ export const provideHover = (
 export const provideSignatureHelp = (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,
 ): Promise<SignatureHelp | undefined> => {
-	const [doc, lsp] = getLSP(uri, true);
+	const [doc, lsp] = getLSP(uri);
 	return lsp.provideSignatureHelp(doc, position);
 };
 

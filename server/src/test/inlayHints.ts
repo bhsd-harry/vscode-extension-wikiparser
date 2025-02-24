@@ -12,7 +12,10 @@ const wikitext = `
 describe('inlayHintsProvider', () => {
 	it('anonymous parameter', async () => {
 		assert.deepStrictEqual(
-			await provideInlayHints({...getParams(__filename, wikitext), range: range(0, 0, 0, 0)}),
+			await provideInlayHints({
+				...getParams(__filename, wikitext),
+				range: range(0, 0, 0, 0),
+			}),
 			[
 				{
 					position: {line: 2, character: 1},

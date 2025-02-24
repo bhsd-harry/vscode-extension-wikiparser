@@ -293,7 +293,10 @@ describe('renameProvider', () => {
 	});
 	it('rename: magic-word-name', async () => {
 		assert.deepStrictEqual(
-			await provideRename({...getPositionParams(__filename, wikitext, 5, 4), newName: 'PAGENAMEE'}),
+			await provideRename({
+				...getPositionParams(__filename, wikitext, 5, 4),
+				newName: 'PAGENAMEE',
+			}),
 			{
 				changes: {
 					[__filename]: [

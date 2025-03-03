@@ -175,11 +175,77 @@ describe('diagnosticProvider (JSON)', () => {
 	});
 });
 
+describe('diagnosticProvider (CSS)', () => {
+	it('ext-attr', async () => {
+		assert.deepStrictEqual(
+			await provideDiagnostics(
+				getParams(__filename, '<poem style=""/>'),
+				true,
+			),
+			[
+				{
+					range: range(0, 13, 0, 13),
+					severity: 2,
+					source: 'css',
+					code: 'emptyRules',
+					message: 'Do not use empty rulesets',
+				},
+			],
+		);
+	});
+	it('html-attr', async () => {
+		assert.deepStrictEqual(
+			await provideDiagnostics(
+				getParams(__filename, '<br style=display:inline-block;float:right>'),
+				true,
+			),
+			[
+				{
+					range: range(0, 31, 0, 42),
+					severity: 2,
+					source: 'css',
+					code: 'propertyIgnoredDueToDisplay',
+					message: 'inline-block is ignored due to the float. '
+						+ "If 'float' has a value other than 'none', "
+						+ "the box is floated and 'display' is treated as 'block'",
+				},
+			],
+		);
+	});
+	it('table-attr', async () => {
+		assert.deepStrictEqual(
+			await provideDiagnostics(
+				getParams(__filename, '{|style=unknown:0\n|}'),
+				true,
+			),
+			[
+				{
+					range: range(0, 8, 0, 15),
+					severity: 2,
+					source: 'css',
+					code: 'unknownProperties',
+					message: "Unknown property: 'unknown'",
+				},
+			],
+		);
+	});
+});
+
 describe('diagnosticProvider (mixed)', () => {
 	it('templatedata', async () => {
 		assert.deepStrictEqual(
 			await provideDiagnostics(
-				getParams(__filename, '{\n<graph>[1 2]</graph>\n<maplink>1,</maplink>'),
+				getParams(
+					__filename,
+					`{
+<graph>[1 2]</graph>
+<maplink>1,</maplink>
+<pre style=x/>
+<hr style="color:#01234">
+{|
+|-style=-webkit-user-select:none;cursor:url(hand.cur)
+|}`,
+				),
 				true,
 			),
 			[
@@ -190,6 +256,42 @@ describe('diagnosticProvider (mixed)', () => {
 					code: 'lonely-bracket',
 					message: 'lonely "{"',
 					data: [],
+				},
+				{
+					range: range(6, 8, 6, 53),
+					severity: 1,
+					source: 'WikiLint',
+					code: 'insecure-style',
+					message: 'insecure style',
+					data: [],
+				},
+				{
+					range: range(6, 8, 6, 27),
+					severity: 2,
+					source: 'css',
+					code: 'vendorPrefix',
+					message: "Also define the standard property 'user-select' for compatibility",
+				},
+				{
+					range: range(4, 17, 4, 23),
+					severity: 1,
+					source: 'css',
+					code: 'css-propertyvalueexpected',
+					message: 'property value expected',
+				},
+				{
+					range: range(3, 12, 3, 12),
+					severity: 1,
+					source: 'css',
+					code: 'css-semicolonexpected',
+					message: 'semi-colon expected',
+				},
+				{
+					range: range(3, 12, 3, 12),
+					severity: 1,
+					source: 'css',
+					code: 'css-colonexpected',
+					message: 'colon expected',
 				},
 				{
 					range: range(2, 10, 2, 11),

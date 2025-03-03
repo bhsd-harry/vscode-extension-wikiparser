@@ -86,6 +86,7 @@
 	"dependencies": {
 		"@bhsd/common": "^0.6.6",
 		"color-rgba": "^3.0.0",
+		"vscode-css-languageservice": "^6.3.2",
 		"vscode-json-languageservice": "^5.4.3",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",

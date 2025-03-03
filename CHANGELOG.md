@@ -5,6 +5,7 @@
 **Added**
 
 - Diagnostics for JSON embedded in extension tags (`templatedata`, `mapframe`, `maplink`, and `graph`)
+- Diagnostics for inline CSS of extension tags, HTML tags, and tables
 
 ## v1.1.1
 

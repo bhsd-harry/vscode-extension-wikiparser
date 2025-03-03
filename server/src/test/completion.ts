@@ -17,7 +17,8 @@ __T
 <poem C
 <p Da
 {{ c | c | CC = }}
-{| st
+{| style=user-select:none;us
+<templatedata>{"d":""}</templatedata>
 `;
 
 describe('completionProvider', () => {
@@ -261,7 +262,7 @@ describe('completionProvider', () => {
 					label: 'CC',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
-						range: range(13, 6, 13, 8),
+						range: range(13, 7, 13, 8),
 						newText: 'CC=',
 					},
 				},
@@ -279,6 +280,74 @@ describe('completionProvider', () => {
 					textEdit: {
 						range: range(14, 3, 14, 5),
 						newText: 'style',
+					},
+				},
+			],
+		);
+	});
+	it('inline CSS key completion', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 11)))
+				?.filter(({label}) => label.startsWith('us'))
+				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
+			[
+				{
+					label: 'user-select',
+					kind: CompletionItemKind.Property,
+					textEdit: {
+						range: range(14, 9, 14, 20),
+						newText: 'user-select',
+					},
+				},
+			],
+		);
+	});
+	it('inline CSS key completion 2', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 28)))
+				?.filter(({label}) => label.startsWith('us'))
+				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
+			[
+				{
+					label: 'user-select',
+					kind: CompletionItemKind.Property,
+					textEdit: {
+						range: range(14, 26, 14, 28),
+						newText: 'user-select:$0;',
+					},
+				},
+			],
+		);
+	});
+	it('inline CSS value completion', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 22)))
+				?.filter(({label}) => label.startsWith('n'))
+				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
+			[
+				{
+					label: 'none',
+					kind: CompletionItemKind.Value,
+					textEdit: {
+						range: range(14, 21, 14, 25),
+						newText: 'none',
+					},
+				},
+			],
+		);
+	});
+	it('JSON schema completion', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 15, 17)))
+				?.filter(({label}) => label.startsWith('d'))
+				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
+			[
+				{
+					label: 'description',
+					kind: CompletionItemKind.Property,
+					textEdit: {
+						range: range(15, 15, 15, 18),
+						newText: '"description"',
 					},
 				},
 			],

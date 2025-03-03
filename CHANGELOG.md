@@ -1,11 +1,15 @@
 ## v1.2.0
 
-*2025-03-03*
+*2025-03-08*
 
 **Added**
 
-- Diagnostics for JSON embedded in extension tags (`templatedata`, `mapframe`, `maplink`, and `graph`)
-- Diagnostics for inline CSS of extension tags, HTML tags, and tables
+- Diagnostics, hover and completion for JSON embedded in extension tags (`templatedata`, `mapframe`, `maplink`, and `graph`)
+- Diagnostics, hover and completion for inline CSS of extension tags, HTML tags, and tables
+
+**Changed**
+
+- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.17.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1171)
 
 ## v1.1.1
 

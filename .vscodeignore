@@ -6,6 +6,7 @@ personal_access_token
 assets/
 **/test/
 */src/
+**/.schema.json
 **/tsconfig.json
 *.sh
 .eslintcache*

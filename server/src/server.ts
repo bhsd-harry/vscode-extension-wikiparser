@@ -17,12 +17,12 @@ import {
 	provideDefinition,
 	prepareRename,
 	provideRename,
+	provideDiagnostics,
 	provideCodeAction,
 	provideHover,
 	provideSignatureHelp,
 	provideInlayHints,
 } from './lsp';
-import {provideDiagnostics} from './diagnostics';
 import type {TextDocumentIdentifier, FullDocumentDiagnosticReport} from 'vscode-languageserver/node';
 
 declare interface Settings {

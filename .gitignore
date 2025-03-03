@@ -1,5 +1,7 @@
 node_modules/
 dist/
+/data/
+/server/config
 /.vscode/settings.json
 /.eslintcache
 /page.wiki

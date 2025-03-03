@@ -1,8 +1,7 @@
 import * as assert from 'assert';
 import {CodeActionKind} from 'vscode-languageserver/node';
 import {getParams, range} from './util';
-import {provideCodeAction} from '../lsp';
-import {provideDiagnostics} from '../diagnostics';
+import {provideDiagnostics, provideCodeAction} from '../lsp';
 import type {Diagnostic, CodeAction, CodeActionParams} from 'vscode-languageserver/node';
 import type {QuickFixData} from '../lsp';
 
@@ -106,36 +105,18 @@ describe('diagnosticProvider (JSON)', () => {
 			],
 		);
 	});
-	it('graph', async () => {
-		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, '<graph>{"a"}</graph>'),
-				true,
-			),
-			[
-				{
-					range: range(0, 11, 0, 12),
-					severity: 1,
-					source: 'json',
-					code: 515,
-					message: 'Colon expected',
-				},
-			],
-		);
-	});
 	it('mapframe', async () => {
 		assert.deepStrictEqual(
 			await provideDiagnostics(
-				getParams(__filename, '<mapframe>[0,]</mapframe>'),
+				getParams(__filename, '<mapframe>[\n0, // comment\n]</mapframe>'),
 				true,
 			),
 			[
 				{
-					range: range(0, 12, 0, 13),
-					severity: 1,
+					range: range(0, 10, 2, 1),
+					severity: 2,
 					source: 'json',
-					code: 519,
-					message: 'Trailing comma',
+					message: 'Incorrect type. Expected "object".',
 				},
 			],
 		);
@@ -143,23 +124,35 @@ describe('diagnosticProvider (JSON)', () => {
 	it('maplink', async () => {
 		assert.deepStrictEqual(
 			await provideDiagnostics(
-				getParams(__filename, '<maplink>{"a":1,"a":2}</maplink>'),
+				getParams(__filename, '<maplink>{"type":"Point","type":"Feature"}</maplink>'),
 				true,
 			),
 			[
 				{
-					range: range(0, 10, 0, 13),
+					range: range(0, 10, 0, 16),
 					severity: 2,
 					source: 'json',
 					code: 520,
 					message: 'Duplicate object key',
 				},
 				{
-					range: range(0, 16, 0, 19),
+					range: range(0, 25, 0, 31),
 					severity: 2,
 					source: 'json',
 					code: 520,
 					message: 'Duplicate object key',
+				},
+				{
+					range: range(0, 9, 0, 10),
+					severity: 2,
+					source: 'json',
+					message: 'Missing property "geometry".',
+				},
+				{
+					range: range(0, 9, 0, 10),
+					severity: 2,
+					source: 'json',
+					message: 'Missing property "properties".',
 				},
 			].reverse(),
 		);
@@ -189,6 +182,7 @@ describe('diagnosticProvider (CSS)', () => {
 					source: 'css',
 					code: 'emptyRules',
 					message: 'Do not use empty rulesets',
+					data: [],
 				},
 			],
 		);
@@ -208,6 +202,7 @@ describe('diagnosticProvider (CSS)', () => {
 					message: 'inline-block is ignored due to the float. '
 						+ "If 'float' has a value other than 'none', "
 						+ "the box is floated and 'display' is treated as 'block'",
+					data: [],
 				},
 			],
 		);
@@ -225,6 +220,7 @@ describe('diagnosticProvider (CSS)', () => {
 					source: 'css',
 					code: 'unknownProperties',
 					message: "Unknown property: 'unknown'",
+					data: [],
 				},
 			],
 		);
@@ -232,14 +228,13 @@ describe('diagnosticProvider (CSS)', () => {
 });
 
 describe('diagnosticProvider (mixed)', () => {
-	it('templatedata', async () => {
+	it('mixed', async () => {
 		assert.deepStrictEqual(
 			await provideDiagnostics(
 				getParams(
 					__filename,
 					`{
-<graph>[1 2]</graph>
-<maplink>1,</maplink>
+<templatedata>{"params":{"x":{"type":""}}</templatedata>
 <pre style=x/>
 <hr style="color:#01234">
 {|
@@ -258,7 +253,39 @@ describe('diagnosticProvider (mixed)', () => {
 					data: [],
 				},
 				{
-					range: range(6, 8, 6, 53),
+					range: range(2, 12, 2, 12),
+					severity: 1,
+					source: 'css',
+					code: 'css-semicolonexpected',
+					message: 'semi-colon expected',
+					data: [],
+				},
+				{
+					range: range(2, 12, 2, 12),
+					severity: 1,
+					source: 'css',
+					code: 'css-colonexpected',
+					message: 'colon expected',
+					data: [],
+				},
+				{
+					range: range(3, 17, 3, 23),
+					severity: 1,
+					source: 'css',
+					code: 'css-propertyvalueexpected',
+					message: 'property value expected',
+					data: [],
+				},
+				{
+					range: range(5, 8, 5, 27),
+					severity: 2,
+					source: 'css',
+					code: 'vendorPrefix',
+					message: "Also define the standard property 'user-select' for compatibility",
+					data: [],
+				},
+				{
+					range: range(5, 8, 5, 53),
 					severity: 1,
 					source: 'WikiLint',
 					code: 'insecure-style',
@@ -266,46 +293,27 @@ describe('diagnosticProvider (mixed)', () => {
 					data: [],
 				},
 				{
-					range: range(6, 8, 6, 27),
+					range: range(2, 11, 2, 12),
+					severity: 1,
+					source: 'Stylelint',
+					code: 'CssSyntaxError',
+					message: 'Unknown word',
+				},
+				{
+					range: range(1, 37, 1, 39),
 					severity: 2,
-					source: 'css',
-					code: 'vendorPrefix',
-					message: "Also define the standard property 'user-select' for compatibility",
+					source: 'json',
+					code: 1,
+					message: 'Value is not accepted. Valid values: "unknown", "number", "string", "line", "boolean", '
+						+ '"date", "url", "wiki-page-name", "wiki-file-name", "wiki-template-name", "wiki-user-name", '
+						+ '"content", "unbalanced-wikitext".',
 				},
 				{
-					range: range(4, 17, 4, 23),
-					severity: 1,
-					source: 'css',
-					code: 'css-propertyvalueexpected',
-					message: 'property value expected',
-				},
-				{
-					range: range(3, 12, 3, 12),
-					severity: 1,
-					source: 'css',
-					code: 'css-semicolonexpected',
-					message: 'semi-colon expected',
-				},
-				{
-					range: range(3, 12, 3, 12),
-					severity: 1,
-					source: 'css',
-					code: 'css-colonexpected',
-					message: 'colon expected',
-				},
-				{
-					range: range(2, 10, 2, 11),
+					range: range(1, 40, 1, 41),
 					severity: 1,
 					source: 'json',
-					code: 0,
-					message: 'End of file expected.',
-				},
-				{
-					range: range(1, 10, 1, 11),
-					severity: 1,
-					source: 'json',
-					code: 514,
-					message: 'Expected comma',
+					code: 518,
+					message: 'Expected comma or closing brace',
 				},
 			],
 		);

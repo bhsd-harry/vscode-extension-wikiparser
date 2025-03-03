@@ -1,4 +1,4 @@
-import Parser from 'wikilint';
+import Parser from 'wikilint'; // eslint-disable-line n/no-unpublished-import
 import {CompletionItemKind, TextDocuments, createConnection, ProposedFeatures} from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
 import type {
@@ -19,6 +19,7 @@ import type {
 	WorkspaceEdit,
 	TextDocumentPositionParams,
 	RenameParams,
+	DocumentDiagnosticParams,
 	Diagnostic,
 	CodeActionParams,
 	CodeAction,
@@ -28,7 +29,7 @@ import type {
 	InlayHintParams,
 	InlayHint,
 } from 'vscode-languageserver/node';
-import type {LanguageService} from 'wikilint';
+import type {LanguageService} from 'wikilint'; // eslint-disable-line n/no-unpublished-import
 
 export interface QuickFixData extends TextEdit {
 	title: string;
@@ -50,7 +51,7 @@ if (connection) {
 	docs.listen(connection);
 }
 
-export const getLSP = (uri: string): [string, LanguageService] => {
+const getLSP = (uri: string): [string, LanguageService] => {
 	const doc = docs.get(uri)!;
 	return [doc.getText(), Parser.createLanguageService(doc)];
 };
@@ -70,10 +71,14 @@ export const provideCompletion = async (
 	{textDocument: {uri}, position}: CompletionParams,
 ): Promise<CompletionItem[] | undefined> => {
 	const [doc, lsp] = getLSP(uri);
-	return (await lsp.provideCompletionItems(doc, position))?.map((item): CompletionItem => ({
-		...item,
-		kind: CompletionItemKind[item.kind],
-	}));
+	return (await lsp.provideCompletionItems(doc, position))?.map(
+		(item): CompletionItem => item.kind
+			? {
+				...item,
+				kind: typeof item.kind === 'string' ? CompletionItemKind[item.kind] : item.kind,
+			}
+			: item as CompletionItem,
+	);
 };
 
 export const provideFoldingRanges = ({textDocument: {uri}}: FoldingRangeParams): Promise<FoldingRange[]> => {
@@ -135,16 +140,23 @@ export const provideRename = async (
 	};
 };
 
+export const provideDiagnostics = (
+	{textDocument: {uri}}: DocumentDiagnosticParams,
+	warning: boolean,
+): Promise<Diagnostic[]> => {
+	const [doc, lsp] = getLSP(uri);
+	return lsp.provideDiagnostics(doc, warning);
+};
+
 export const provideCodeAction = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] =>
-	getLSP(uri)[1].provideCodeAction(diagnostics.filter(({data}) => data) as Required<Diagnostic>[])
-		.map((action): CodeAction => ({
-			...action,
-			edit: {
-				changes: {
-					[uri]: action.edit!.changes!['']!,
-				},
+	getLSP(uri)[1].provideCodeAction(diagnostics).map((action): CodeAction => ({
+		...action,
+		edit: {
+			changes: {
+				[uri]: action.edit!.changes!['']!,
 			},
-		}));
+		},
+	}));
 
 export const provideHover = (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,

@@ -37,7 +37,7 @@ const wikitext = `
 			range: range(6, 4, 6, 20),
 			color: Color.create(1, 0, 0, 1),
 		},
-	];
+	].reverse();
 
 describe('colorProvider', () => {
 	it('ColorInformation', async () => {

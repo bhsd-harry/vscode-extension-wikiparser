@@ -30,7 +30,7 @@ const wikitext = `
 			range: range(17, 0, 17, 7),
 			uri: __filename,
 		},
-	];
+	].reverse();
 
 describe('referencesProvider', () => {
 	it('arg-name', async () => {
@@ -45,7 +45,7 @@ describe('referencesProvider', () => {
 					range: range(2, 3, 2, 4),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('template-name', async () => {
@@ -60,7 +60,7 @@ describe('referencesProvider', () => {
 					range: range(4, 2, 4, 18),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('magic-word-name', async () => {
@@ -75,7 +75,7 @@ describe('referencesProvider', () => {
 					range: range(6, 2, 6, 10),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('link-target', async () => {
@@ -90,7 +90,7 @@ describe('referencesProvider', () => {
 					range: range(8, 2, 8, 11),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('parameter-key', async () => {
@@ -105,7 +105,7 @@ describe('referencesProvider', () => {
 					range: range(10, 13, 10, 15),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('ext', async () => {
@@ -120,7 +120,7 @@ describe('referencesProvider', () => {
 					range: range(12, 0, 12, 34),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('html', async () => {
@@ -135,7 +135,7 @@ describe('referencesProvider', () => {
 					range: range(13, 3, 13, 7),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('attr-key', async () => {
@@ -154,7 +154,7 @@ describe('referencesProvider', () => {
 					range: range(14, 12, 14, 17),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('image-parameter', async () => {
@@ -169,7 +169,7 @@ describe('referencesProvider', () => {
 					range: range(15, 9, 15, 18),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('heading-title', async () => {
@@ -196,7 +196,7 @@ describe('referencesProvider', () => {
 					range: range(12, 27, 12, 30),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 	it('attr-value#group', async () => {
@@ -215,7 +215,7 @@ describe('referencesProvider', () => {
 					range: range(14, 20, 14, 21),
 					uri: __filename,
 				},
-			],
+			].reverse(),
 		);
 	});
 });
@@ -255,7 +255,7 @@ describe('renameProvider', () => {
 							range: range(2, 3, 2, 4),
 							newText: 'x',
 						},
-					],
+					].reverse(),
 				},
 			},
 		);
@@ -280,7 +280,7 @@ describe('renameProvider', () => {
 							range: range(4, 2, 4, 18),
 							newText: 'x',
 						},
-					],
+					].reverse(),
 				},
 			},
 		);
@@ -308,7 +308,7 @@ describe('renameProvider', () => {
 							range: range(6, 2, 6, 10),
 							newText: 'PAGENAMEE',
 						},
-					],
+					].reverse(),
 				},
 			},
 		);
@@ -354,7 +354,7 @@ describe('renameProvider', () => {
 							range: range(10, 13, 10, 14),
 							newText: 'x',
 						},
-					],
+					].reverse(),
 				},
 			},
 		);
@@ -379,7 +379,7 @@ describe('renameProvider', () => {
 							range: range(12, 27, 12, 30),
 							newText: 'x',
 						},
-					],
+					].reverse(),
 				},
 			},
 		);
@@ -408,7 +408,7 @@ describe('renameProvider', () => {
 							range: range(14, 20, 14, 21),
 							newText: 'x',
 						},
-					],
+					].reverse(),
 				},
 			},
 		);

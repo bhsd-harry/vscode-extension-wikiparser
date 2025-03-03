@@ -1,3 +1,11 @@
+## v1.2.0
+
+*2025-03-03*
+
+**Added**
+
+- Diagnostics for JSON embedded in extension tags (`templatedata`, `mapframe`, `maplink`, and `graph`)
+
 ## v1.1.1
 
 *2025-02-21*

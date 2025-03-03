@@ -19,7 +19,6 @@ import type {
 	WorkspaceEdit,
 	TextDocumentPositionParams,
 	RenameParams,
-	DocumentDiagnosticParams,
 	Diagnostic,
 	CodeActionParams,
 	CodeAction,
@@ -51,7 +50,7 @@ if (connection) {
 	docs.listen(connection);
 }
 
-const getLSP = (uri: string): [string, LanguageService] => {
+export const getLSP = (uri: string): [string, LanguageService] => {
 	const doc = docs.get(uri)!;
 	return [doc.getText(), Parser.createLanguageService(doc)];
 };
@@ -136,16 +135,8 @@ export const provideRename = async (
 	};
 };
 
-export const provideDiagnostics = (
-	{textDocument: {uri}}: DocumentDiagnosticParams,
-	warning: boolean,
-): Promise<Diagnostic[]> => {
-	const [doc, lsp] = getLSP(uri);
-	return lsp.provideDiagnostics(doc, warning);
-};
-
 export const provideCodeAction = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] =>
-	getLSP(uri)[1].provideCodeAction(diagnostics as Required<Diagnostic>[])
+	getLSP(uri)[1].provideCodeAction(diagnostics.filter(({data}) => data) as Required<Diagnostic>[])
 		.map((action): CodeAction => ({
 			...action,
 			edit: {

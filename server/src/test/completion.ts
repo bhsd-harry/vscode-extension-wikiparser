@@ -105,6 +105,17 @@ describe('completionProvider', () => {
 						range: range(5, 3, 5, 9),
 						newText: '#ifexpr',
 					},
+					documentation: {
+						kind: 'markdown',
+						value: 'This function evaluates a mathematical expression and returns one of two strings '
+							+ 'depending on the boolean value of the result.\n\n'
+							+ 'The `expression` input is evaluated exactly as for `#expr`, '
+							+ 'with the same operators being available. '
+							+ 'The output is then evaluated as a boolean expression.\n\n'
+							+ 'An empty input expression evaluates to `false`.\n\n'
+							+ 'An empty or wrong input expression (an error message is treated as an empty string; '
+							+ 'it is not equal to zero, so we get `value if true`).',
+					},
 				},
 			],
 		);
@@ -120,6 +131,10 @@ describe('completionProvider', () => {
 					textEdit: {
 						range: range(6, 3, 6, 12),
 						newText: 'PAGENAMEE',
+					},
+					documentation: {
+						kind: 'markdown',
+						value: 'URL encoded full page title (including all subpage levels) without the namespace.',
 					},
 				},
 				{
@@ -144,6 +159,12 @@ describe('completionProvider', () => {
 					textEdit: {
 						range: range(7, 0, 7, 3),
 						newText: '__toc__',
+					},
+					documentation: {
+						kind: 'markdown',
+						value: "Places a table of contents at the word's current position (overriding `__NOTOC__`). "
+							+ 'If this is used multiple times, '
+							+ "the table of contents will appear at the first word's position.",
 					},
 				},
 			],

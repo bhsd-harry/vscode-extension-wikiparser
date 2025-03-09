@@ -2,7 +2,6 @@
 if [[ $2 == 'npm' ]]
 then
 	npx vsce publish
-	rm -rf data server/config
 else
 	npm run lint && npm run build && npm test
 	if [[ $? -eq 0 ]]

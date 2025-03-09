@@ -49,6 +49,11 @@ export const docs = new TextDocuments(TextDocument),
 
 if (connection) {
 	docs.listen(connection);
+	connection.onShutdown(() => {
+		for (const doc of docs.all()) {
+			Parser.createLanguageService(doc).destroy();
+		}
+	});
 }
 
 const getLSP = (uri: string): [string, LanguageService] => {
@@ -143,8 +148,10 @@ export const provideRename = async (
 export const provideDiagnostics = (
 	{textDocument: {uri}}: DocumentDiagnosticParams,
 	warning: boolean,
+	lilypond = '',
 ): Promise<Diagnostic[]> => {
 	const [doc, lsp] = getLSP(uri);
+	lsp.lilypond = lilypond;
 	return lsp.provideDiagnostics(doc, warning);
 };
 

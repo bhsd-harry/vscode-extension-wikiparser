@@ -29,6 +29,7 @@ declare interface Settings {
 	linter: {
 		enable: boolean;
 		severity: 'errors only' | 'errors and warnings';
+		lilypond: string;
 	};
 	inlay: boolean;
 	completion: boolean;
@@ -102,10 +103,10 @@ connection?.onDidChangeConfiguration(() => {
 });
 
 connection?.languages.diagnostics.on(async (params): Promise<FullDocumentDiagnosticReport> => {
-	const {linter: {enable, severity}} = await getSetting(params);
+	const {linter: {enable, severity, lilypond}} = await getSetting(params);
 	return {
 		kind: DocumentDiagnosticReportKind.Full,
-		items: enable ? await provideDiagnostics(params, severity === 'errors and warnings') : [],
+		items: enable ? await provideDiagnostics(params, severity === 'errors and warnings', lilypond) : [],
 	};
 });
 connection?.languages.inlayHint.on(async params => (await getSetting(params)).inlay ? provideInlayHints(params) : []);

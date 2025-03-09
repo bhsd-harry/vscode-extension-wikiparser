@@ -1,6 +1,10 @@
-## v1.2.1
+## v1.3.0
 
 *2025-03-11*
+
+**Added**
+
+- Configuration option to enable diagnostics for `score` extension tag with the path to the [LilyPond](https://lilypond.org) executable
 
 **Changed**
 

@@ -8,6 +8,7 @@ import {
 import {
 	docs,
 	connection,
+	getLSP,
 	provideDocumentColor,
 	provideColorPresentation,
 	provideCompletion,
@@ -42,6 +43,9 @@ declare interface Settings {
 
 const documentSettings = new Map<string, Promise<Settings>>();
 
+docs.onDidOpen(({document}) => {
+	void setTarget(document);
+});
 docs.onDidClose(({document}) => {
 	documentSettings.delete(document.uri);
 });
@@ -54,6 +58,16 @@ const getSetting = ({textDocument: {uri}}: {textDocument: TextDocumentIdentifier
 		);
 	}
 	return documentSettings.get(uri)!;
+};
+
+const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
+	const {articlePath} = await getSetting({textDocument: doc}),
+		[, lsp] = getLSP(doc.uri);
+	try {
+		await lsp.setTargetWikipedia(articlePath);
+	} catch {
+		lsp.config = Parser.getConfig();
+	}
 };
 
 connection?.onInitialize(() => ({
@@ -101,6 +115,9 @@ connection?.onInitialized(() => {
 connection?.onDidChangeConfiguration(() => {
 	documentSettings.clear();
 	connection!.languages.diagnostics.refresh();
+	for (const doc of docs.all()) {
+		void setTarget(doc);
+	}
 });
 
 connection?.languages.diagnostics.on(async (params): Promise<FullDocumentDiagnosticReport> => {

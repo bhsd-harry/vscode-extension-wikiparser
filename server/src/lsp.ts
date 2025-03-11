@@ -60,6 +60,7 @@ export const provideDocumentColor = async (
 	{textDocument: {uri}}: DocumentColorParams,
 ): Promise<ColorInformation[]> => {
 	const [doc, lsp] = getLSP(uri);
+	// eslint-disable-next-line n/no-unpublished-import
 	return lsp.provideDocumentColors((await import('color-rgba')).default, doc);
 };
 
@@ -97,10 +98,9 @@ export const provideDocumentLinks = (
 ): Promise<DocumentLink[]> => {
 	const [doc, lsp] = getLSP(uri);
 	if (lsp.config?.articlePath !== path) {
-		lsp.config = {
-			...lsp.config ?? Parser.getConfig(),
+		lsp.config = Object.assign(lsp.config ?? Parser.getConfig(), {
 			articlePath: path,
-		};
+		});
 	}
 	return lsp.provideLinks(doc);
 };

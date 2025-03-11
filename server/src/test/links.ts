@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import {getParams, range} from './util';
-import {provideDocumentLinks} from '../lsp';
+import {provideDocumentLinks, getLSP} from '../lsp';
 import type {DocumentLink} from 'vscode-languageserver/node';
 
 const wikitext = `
@@ -77,14 +77,16 @@ News:e
 	].reverse();
 
 describe('documentLinkProvider', () => {
-	const params = getParams(__filename, wikitext);
-	it('https://mediawiki.org/wiki/$1', async () => {
-		assert.deepStrictEqual(await provideDocumentLinks(params, 'https://mediawiki.org/wiki/$1'), results);
-	});
-	it('https://mediawiki.org/wiki/', async () => {
-		assert.deepStrictEqual(await provideDocumentLinks(params, 'https://mediawiki.org/wiki/'), results);
-	});
-	it('https://mediawiki.org/wiki', async () => {
-		assert.deepStrictEqual(await provideDocumentLinks(params, 'https://mediawiki.org/wiki'), results);
-	});
+	const paths = [
+		'https://mediawiki.org/wiki/$1',
+		'https://mediawiki.org/wiki/',
+		'https://mediawiki.org/wiki',
+	];
+	for (const articlePath of paths) {
+		it(articlePath, async () => {
+			const links = await provideDocumentLinks(getParams(articlePath, wikitext), articlePath);
+			assert.strictEqual(getLSP(articlePath)[1].config?.articlePath, articlePath);
+			assert.deepStrictEqual(links, results);
+		});
+	}
 });

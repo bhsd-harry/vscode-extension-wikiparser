@@ -29,7 +29,7 @@ import type {
 	InlayHintParams,
 	InlayHint,
 } from 'vscode-languageserver/node';
-import type {LanguageService} from 'wikilint'; // eslint-disable-line n/no-unpublished-import
+import type {LanguageService, Config} from 'wikilint'; // eslint-disable-line n/no-unpublished-import
 
 export interface QuickFixData extends TextEdit {
 	title: string;
@@ -49,14 +49,9 @@ export const docs = new TextDocuments(TextDocument),
 
 if (connection) {
 	docs.listen(connection);
-	connection.onShutdown(() => {
-		for (const doc of docs.all()) {
-			Parser.createLanguageService(doc).destroy();
-		}
-	});
 }
 
-const getLSP = (uri: string): [string, LanguageService] => {
+export const getLSP = (uri: string): [string, LanguageService & {config?: Config}] => {
 	const doc = docs.get(uri)!;
 	return [doc.getText(), Parser.createLanguageService(doc)];
 };
@@ -100,9 +95,13 @@ export const provideDocumentLinks = (
 	{textDocument: {uri}}: DocumentLinkParams,
 	path: string,
 ): Promise<DocumentLink[]> => {
-	Parser.getConfig();
-	Object.assign(Parser.config, {articlePath: path});
 	const [doc, lsp] = getLSP(uri);
+	if (lsp.config?.articlePath !== path) {
+		lsp.config = {
+			...lsp.config ?? Parser.getConfig(),
+			articlePath: path,
+		};
+	}
 	return lsp.provideLinks(doc);
 };
 

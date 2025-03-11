@@ -1,3 +1,4 @@
+import Parser from 'wikilint'; // eslint-disable-line n/no-unpublished-import
 import {
 	TextDocumentSyncKind,
 	CodeActionKind,
@@ -125,5 +126,11 @@ connection?.onFoldingRanges(provideFoldingRanges);
 connection?.onDocumentSymbol(provideDocumentSymbol);
 connection?.onHover(async params => (await getSetting(params)).hover ? provideHover(params) : null);
 connection?.onSignatureHelp(async params => (await getSetting(params)).signature ? provideSignatureHelp(params) : null);
+
+connection?.onShutdown(() => {
+	for (const doc of docs.all()) {
+		Parser.createLanguageService(doc).destroy();
+	}
+});
 
 connection?.listen();

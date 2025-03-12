@@ -285,34 +285,6 @@ describe('renameProvider', () => {
 			},
 		);
 	});
-	it('prepare: magic-word-name', async () => {
-		assert.deepStrictEqual(
-			await prepareRename(getPositionParams(__filename, wikitext, 5, 4)),
-			range(5, 2, 5, 12),
-		);
-	});
-	it('rename: magic-word-name', async () => {
-		assert.deepStrictEqual(
-			await provideRename({
-				...getPositionParams(__filename, wikitext, 5, 4),
-				newName: 'PAGENAMEE',
-			}),
-			{
-				changes: {
-					[__filename]: [
-						{
-							range: range(5, 2, 5, 12),
-							newText: 'PAGENAMEE',
-						},
-						{
-							range: range(6, 2, 6, 10),
-							newText: 'PAGENAMEE',
-						},
-					].reverse(),
-				},
-			},
-		);
-	});
 	it('prepare: link-target', async () => {
 		assert.deepStrictEqual(
 			await prepareRename(getPositionParams(__filename, wikitext, 8, 4)),

@@ -1,4 +1,4 @@
-import Parser from 'wikilint'; // eslint-disable-line n/no-unpublished-import
+import path from 'path';
 import {
 	TextDocumentSyncKind,
 	CodeActionKind,
@@ -6,6 +6,7 @@ import {
 	DocumentDiagnosticReportKind,
 } from 'vscode-languageserver/node';
 import {
+	Parser,
 	docs,
 	connection,
 	getLSP,
@@ -39,6 +40,7 @@ declare interface Settings {
 	hover: boolean;
 	signature: boolean;
 	articlePath: string;
+	config: string;
 }
 
 const documentSettings = new Map<string, Promise<Settings>>();
@@ -61,8 +63,18 @@ const getSetting = ({textDocument: {uri}}: {textDocument: TextDocumentIdentifier
 };
 
 const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
-	const {articlePath} = await getSetting({textDocument: doc}),
+	const setting = await getSetting({textDocument: doc}),
+		{articlePath, config} = setting,
 		[, lsp] = getLSP(doc.uri);
+	if (config) {
+		try {
+			lsp.config = Parser.getConfig(
+				// eslint-disable-next-line @typescript-eslint/no-require-imports
+				require(path.isAbsolute(config) ? config : path.join('..', '..', config)) as Parser.Config,
+			);
+			return;
+		} catch {}
+	}
 	try {
 		await lsp.setTargetWikipedia(articlePath);
 	} catch {
@@ -100,7 +112,7 @@ connection?.onInitialize(() => ({
 		},
 		hoverProvider: true,
 		signatureHelpProvider: {
-			triggerCharacters: [':', '|'],
+			triggerCharacters: [':', '：', '|'],
 		},
 		inlayHintProvider: {
 			resolveProvider: false,
@@ -115,9 +127,11 @@ connection?.onInitialized(() => {
 connection?.onDidChangeConfiguration(() => {
 	documentSettings.clear();
 	connection!.languages.diagnostics.refresh();
-	for (const doc of docs.all()) {
-		void setTarget(doc);
-	}
+	(async () => {
+		for (const doc of docs.all()) {
+			await setTarget(doc);
+		}
+	})();
 });
 
 connection?.languages.diagnostics.on(async (params): Promise<FullDocumentDiagnosticReport> => {
@@ -148,6 +162,9 @@ connection?.onShutdown(() => {
 	for (const doc of docs.all()) {
 		Parser.createLanguageService(doc).destroy();
 	}
+});
+connection?.onExit(() => {
+	connection!.dispose();
 });
 
 connection?.listen();

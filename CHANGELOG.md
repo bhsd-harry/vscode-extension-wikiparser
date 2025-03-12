@@ -1,15 +1,16 @@
 ## v1.3.0
 
-*2025-03-12*
+*2025-03-15*
 
 **Added**
 
 - Configuration option to enable diagnostics for `score` extension tag with the path to the [LilyPond](https://lilypond.org) executable
 - When setting the `wikiparser.articlePath` to Wikipedia, the parser configuration will be automatically updated
+- Configuration option to specify the path to the parser configuration file
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.18.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1181)
+- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.18.2](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1182)
 
 ## v1.2.0
 

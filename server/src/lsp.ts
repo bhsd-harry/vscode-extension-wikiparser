@@ -36,6 +36,8 @@ export interface QuickFixData extends TextEdit {
 	fix: boolean;
 }
 
+export {Parser};
+
 export const docs = new TextDocuments(TextDocument),
 
 	/** `connection?.console.debug()` 可以用于调试 */

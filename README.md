@@ -11,30 +11,6 @@ This is a language server extension for Visual Studio Code that provides languag
 
 You can install this extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser).
 
-## Usage
-
-This extension does not activate automatically. The server exists as an asset at the location: `server/dist/server.js`. You can call this asset from any extension, for example:
-
-```js
-const path = require('path'),
-	{extensions} = require('vscode'),
-	{LanguageClient} = require('vscode-languageclient/node');
-
-const {extensionPath} = extensions.getExtension('Bhsd.vscode-extension-wikiparser');
-new LanguageClient(
-	'WikiParser Language Server',
-	{
-		run: {module: path.join(extensionPath, 'server', 'dist', 'server.js')},
-	},
-	{
-		documentSelector: [
-			{scheme: 'file', language: 'wikitext'},
-			{scheme: 'untitled', language: 'wikitext'},
-		],
-	},
-).start();
-```
-
 ## Features
 
 ### Linting and quick fixes, offered by [WikiLint](https://npmjs.com/package/wikilint)
@@ -70,3 +46,44 @@ new LanguageClient(
 ### Inlay hints
 *Available since version 1.1.1*
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/inlay.png?raw=true" width="550" alt="Inlay hints"></div>
+
+## Configuration
+
+| Configuration | Description | Default |
+| :----- | :---------- | :------ |
+| `wikiparser.articlePath` | Specify the article path of the wiki site.<br>Also set the parser configuration automatically for all language editions of Wikipedia. | |
+| `wikiparser.config` | Manually specifiy the path to the parser configuration file. | |
+| `wikiparser.linter.enable` | Enable diagnostics. | `true` |
+| `wikiparser.linter.severity` | Display or hide warnings. | `errors only` |
+| `wikiparser.linter.lilypond` | Specify the path to the LilyPond executable to lint `<score>`. | |
+| `wikiparser.completion` | Enable auto-completion. | `true` |
+| `wikiparser.color` | Enable color decorators. | `true` |
+| `wikiparser.hover` | Enable hover information. | `true` |
+| `wikiparser.inlay` | Enable inlay hints for anonymous template/module parameters. | `true` |
+| `wikiparser.signature` | Enable parser function signature help. | `true` |
+
+## Usage
+
+This extension does not activate automatically. The server exists as an asset at the location: `server/dist/server.js`. You can call this asset from any extension, for example:
+
+```js
+const path = require('path'),
+	{extensions} = require('vscode'),
+	{LanguageClient} = require('vscode-languageclient/node');
+
+const {extensionPath} = extensions.getExtension('Bhsd.vscode-extension-wikiparser');
+new LanguageClient(
+	'WikiParser Language Server',
+	{
+		run: {module: path.join(extensionPath, 'server', 'dist', 'server.js')},
+	},
+	{
+		documentSelector: [
+			{scheme: 'file', language: 'wikitext'},
+			{scheme: 'untitled', language: 'wikitext'},
+		],
+	},
+).start();
+```
+
+If the [Wikitext](https://marketplace.visualstudio.com/items?itemName=RoweWilsonFrederiskHolme.wikitext) extension is installed, this extension will automatically activate by setting the `wikitext.wikiparser.enable` configuration to `true`.

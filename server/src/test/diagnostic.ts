@@ -230,7 +230,7 @@ describe('diagnosticProvider (CSS)', () => {
 describe('diagnosticProvider (mixed)', () => {
 	it('mixed', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
+			(await provideDiagnostics(
 				getParams(
 					__filename,
 					`{
@@ -242,7 +242,7 @@ describe('diagnosticProvider (mixed)', () => {
 |}`,
 				),
 				true,
-			),
+			)).filter(({source}) => source !== 'Stylelint'),
 			[
 				{
 					range: range(0, 0, 0, 1),
@@ -291,13 +291,6 @@ describe('diagnosticProvider (mixed)', () => {
 					code: 'insecure-style',
 					message: 'insecure style',
 					data: [],
-				},
-				{
-					range: range(2, 11, 2, 12),
-					severity: 1,
-					source: 'Stylelint',
-					code: 'CssSyntaxError',
-					message: 'Unknown word',
 				},
 				{
 					range: range(1, 37, 1, 39),

@@ -67,4 +67,18 @@ String.raw`Controls the appearance of selection\.
 			range: range(5, 15, 5, 28),
 		});
 	});
+	it('HTML attribute name', async () => {
+		assert.deepStrictEqual(await provideHover(getPositionParams(__filename, wikitext, 4, 4)), {
+			contents: {
+				kind: 'markdown',
+				value: 'Contains [CSS](https://developer.mozilla.org/docs/Web/CSS) styling declarations to be applied '
+					+ 'to the element. Note that it is recommended for styles to be defined in a separate file or '
+					+ 'files. This attribute and the [`<style>`]('
+					+ 'https://developer.mozilla.org/docs/Web/HTML/Element/style "The HTML <style> element contains '
+					+ 'style information for a document, or part of a document.") element have mainly the purpose of '
+					+ 'allowing for quick styling, for example for testing purposes.',
+			},
+			range: range(4, 3, 4, 8),
+		});
+	});
 });

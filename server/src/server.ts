@@ -70,7 +70,9 @@ const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 		try {
 			lsp.config = Parser.getConfig(
 				// eslint-disable-next-line @typescript-eslint/no-require-imports
-				require(path.isAbsolute(config) ? config : path.join('..', '..', config)) as Parser.Config,
+				require(
+					path.isAbsolute(config) ? config : path.join('..', '..', config),
+				) as Parser.ConfigData,
 			);
 			return;
 		} catch {}

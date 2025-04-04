@@ -1,3 +1,11 @@
+## v1.3.3
+
+*2025-04-16*
+
+**Changed**
+
+- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.20.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1200)
+
 ## v1.3.2
 
 *2025-04-04*

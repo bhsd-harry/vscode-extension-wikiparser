@@ -88,7 +88,7 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run build",
-		"build": "tsc --project server/tsconfig.json && esbuild server/src/lsp.ts --charset=utf8 --bundle --target=es2023 --platform=node --external:chalk --external:entities --external:stylelint --external:vscode-languageserver --external:vscode-languageserver-textdocument --external:vscode-css-languageservice --external:vscode-json-languageservice --external:vscode-html-languageservice --outdir=server/dist && mkdir -p server/config && cp -r node_modules/wikilint/config . && mv config/default.json server/config/ && cp -r node_modules/wikilint/data .",
+		"build": "bash build.sh",
 		"test": "mocha",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",
 		"lint": "npm run lint:ts"

@@ -50,9 +50,11 @@ Number of wiki pages.`,
 			contents: {
 				kind: 'markdown',
 				value:
-String.raw`Controls the appearance of selection\.
+String.raw`🚨️ Property is nonstandard. Avoid using it.
 
-(Chrome, Safari 3)`,
+Controls the appearance of selection\.
+
+Syntax: auto | text | none | all`,
 			},
 			range: range(4, 9, 4, 33),
 		});

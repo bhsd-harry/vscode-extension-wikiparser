@@ -1,3 +1,15 @@
+## v1.3.4
+
+*2025-04-26*
+
+**Added**
+
+- Configuration option to enable diagnostics for `math` and `chem` extension tags with the path to the [Mathjax](https://npmjs.com/package/mathjax) package
+
+**Changed**
+
+- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.20.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1201)
+
 ## v1.3.3
 
 *2025-04-16*

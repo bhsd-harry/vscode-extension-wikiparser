@@ -106,7 +106,7 @@
 		"vscode-languageserver-textdocument": "^1.0.12"
 	},
 	"devDependencies": {
-		"@bhsd/common": "^0.9.3",
+		"@bhsd/common": "^0.10.1",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
 		"@types/color-rgba": "^2.1.3",
@@ -129,11 +129,11 @@
 		"eslint-plugin-unicorn": "^56.0.1",
 		"http-server": "^14.1.1",
 		"mocha": "^11.1.0",
-		"stylelint": "^16.14.1",
-		"stylelint-config-recommended": "^15.0.0",
+		"stylelint": "^16.19.1",
+		"stylelint-config-recommended": "^16.0.0",
 		"typescript": "^5.8.2",
 		"v8r": "^4.2.1",
-		"wikilint": "^2.20.1"
+		"wikilint": "^2.20.3"
 	},
 	"engines": {
 		"node": ">=20.9.0",

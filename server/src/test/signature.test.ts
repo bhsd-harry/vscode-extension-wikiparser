@@ -9,7 +9,7 @@ const wikitext = `
 `;
 
 describe('signatureHelpProvider', () => {
-	it('#invoke-1', async () => {
+	it('#invoke', async () => {
 		assert.deepStrictEqual(
 			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 12)),
 			{
@@ -27,8 +27,6 @@ describe('signatureHelpProvider', () => {
 				activeParameter: 0,
 			},
 		);
-	});
-	it('#invoke-2', async () => {
 		assert.deepStrictEqual(
 			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 16)),
 			{
@@ -46,8 +44,6 @@ describe('signatureHelpProvider', () => {
 				activeParameter: 1,
 			},
 		);
-	});
-	it('#invoke-4', async () => {
 		assert.deepStrictEqual(
 			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 25)),
 			{
@@ -66,7 +62,7 @@ describe('signatureHelpProvider', () => {
 			},
 		);
 	});
-	it('PAGENAME-1', async () => {
+	it('PAGENAME', async () => {
 		assert.deepStrictEqual(
 			await provideSignatureHelp(getPositionParams(__filename, wikitext, 2, 2)),
 			{
@@ -80,7 +76,7 @@ describe('signatureHelpProvider', () => {
 			},
 		);
 	});
-	it('PAGESIZE-1', async () => {
+	it('PAGESIZE', async () => {
 		assert.deepStrictEqual(
 			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 13)),
 			{
@@ -96,8 +92,6 @@ describe('signatureHelpProvider', () => {
 				activeParameter: 0,
 			},
 		);
-	});
-	it('PAGESIZE-2', async () => {
 		assert.deepStrictEqual(
 			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 17)),
 			{

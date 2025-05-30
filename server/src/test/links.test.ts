@@ -4,7 +4,7 @@ import {provideDocumentLinks, getLSP} from '../lsp';
 import type {DocumentLink} from 'vscode-languageserver/node';
 
 const wikitext = `
-[[ : help : a ]]
+[[ : help : a#a ]]
 {{ b }}
 {{ #invoke: c | c }}
 RFC 1
@@ -16,11 +16,12 @@ News:e
 <q cite = "HTTPS://G/G">
 [[file:a|link=a]]
 [[file:a|link=//a]]
+{{filepath: h }}
 `,
 	results: DocumentLink[] = [
 		{
-			range: range(1, 2, 1, 14),
-			target: 'https://mediawiki.org/wiki/Help%3AA',
+			range: range(1, 2, 1, 16),
+			target: 'https://mediawiki.org/wiki/Help%3AA#a',
 		},
 		{
 			range: range(2, 2, 2, 5),
@@ -74,6 +75,10 @@ News:e
 			range: range(12, 14, 12, 17),
 			target: 'https://a/',
 		},
+		{
+			range: range(13, 11, 13, 14),
+			target: 'https://mediawiki.org/wiki/File%3AH',
+		},
 	].reverse();
 
 describe('documentLinkProvider', () => {
@@ -81,6 +86,7 @@ describe('documentLinkProvider', () => {
 		'https://mediawiki.org/wiki/$1',
 		'https://mediawiki.org/wiki/',
 		'https://mediawiki.org/wiki',
+		'//mediawiki.org/wiki/$1',
 	];
 	for (const articlePath of paths) {
 		it(articlePath, async () => {

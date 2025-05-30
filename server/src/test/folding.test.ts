@@ -4,10 +4,10 @@ import {getParams, range} from './util';
 import {provideFoldingRanges, provideDocumentSymbol} from '../lsp';
 import type {FoldingRange, DocumentSymbol} from 'vscode-languageserver/node';
 
-const foldingRange = (startLine: number, endLine: number): FoldingRange => ({
+const foldingRange = (startLine: number, endLine: number, kind = FoldingRangeKind.Region): FoldingRange => ({
 	startLine,
 	endLine,
-	kind: FoldingRangeKind.Region,
+	kind,
 });
 
 const wikitext = `
@@ -40,7 +40,14 @@ y }} z
 === 4 ===
  |} x
 
-`,
+{{a|
+<templatedata>{
+	"paramOrder": [
+		"a",
+		"b"
+	]
+}</templatedata>
+}}`,
 	foldingRanges: FoldingRange[] = [
 		foldingRange(15, 17),
 		foldingRange(7, 19),
@@ -49,8 +56,11 @@ y }} z
 		foldingRange(3, 22),
 		foldingRange(20, 22),
 		foldingRange(25, 27),
-		foldingRange(23, 30),
-		foldingRange(27, 30),
+		foldingRange(30, 36),
+		foldingRange(23, 37),
+		foldingRange(27, 37),
+		foldingRange(32, 34, 'array'),
+		foldingRange(31, 35, 'object'),
 	],
 	symbols: DocumentSymbol[] = [
 		{
@@ -92,13 +102,13 @@ y }} z
 		{
 			name: '4_3',
 			kind: SymbolKind.String,
-			range: range(23, 0, 30, 0),
+			range: range(23, 0, 37, 2),
 			selectionRange: range(23, 0, 23, 5),
 			children: [
 				{
 					name: '4_4',
 					kind: SymbolKind.String,
-					range: range(27, 0, 30, 0),
+					range: range(27, 0, 37, 2),
 					selectionRange: range(27, 0, 27, 9),
 				},
 			],

@@ -3,10 +3,10 @@ import {CompletionItemKind} from 'vscode-languageserver/node';
 import {getPositionParams, range} from './util';
 import {provideCompletion} from '../lsp';
 
-const wikitext = `
-<Im
-{{{ a }}}{{{aa}}}
-[[ b ]]
+const wikitext = String.raw`
+<Im </Im
+{{{ a }}}{{{1}}}
+[[ a ]][[:AA]]
 [[ : file : b ]]
 {{ #Ifexp
 {{ pagenamee }}{{PageNamee}}
@@ -15,10 +15,14 @@ __T
 [[ file : c | Thumbnail | 100x100px ]]
 [[ file : c | 100px ]]
 <poem C
+<ref n
 <p Da
-{{ c | c | CC = }}
-{| style=user-select:none;us
+{{ c | ca= | CC = }}
+{| style="" dir=l
+<p style=user-select:none;us>
 <templatedata>{"d":""}</templatedata>
+<score>\rel</score>
+<math chem>\ce</math>
 `;
 
 describe('completionProvider', () => {
@@ -45,17 +49,39 @@ describe('completionProvider', () => {
 				},
 			],
 		);
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 1, 8)))
+				?.filter(({label}) => label.startsWith('im')),
+			[
+				{
+					label: 'imagemap',
+					kind: CompletionItemKind.Class,
+					textEdit: {
+						range: range(1, 6, 1, 8),
+						newText: 'imagemap>',
+					},
+				},
+				{
+					label: 'img',
+					kind: CompletionItemKind.Class,
+					textEdit: {
+						range: range(1, 6, 1, 8),
+						newText: 'img>',
+					},
+				},
+			],
+		);
 	});
 	it('argument completion', async () => {
 		assert.deepStrictEqual(
 			await provideCompletion(getPositionParams(__filename, wikitext, 2, 5)),
 			[
 				{
-					label: 'aa',
+					label: '1',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
 						range: range(2, 4, 2, 5),
-						newText: 'aa',
+						newText: '1',
 					},
 				},
 			],
@@ -64,14 +90,14 @@ describe('completionProvider', () => {
 	it('link completion', async () => {
 		assert.deepStrictEqual(
 			(await provideCompletion(getPositionParams(__filename, wikitext, 3, 4)))
-				?.filter(({label}) => /b/iu.test(label)),
+				?.filter(({label}) => /^a/iu.test(label)),
 			[
 				{
-					label: 'File:B',
+					label: 'AA',
 					kind: CompletionItemKind.Folder,
 					textEdit: {
 						range: range(3, 3, 3, 4),
-						newText: 'File:B',
+						newText: 'AA',
 					},
 				},
 			],
@@ -249,17 +275,31 @@ describe('completionProvider', () => {
 				},
 			],
 		);
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 12, 6)))
+				?.filter(({label}) => label.startsWith('n')),
+			[
+				{
+					label: 'name',
+					kind: CompletionItemKind.Field,
+					textEdit: {
+						range: range(12, 5, 12, 6),
+						newText: 'name',
+					},
+				},
+			],
+		);
 	});
 	it('HTML tag attribute completion', async () => {
 		assert.deepStrictEqual(
-			(await provideCompletion(getPositionParams(__filename, wikitext, 12, 5)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 13, 5)))
 				?.filter(({label}) => label.startsWith('da')),
 			[
 				{
 					label: 'datatype',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: range(12, 3, 12, 5),
+						range: range(13, 3, 13, 5),
 						newText: 'datatype',
 					},
 				},
@@ -267,7 +307,7 @@ describe('completionProvider', () => {
 					label: 'data-',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
-						range: range(12, 3, 12, 5),
+						range: range(13, 3, 13, 5),
 						newText: 'data-',
 					},
 				},
@@ -276,15 +316,15 @@ describe('completionProvider', () => {
 	});
 	it('template parameter completion', async () => {
 		assert.deepStrictEqual(
-			(await provideCompletion(getPositionParams(__filename, wikitext, 13, 8)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 8)))
 				?.filter(({label}) => /^c/iu.test(label)),
 			[
 				{
 					label: 'CC',
 					kind: CompletionItemKind.Variable,
 					textEdit: {
-						range: range(13, 7, 13, 8),
-						newText: 'CC=',
+						range: range(14, 7, 14, 8),
+						newText: 'CC',
 					},
 				},
 			],
@@ -292,15 +332,31 @@ describe('completionProvider', () => {
 	});
 	it('table attribute completion', async () => {
 		assert.deepStrictEqual(
-			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 5)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 15, 5)))
 				?.filter(({label}) => label.startsWith('st')),
 			[
 				{
 					label: 'style',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: range(14, 3, 14, 5),
+						range: range(15, 3, 15, 5),
 						newText: 'style',
+					},
+				},
+			],
+		);
+	});
+	it('HTML tag attribute value completion', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 15, 17)))
+				?.filter(({label}) => label.startsWith('l')),
+			[
+				{
+					label: 'ltr',
+					kind: CompletionItemKind.Value,
+					textEdit: {
+						range: range(15, 16, 15, 17),
+						newText: 'ltr',
 					},
 				},
 			],
@@ -308,7 +364,7 @@ describe('completionProvider', () => {
 	});
 	it('inline CSS key completion', async () => {
 		assert.deepStrictEqual(
-			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 11)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 16, 11)))
 				?.filter(({label}) => label.startsWith('us'))
 				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
 			[
@@ -316,16 +372,14 @@ describe('completionProvider', () => {
 					label: 'user-select',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: range(14, 9, 14, 20),
+						range: range(16, 9, 16, 20),
 						newText: 'user-select',
 					},
 				},
 			],
 		);
-	});
-	it('inline CSS key completion 2', async () => {
 		assert.deepStrictEqual(
-			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 28)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 16, 28)))
 				?.filter(({label}) => label.startsWith('us'))
 				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
 			[
@@ -333,7 +387,7 @@ describe('completionProvider', () => {
 					label: 'user-select',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: range(14, 26, 14, 28),
+						range: range(16, 26, 16, 28),
 						newText: 'user-select:$0;',
 					},
 				},
@@ -342,7 +396,7 @@ describe('completionProvider', () => {
 	});
 	it('inline CSS value completion', async () => {
 		assert.deepStrictEqual(
-			(await provideCompletion(getPositionParams(__filename, wikitext, 14, 22)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 16, 21)))
 				?.filter(({label}) => label.startsWith('n'))
 				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
 			[
@@ -350,7 +404,7 @@ describe('completionProvider', () => {
 					label: 'none',
 					kind: CompletionItemKind.Value,
 					textEdit: {
-						range: range(14, 21, 14, 25),
+						range: range(16, 21, 16, 25),
 						newText: 'none',
 					},
 				},
@@ -359,7 +413,7 @@ describe('completionProvider', () => {
 	});
 	it('JSON schema completion', async () => {
 		assert.deepStrictEqual(
-			(await provideCompletion(getPositionParams(__filename, wikitext, 15, 17)))
+			(await provideCompletion(getPositionParams(__filename, wikitext, 17, 17)))
 				?.filter(({label}) => label.startsWith('d'))
 				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
 			[
@@ -367,8 +421,48 @@ describe('completionProvider', () => {
 					label: 'description',
 					kind: CompletionItemKind.Property,
 					textEdit: {
-						range: range(15, 15, 15, 18),
+						range: range(17, 15, 17, 18),
 						newText: '"description"',
+					},
+				},
+			],
+		);
+	});
+	it('score completion', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 18, 11)))
+				?.filter(({label}) => /^\\rel/iu.test(label)),
+			[
+				{
+					label: String.raw`\relative`,
+					kind: CompletionItemKind.Function,
+					textEdit: {
+						range: range(18, 7, 18, 11),
+						newText: String.raw`\relative`,
+					},
+				},
+			],
+		);
+	});
+	it('math completion', async () => {
+		assert.deepStrictEqual(
+			(await provideCompletion(getPositionParams(__filename, wikitext, 19, 14)))
+				?.filter(({label}) => /^\\ce/iu.test(label)),
+			[
+				{
+					label: String.raw`\centerdot`,
+					kind: CompletionItemKind.Function,
+					textEdit: {
+						range: range(19, 11, 19, 14),
+						newText: String.raw`\centerdot`,
+					},
+				},
+				{
+					label: String.raw`\ce`,
+					kind: CompletionItemKind.Function,
+					textEdit: {
+						range: range(19, 11, 19, 14),
+						newText: String.raw`\ce`,
 					},
 				},
 			],

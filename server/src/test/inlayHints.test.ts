@@ -3,10 +3,8 @@ import {getParams, range} from './util';
 import {provideInlayHints} from '../lsp';
 
 const wikitext = `
-{{a
-|b
-|c=
-}}
+{{a|b=|c}}
+{{#invoke:a|b|c}}
 `;
 
 describe('inlayHintsProvider', () => {
@@ -18,11 +16,16 @@ describe('inlayHintsProvider', () => {
 			}),
 			[
 				{
-					position: {line: 2, character: 1},
+					position: {line: 1, character: 7},
 					kind: 2,
 					label: '1=',
 				},
-			],
+				{
+					position: {line: 2, character: 14},
+					kind: 2,
+					label: '1=',
+				},
+			].reverse(),
 		);
 	});
 });

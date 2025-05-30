@@ -1,5 +1,5 @@
 import {TextDocument} from 'vscode-languageserver-textdocument';
-import {Range as TextRange} from 'vscode-languageserver/node';
+import {Range as TextRange, Color, TextEdit} from 'vscode-languageserver/node';
 import {docs} from '../lsp';
 import type {Position} from 'vscode-languageserver/node';
 
@@ -11,7 +11,9 @@ Object.defineProperty(docs, 'get', {
 	},
 });
 
-export const range = TextRange.create;
+export const range = TextRange.create,
+	color = Color.create,
+	textEdit = TextEdit.replace;
 
 export const getParams = (file: string, content: string): {textDocument: TextDocument} => {
 	const textDocument = TextDocument.create(file, 'wikitext', 0, content);

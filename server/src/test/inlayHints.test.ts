@@ -2,30 +2,25 @@ import * as assert from 'assert';
 import {getParams, range} from './util';
 import {provideInlayHints} from '../lsp';
 
-const wikitext = `
-{{a|b=|c}}
-{{#invoke:a|b|c}}
-`;
-
-describe('inlayHintsProvider', () => {
-	it('anonymous parameter', async () => {
+const inlayHintsTest = (title: string, text: string, character: number): void => {
+	it(title, async () => {
 		assert.deepStrictEqual(
 			await provideInlayHints({
-				...getParams(__filename, wikitext),
-				range: range(0, 0, 0, 0),
+				...getParams(__filename, text),
+				range: range(0, 0),
 			}),
 			[
 				{
-					position: {line: 1, character: 7},
+					position: {line: 0, character},
 					kind: 2,
 					label: '1=',
 				},
-				{
-					position: {line: 2, character: 14},
-					kind: 2,
-					label: '1=',
-				},
-			].reverse(),
+			],
 		);
 	});
+};
+
+describe('inlayHintsProvider', () => {
+	inlayHintsTest('template', '{{a|b=|c}}', 7);
+	inlayHintsTest('module', '{{#invoke:a|b|c}}', 14);
 });

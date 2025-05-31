@@ -1,80 +1,93 @@
 import * as assert from 'assert';
 import {getParams, range, color, textEdit} from './util';
 import {provideDocumentColor, provideColorPresentation} from '../lsp';
-import type {ColorInformation, ColorPresentation} from 'vscode-languageserver/node';
+import type {Color} from 'vscode-languageserver/node';
 
-const wikitext = `
-<p style="color: rgba(255, 0, 0, .7)">
-<poem style="color: #00ff00ff"/>
-{{#tag:font|color=#f000}}
-{{color|rgb(0 0 255 / 50%)}}
-{{color|1=hsla(0, 100%, 50%, 0.5)}}
-{{{|hsl(0deg 100 50)}}}
-<p style="color:<!---->blue">
-{|style=color:red|
-`,
-	results: ColorInformation[] = [
-		{
-			range: range(1, 17, 1, 36),
-			color: color(1, 0, 0, 0.7),
-		},
-		{
-			range: range(2, 20, 2, 29),
-			color: color(0, 1, 0, 1),
-		},
-		{
-			range: range(3, 18, 3, 23),
-			color: color(1, 0, 0, 0),
-		},
-		{
-			range: range(4, 8, 4, 26),
-			color: color(0, 0, 1, 0.5),
-		},
-		{
-			range: range(5, 10, 5, 33),
-			color: color(1, 0, 0, 0.5),
-		},
-		{
-			range: range(6, 4, 6, 20),
-			color: color(1, 0, 0, 1),
-		},
-		{
-			range: range(7, 23, 7, 27),
-			color: color(0, 0, 1, 1),
-		},
-		{
-			range: range(8, 14, 8, 17),
-			color: color(1, 0, 0, 1),
-		},
-	].reverse(),
-	r = range(0, 0, 0, 1);
+const r = range(0, 1);
 
-const colorPresentation = (label: string): ColorPresentation => ({
-	label,
-	textEdit: textEdit(r, label),
+const colorInformation = async (text: string, start: number, end: number, c: Color): Promise<void> => {
+		assert.deepStrictEqual(
+			await provideDocumentColor(getParams(__filename, text)),
+			[{range: range(start, end), color: c}],
+		);
+	},
+	colorPresentation = (c: Color, label: string): void => {
+		assert.deepStrictEqual(
+			provideColorPresentation({...getParams(__filename, ''), color: c, range: r}),
+			[{label, textEdit: textEdit(r, label)}],
+		);
+	};
+
+describe('ColorInformation', () => {
+	it('rgb()', async () => {
+		await colorInformation(
+			'<p style="color: rgba(255, 0, 0, .7)">',
+			17,
+			36,
+			color(1, 0, 0, 0.7),
+		);
+	});
+	it('hex', async () => {
+		await colorInformation(
+			'<poem style="color: #00ff00ff"/>',
+			20,
+			29,
+			color(0, 1, 0, 1),
+		);
+	});
+	it('named parameter', async () => {
+		await colorInformation(
+			'{{#tag:font|color=#f000}}',
+			18,
+			23,
+			color(1, 0, 0, 0),
+		);
+	});
+	it('anonymous parameter', async () => {
+		await colorInformation(
+			'{{color|rgb(0 0 255 / 50%)}}',
+			8,
+			26,
+			color(0, 0, 1, 0.5),
+		);
+	});
+	it('legacy hsl()', async () => {
+		await colorInformation(
+			'{{color|1=hsla(0, 100%, 50%, 0.5)}}',
+			10,
+			33,
+			color(1, 0, 0, 0.5),
+		);
+	});
+	it('modern hsl()', async () => {
+		await colorInformation(
+			'{{{|hsl(0deg 100 50)}}}',
+			4,
+			20,
+			color(1, 0, 0, 1),
+		);
+	});
+	it('color name', async () => {
+		await colorInformation(
+			'<p style="color:<!---->blue">',
+			23,
+			27,
+			color(0, 0, 1, 1),
+		);
+		await colorInformation(
+			'{|style=color:red|',
+			14,
+			17,
+			color(1, 0, 0, 1),
+		);
+	});
 });
 
-describe('colorProvider', () => {
-	it('ColorInformation', async () => {
-		assert.deepStrictEqual(await provideDocumentColor(getParams(__filename, wikitext)), results);
+describe('ColorPresentation', () => {
+	it('with alpha', () => {
+		colorPresentation(color(1, 0, 0, 0.5), '#ff000080');
 	});
-
-	it('ColorPresentation', () => {
-		assert.deepStrictEqual(
-			provideColorPresentation({
-				...getParams(__filename, wikitext),
-				color: color(1, 0, 0, 0.5),
-				range: r,
-			}),
-			[colorPresentation('#ff000080')],
-		);
-		assert.deepStrictEqual(
-			provideColorPresentation({
-				...getParams(__filename, wikitext),
-				color: color(0, 0.9, 0, 1),
-				range: r,
-			}),
-			[colorPresentation('#00e600')],
-		);
+	it('without alpha', () => {
+		colorPresentation(color(0, 0.9, 0, 1), '#00e600');
 	});
 });

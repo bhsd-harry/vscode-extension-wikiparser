@@ -6,16 +6,24 @@ import type {Range as TextRange} from 'vscode-languageserver/node';
 
 const location = (startLine: number, startCharacter: number, endLine: number, endCharacter: number): Loc =>
 		Loc.create(__filename, range(startLine, startCharacter, endLine, endCharacter)),
-	renameTest = (title: string, line: number, character: number, ranges: TextRange[]): void => {
+	referencesTest = (title: string, text: string, character: number, locations: Loc[]): void => {
+		it(title, async () => {
+			assert.deepStrictEqual(
+				await provideReferences(getPositionParams(__filename, text, 0, character)),
+				locations.toReversed(),
+			);
+		});
+	},
+	renameTest = (title: string, text: string, character: number, ranges: TextRange[]): void => {
 		it(`prepare: ${title}`, async () => {
 			assert.deepStrictEqual(
-				await prepareRename(getPositionParams(__filename, wikitext, line, character)),
+				await prepareRename(getPositionParams(__filename, text, 0, character)),
 				ranges[0],
 			);
 		});
 		it(`rename: ${title}`, async () => {
 			assert.deepStrictEqual(
-				await provideRename({...getPositionParams(__filename, wikitext, line, character), newName: 'x'}),
+				await provideRename({...getPositionParams(__filename, text, 0, character), newName: 'x'}),
 				{
 					changes: {
 						[__filename]: ranges.map(r => textEdit(r, 'x')).reverse(),
@@ -25,182 +33,212 @@ const location = (startLine: number, startCharacter: number, endLine: number, en
 		});
 	};
 
-const wikitext = `
-{{{ a }}}
-{{{a|}}}
-{{ b }}
-{{ : template : b |b=}}
-{{ PAGENAME }}
-{{PAGENAME:c}}
-[[ file : d | thumb ]]
-[[ :file:d ]]
-{{ e | e = }}
-{{Template:E|e=}}
-<ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' />
-<b ></b>
-<references group = f />
-[[file:g|thumbnail]]
-== h ==
-== i ==
-<ref name = f > </ref>
-<ref name = ' f ' />
-`,
-	headings = [
-		location(16, 0, 16, 7),
-		location(17, 0, 17, 7),
-	].reverse();
+const headings = [
+	location(0, 0, 0, 7),
+	location(1, 0, 1, 7),
+];
 
 describe('referencesProvider', () => {
-	it('arg-name', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 1, 4)),
-			[
-				location(1, 3, 1, 6),
-				location(2, 3, 2, 4),
-			].reverse(),
-		);
-	});
-	it('template-name', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 3, 4)),
-			[
-				location(3, 2, 3, 5),
-				location(4, 2, 4, 18),
-			].reverse(),
-		);
-	});
-	it('magic-word-name', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 5, 4)),
-			[
-				location(5, 2, 5, 12),
-				location(6, 2, 6, 10),
-			].reverse(),
-		);
-	});
-	it('link-target', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 7, 4)),
-			[
-				location(7, 2, 7, 12),
-				location(8, 2, 8, 11),
-			].reverse(),
-		);
-	});
-	it('parameter-key', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 9, 8)),
-			[
-				location(9, 6, 9, 11),
-				location(10, 13, 10, 15),
-			].reverse(),
-		);
-	});
-	it('ext', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 11, 4)),
-			[
-				location(11, 0, 11, 32),
-				location(12, 0, 12, 37),
-				location(18, 0, 18, 22),
-				location(19, 0, 19, 20),
-			].reverse(),
-		);
-	});
-	it('html', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 13, 2)),
-			[
-				location(13, 0, 13, 4),
-				location(13, 4, 13, 8),
-			].reverse(),
-		);
-	});
-	it('attr-key', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 11, 6)),
-			[
-				location(11, 5, 11, 10),
-				location(12, 5, 12, 10),
-				location(14, 12, 14, 17),
-			].reverse(),
-		);
-	});
-	it('image-parameter', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 15, 10)),
-			[
-				location(7, 13, 7, 20),
-				location(15, 9, 15, 18),
-			].reverse(),
-		);
-	});
-	it('heading-title', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 16, 4)),
+	referencesTest(
+		'arg-name',
+		`{{{ a }}}
+{{{a|}}}`,
+		4,
+		[
+			location(0, 3, 0, 6),
+			location(1, 3, 1, 4),
+		],
+	);
+	referencesTest(
+		'template-name',
+		`{{ b }}
+{{ : template : b |b=}}`,
+		4,
+		[
+			location(0, 2, 0, 5),
+			location(1, 2, 1, 18),
+		],
+	);
+	referencesTest(
+		'magic-word-name',
+		`{{ PAGENAME }}
+{{PAGENAME:c}}`,
+		4,
+		[
+			location(0, 2, 0, 12),
+			location(1, 2, 1, 10),
+		],
+	);
+	referencesTest(
+		'link-target',
+		`[[ file : d | thumb ]]
+[[ :file:d ]]`,
+		4,
+		[
+			location(0, 2, 0, 12),
+			location(1, 2, 1, 11),
+		],
+	);
+	referencesTest(
+		'parameter-key',
+		`{{ e | e = }}
+{{Template:E|e=}}`,
+		8,
+		[
+			location(0, 6, 0, 11),
+			location(1, 13, 1, 15),
+		],
+	);
+	referencesTest(
+		'ext',
+		`<ref group = f name = f > </ref>
+<ref group = " f " extends = ' f ' />`,
+		4,
+		[
+			location(0, 0, 0, 32),
+			location(1, 0, 1, 37),
+		],
+	);
+	referencesTest(
+		'html',
+		'<b ></b>',
+		2,
+		[
+			location(0, 0, 0, 4),
+			location(0, 4, 0, 8),
+		],
+	);
+	referencesTest(
+		'attr-key',
+		`<ref group = f name = f > </ref>
+<ref group = " f " extends = ' f ' />
+<references group = f />`,
+		6,
+		[
+			location(0, 5, 0, 10),
+			location(1, 5, 1, 10),
+			location(2, 12, 2, 17),
+		],
+	);
+	referencesTest(
+		'image-parameter',
+		`[[ file : d | thumb ]]
+[[file:g|thumbnail]]`,
+		14,
+		[
+			location(0, 13, 0, 20),
+			location(1, 9, 1, 18),
+		],
+	);
+	for (const character of [1, 4]) {
+		referencesTest(
+			`heading${character === 1 ? '' : '-title'}`,
+			`== h ==
+== i ==`,
+			character,
 			headings,
 		);
-	});
-	it('heading', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 16, 1)),
-			headings,
-		);
-	});
-	it('attr-value#name', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 11, 23)),
-			[
-				location(11, 22, 11, 23),
-				location(12, 30, 12, 33),
-				location(18, 12, 18, 13),
-				location(19, 13, 19, 16),
-			].reverse(),
-		);
-	});
-	it('attr-value#group', async () => {
-		assert.deepStrictEqual(
-			await provideReferences(getPositionParams(__filename, wikitext, 11, 14)),
-			[
-				location(11, 13, 11, 14),
-				location(12, 14, 12, 17),
-				location(14, 20, 14, 21),
-			].reverse(),
-		);
-	});
+	}
+	referencesTest(
+		'attr-value#name',
+		`<ref group = f name = f > </ref>
+<ref group = " f " extends = ' f ' />`,
+		23,
+		[
+			location(0, 22, 0, 23),
+			location(1, 30, 1, 33),
+		],
+	);
+	referencesTest(
+		'attr-value#group',
+		`<ref group = f name = f > </ref>
+<ref group = " f " extends = ' f ' />
+<references group = f />`,
+		14,
+		[
+			location(0, 13, 0, 14),
+			location(1, 14, 1, 17),
+			location(2, 20, 2, 21),
+		],
+	);
 });
 
 describe('definitionProvider', () => {
 	it('ref name', async () => {
 		assert.deepStrictEqual(
-			await provideDefinition(getPositionParams(__filename, wikitext, 19, 14)),
-			[location(18, 15, 18, 16)],
+			await provideDefinition(
+				getPositionParams(
+					__filename,
+					`<ref group = f name = f > </ref>
+<ref name = f > </ref>
+<ref name = ' f ' />`,
+					2,
+					14,
+				),
+			),
+			[location(1, 15, 1, 16)],
 		);
 	});
 });
 
 describe('renameProvider', () => {
-	renameTest('arg-name', 1, 4, [
-		range(1, 3, 1, 6),
-		range(2, 3, 2, 4),
-	]);
-	renameTest('template-name', 3, 4, [
-		range(3, 2, 3, 5),
-		range(4, 2, 4, 18),
-	]);
-	renameTest('link-target', 8, 4, [range(8, 2, 8, 11)]);
-	renameTest('parameter-key', 9, 8, [
-		range(9, 6, 9, 9),
-		range(10, 13, 10, 14),
-	]);
-	renameTest('attr-value#name', 11, 23, [
-		range(11, 22, 11, 23),
-		range(12, 30, 12, 33),
-	]);
-	renameTest('attr-value#group', 11, 14, [
-		range(11, 13, 11, 14),
-		range(12, 14, 12, 17),
-		range(14, 20, 14, 21),
-	]);
+	renameTest(
+		'arg-name',
+		`{{{ a }}}
+{{{a|}}}`,
+		4,
+		[
+			range(3, 6),
+			range(1, 3, 1, 4),
+		],
+	);
+	renameTest(
+		'template-name',
+		`{{ b }}
+{{ : template : b |b=}}`,
+		4,
+		[
+			range(2, 5),
+			range(1, 2, 1, 18),
+		],
+	);
+	renameTest(
+		'link-target',
+		`[[ :file:d ]]
+[[ file : d | thumb ]]`,
+		4,
+		[range(2, 11)],
+	);
+	renameTest(
+		'parameter-key',
+		`{{ e | e = }}
+{{Template:E|e=}}`,
+		8,
+		[
+			range(6, 9),
+			range(1, 13, 1, 14),
+		],
+	);
+	renameTest(
+		'attr-value#name',
+		`<ref group = f name = f > </ref>
+<ref group = " f " extends = ' f ' /><ref name=f/>`,
+		23,
+		[
+			range(22, 23),
+			range(1, 30, 1, 33),
+		],
+	);
+	renameTest(
+		'attr-value#group',
+		`<ref group = f name = f > </ref>
+<ref group = " f " extends = ' f ' /><ref name=f/>
+<references group = f />`,
+		14,
+		[
+			range(13, 14),
+			range(1, 14, 1, 17),
+			range(2, 20, 2, 21),
+		],
+	);
 });

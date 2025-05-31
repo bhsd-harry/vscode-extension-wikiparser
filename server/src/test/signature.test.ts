@@ -1,26 +1,37 @@
 import * as assert from 'assert';
 import {getPositionParams} from './util';
 import {provideSignatureHelp} from '../lsp';
+import type {SignatureHelp} from 'vscode-languageserver/node';
 
-const wikitext = `
-{{ #invoke: a | b | c | d }}
-{{ PAGENAME: }}
-{{ PAGESIZE: a | R }}
-`;
+const invoke = {
+		label: '{{#invoke:module name|function name|args}}',
+		parameters: [
+			{label: 'module name'},
+			{label: 'function name'},
+			{label: 'args'},
+		],
+	},
+	pagesize = [
+		{
+			label: '{{PAGESIZE:page name|R}}',
+			parameters: [
+				{label: 'page name'},
+				{label: 'R', documentation: 'Predefined parameter'},
+			],
+		},
+	];
+
+const signatureHelp = (text: string, character: number): Promise<SignatureHelp | undefined> =>
+	provideSignatureHelp(getPositionParams(__filename, text, 0, character));
 
 describe('signatureHelpProvider', () => {
 	it('#invoke', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 12)),
+			await signatureHelp('{{ #invoke: a | b | c | d }}', 12),
 			{
 				signatures: [
 					{
-						label: '{{#invoke:module name|function name|args}}',
-						parameters: [
-							{label: 'module name'},
-							{label: 'function name'},
-							{label: 'args'},
-						],
+						...invoke,
 						activeParameter: 0,
 					},
 				],
@@ -28,16 +39,11 @@ describe('signatureHelpProvider', () => {
 			},
 		);
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 16)),
+			await signatureHelp('{{ #invoke: a | b | c | d }}', 16),
 			{
 				signatures: [
 					{
-						label: '{{#invoke:module name|function name|args}}',
-						parameters: [
-							{label: 'module name'},
-							{label: 'function name'},
-							{label: 'args'},
-						],
+						...invoke,
 						activeParameter: 1,
 					},
 				],
@@ -45,16 +51,11 @@ describe('signatureHelpProvider', () => {
 			},
 		);
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 1, 25)),
+			await signatureHelp('{{ #invoke: a | b | c | d }}', 25),
 			{
 				signatures: [
 					{
-						label: '{{#invoke:module name|function name|args}}',
-						parameters: [
-							{label: 'module name'},
-							{label: 'function name'},
-							{label: 'args'},
-						],
+						...invoke,
 						activeParameter: 2,
 					},
 				],
@@ -64,7 +65,7 @@ describe('signatureHelpProvider', () => {
 	});
 	it('PAGENAME', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 2, 2)),
+			await signatureHelp('{{ PAGENAME: }}', 2),
 			{
 				signatures: [
 					{
@@ -78,32 +79,16 @@ describe('signatureHelpProvider', () => {
 	});
 	it('PAGESIZE', async () => {
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 13)),
+			await signatureHelp('{{ PAGESIZE: a | R }}', 13),
 			{
-				signatures: [
-					{
-						label: '{{PAGESIZE:page name|R}}',
-						parameters: [
-							{label: 'page name'},
-							{label: 'R', documentation: 'Predefined parameter'},
-						],
-					},
-				],
+				signatures: pagesize,
 				activeParameter: 0,
 			},
 		);
 		assert.deepStrictEqual(
-			await provideSignatureHelp(getPositionParams(__filename, wikitext, 3, 17)),
+			await signatureHelp('{{ PAGESIZE: a | R }}', 17),
 			{
-				signatures: [
-					{
-						label: '{{PAGESIZE:page name|R}}',
-						parameters: [
-							{label: 'page name'},
-							{label: 'R', documentation: 'Predefined parameter'},
-						],
-					},
-				],
+				signatures: pagesize,
 				activeParameter: 1,
 			},
 		);

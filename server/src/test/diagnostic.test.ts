@@ -6,9 +6,10 @@ import {provideDiagnostics, provideCodeAction} from '../lsp';
 import type {Diagnostic, CodeAction, CodeActionParams} from 'vscode-languageserver/node';
 import type {QuickFixData} from '../lsp';
 
-const wikitext = String.raw`
+const lilypond = execSync('which lilypond', {encoding: 'utf8'}).trim(),
+	wikitext = String.raw`
 http://a]
-</p>
+</br>
 [
 `,
 	params = getParams(__filename, wikitext),
@@ -29,17 +30,17 @@ http://a]
 			],
 		},
 		{
-			range: range(2, 0, 2, 4),
+			range: range(2, 0, 2, 5),
 			severity: 1,
 			source: 'WikiLint',
 			code: 'unmatched-tag',
-			message: 'unmatched closing tag',
+			message: 'tag that is both closing and self-closing',
 			data: [
 				{
-					range: range(2, 0, 2, 4),
+					range: range(2, 1, 2, 2),
 					newText: '',
-					title: 'Suggestion: remove',
-					fix: false,
+					title: 'Fix: open',
+					fix: true,
 				},
 			],
 		},
@@ -52,16 +53,7 @@ http://a]
 			data: [],
 		},
 	],
-	errors = diagnostics.slice(0, 2),
-	actions = errors.map((diagnostic): CodeAction => ({
-		title: diagnostic.data[0]!.title,
-		kind: CodeActionKind.QuickFix,
-		diagnostics: [diagnostic],
-		isPreferred: diagnostic.data[0]!.fix,
-		edit: {
-			changes: {[params.textDocument.uri]: diagnostic.data},
-		},
-	}));
+	errors = diagnostics.slice(0, 2);
 
 describe('diagnosticProvider', () => {
 	it('diagnostic', async () => {
@@ -70,7 +62,15 @@ describe('diagnosticProvider', () => {
 	it('quickFix', () => {
 		assert.deepStrictEqual(
 			provideCodeAction({...params, context: {diagnostics}} as unknown as CodeActionParams),
-			actions,
+			errors.map((diagnostic): CodeAction => ({
+				title: diagnostic.data[0]!.title,
+				kind: CodeActionKind.QuickFix,
+				diagnostics: [diagnostic],
+				isPreferred: diagnostic.data[0]!.fix,
+				edit: {
+					changes: {[params.textDocument.uri]: diagnostic.data},
+				},
+			})),
 		);
 	});
 	it('no warning', async () => {
@@ -78,16 +78,20 @@ describe('diagnosticProvider', () => {
 	});
 });
 
+const getDiagnostics = (text: string): Promise<Diagnostic[]> => provideDiagnostics(
+	getParams(__filename, text),
+	true,
+	lilypond,
+	'mathjax',
+);
+
 describe('diagnosticProvider (JSON)', () => {
 	it('templatedata', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, '<templatedata>a</templatedata>'),
-				true,
-			),
+			await getDiagnostics('<templatedata>a</templatedata>'),
 			[
 				{
-					range: range(0, 14, 0, 15),
+					range: range(14, 15),
 					severity: 1,
 					source: 'json',
 					code: 0,
@@ -98,12 +102,9 @@ describe('diagnosticProvider (JSON)', () => {
 	});
 	it('mapframe', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, `<mapframe>[
+			await getDiagnostics(`<mapframe>[
 0, // comment
 ]</mapframe>`),
-				true,
-			),
 			[
 				{
 					range: range(0, 10, 2, 1),
@@ -116,13 +117,10 @@ describe('diagnosticProvider (JSON)', () => {
 	});
 	it('maplink', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, `<maplink>{
+			await getDiagnostics(`<maplink>{
 "type":"Point",
 "type":"Feature"
 }</maplink>`),
-				true,
-			),
 			[
 				{
 					range: range(1, 0, 1, 6),
@@ -139,13 +137,13 @@ describe('diagnosticProvider (JSON)', () => {
 					message: 'Duplicate object key',
 				},
 				{
-					range: range(0, 9, 0, 10),
+					range: range(9, 10),
 					severity: 2,
 					source: 'json',
 					message: 'Missing property "geometry".',
 				},
 				{
-					range: range(0, 9, 0, 10),
+					range: range(9, 10),
 					severity: 2,
 					source: 'json',
 					message: 'Missing property "properties".',
@@ -158,13 +156,10 @@ describe('diagnosticProvider (JSON)', () => {
 describe('diagnosticProvider (CSS)', () => {
 	it('ext-attr', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, '<poem style=""/>'),
-				true,
-			),
+			await getDiagnostics('<poem style=""/>'),
 			[
 				{
-					range: range(0, 13, 0, 13),
+					range: range(13, 13),
 					severity: 2,
 					source: 'css',
 					code: 'emptyRules',
@@ -176,20 +171,17 @@ describe('diagnosticProvider (CSS)', () => {
 	});
 	it('html-attr', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, '<br style=left:0;left:1>'),
-				true,
-			),
+			await getDiagnostics('<br style=left:0;left:1>'),
 			[
 				{
-					range: range(0, 10, 0, 14),
+					range: range(10, 14),
 					severity: 1,
 					source: 'Stylelint',
 					code: 'declaration-block-no-duplicate-properties',
 					message: 'Unexpected duplicate "left"',
 				},
 				{
-					range: range(0, 22, 0, 23),
+					range: range(22, 23),
 					severity: 1,
 					source: 'Stylelint',
 					code: 'declaration-property-value-no-unknown',
@@ -203,22 +195,17 @@ describe('diagnosticProvider (CSS)', () => {
 describe('diagnosticProvider (Tex)', () => {
 	it('math', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, String.raw`<math>#\ce</math>`),
-				true,
-				'',
-				'mathjax',
-			),
+			await getDiagnostics(String.raw`<math>#\ce</math>`),
 			[
 				{
-					range: range(0, 7, 0, 10),
+					range: range(7, 10),
 					severity: 2,
 					source: 'MathJax',
 					code: 'UnknownMacro',
 					message: String.raw`Unknown macro "\ce"`,
 				},
 				{
-					range: range(0, 6, 0, 10),
+					range: range(6, 10),
 					severity: 1,
 					source: 'MathJax',
 					code: 'CantUseHash1',
@@ -232,17 +219,32 @@ describe('diagnosticProvider (Tex)', () => {
 describe('diagnosticProvider (LilyPond)', () => {
 	it('score', async () => {
 		assert.deepStrictEqual(
-			await provideDiagnostics(
-				getParams(__filename, "<score raw>{ c'4 e'5 g' }</score>"),
-				true,
-				execSync('which lilypond', {encoding: 'utf8'}).trim(),
-			),
+			await getDiagnostics("<score raw>{ c'4 e'5 g' }</score>"),
 			[
 				{
-					range: range(0, 19, 0, 19),
+					range: range(19, 19),
 					severity: 1,
 					source: 'LilyPond',
 					message: 'not a duration',
+				},
+			],
+		);
+		assert.deepStrictEqual(
+			await getDiagnostics(String.raw`<score>\score {
+\relative c'
+}</score>`),
+			[
+				{
+					range: range(7, 7),
+					severity: 1,
+					source: 'LilyPond',
+					message: String.raw`Missing music in \score`,
+				},
+				{
+					range: range(7, 7),
+					severity: 1,
+					source: 'LilyPond',
+					message: String.raw`syntax error, unexpected \score, expecting '}'`,
 				},
 			],
 		);

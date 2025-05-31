@@ -11,8 +11,14 @@ Object.defineProperty(docs, 'get', {
 	},
 });
 
-export const range = TextRange.create,
-	color = Color.create,
+export function range(startLine: number, startCol: number, endLine: number, endCol: number): TextRange;
+export function range(start: number, end: number): TextRange;
+export function range(startLine: number, startCol: number, endLine?: number, endCol?: number): TextRange {
+	return endLine === undefined
+		? TextRange.create(0, startLine, 0, startCol)
+		: TextRange.create(startLine, startCol, endLine, endCol!);
+}
+export const color = Color.create,
 	textEdit = TextEdit.replace;
 
 export const getParams = (file: string, content: string): {textDocument: TextDocument} => {

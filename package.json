@@ -132,7 +132,7 @@
 		"stylelint": "^16.19.1",
 		"stylelint-config-recommended": "^16.0.0",
 		"typescript": "^5.8.2",
-		"v8r": "^4.2.1",
+		"v8r": "^5.0.0",
 		"wikilint": "^2.21.0"
 	},
 	"engines": {

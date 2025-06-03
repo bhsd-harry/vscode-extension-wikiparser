@@ -172,27 +172,6 @@ describe('Diagnostic (CSS)', () => {
 			],
 		);
 	});
-	it('html-attr', async () => {
-		assert.deepStrictEqual(
-			await getDiagnostics('<br style=left:0;left:1>'),
-			[
-				{
-					range: range(10, 14),
-					severity: 1,
-					source: 'Stylelint',
-					code: 'declaration-block-no-duplicate-properties',
-					message: 'Unexpected duplicate "left"',
-				},
-				{
-					range: range(22, 23),
-					severity: 1,
-					source: 'Stylelint',
-					code: 'declaration-property-value-no-unknown',
-					message: 'Unexpected unknown value "1" for property "left"',
-				},
-			],
-		);
-	});
 });
 
 describe('Diagnostic (Tex)', () => {

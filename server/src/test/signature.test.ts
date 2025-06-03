@@ -24,7 +24,7 @@ const invoke = {
 const signatureHelp = (text: string, character: number): Promise<SignatureHelp | undefined> =>
 	provideSignatureHelp(getPositionParams(__filename, text, 0, character));
 
-describe('signatureHelpProvider', () => {
+describe('SignatureHelp', () => {
 	it('#invoke', async () => {
 		assert.deepStrictEqual(
 			await signatureHelp('{{ #invoke: a | b | c | d }}', 12),

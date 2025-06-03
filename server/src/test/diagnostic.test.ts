@@ -6,8 +6,11 @@ import {provideDiagnostics, provideCodeAction} from '../lsp';
 import type {Diagnostic, CodeAction, CodeActionParams} from 'vscode-languageserver/node';
 import type {QuickFixData} from '../lsp';
 
-const lilypond = execSync('which lilypond', {encoding: 'utf8'}).trim(),
-	wikitext = String.raw`
+let lilypond: string | undefined;
+try {
+	lilypond = execSync('which lilypond', {encoding: 'utf8'}).trim();
+} catch {}
+const wikitext = String.raw`
 http://a]
 </br>
 [
@@ -55,7 +58,7 @@ http://a]
 	],
 	errors = diagnostics.slice(0, 2);
 
-describe('diagnosticProvider', () => {
+describe('Diagnostic/CodeAction', () => {
 	it('diagnostic', async () => {
 		assert.deepStrictEqual(await provideDiagnostics(params, true), diagnostics);
 	});
@@ -85,7 +88,7 @@ const getDiagnostics = (text: string): Promise<Diagnostic[]> => provideDiagnosti
 	'mathjax',
 );
 
-describe('diagnosticProvider (JSON)', () => {
+describe('Diagnostic (JSON)', () => {
 	it('templatedata', async () => {
 		assert.deepStrictEqual(
 			await getDiagnostics('<templatedata>a</templatedata>'),
@@ -153,7 +156,7 @@ describe('diagnosticProvider (JSON)', () => {
 	});
 });
 
-describe('diagnosticProvider (CSS)', () => {
+describe('Diagnostic (CSS)', () => {
 	it('ext-attr', async () => {
 		assert.deepStrictEqual(
 			await getDiagnostics('<poem style=""/>'),
@@ -192,7 +195,7 @@ describe('diagnosticProvider (CSS)', () => {
 	});
 });
 
-describe('diagnosticProvider (Tex)', () => {
+describe('Diagnostic (Tex)', () => {
 	it('math', async () => {
 		assert.deepStrictEqual(
 			await getDiagnostics(String.raw`<math>#\ce</math>`),
@@ -216,37 +219,39 @@ describe('diagnosticProvider (Tex)', () => {
 	});
 });
 
-describe('diagnosticProvider (LilyPond)', () => {
-	it('score', async () => {
-		assert.deepStrictEqual(
-			await getDiagnostics("<score raw>{ c'4 e'5 g' }</score>"),
-			[
-				{
-					range: range(19, 19),
-					severity: 1,
-					source: 'LilyPond',
-					message: 'not a duration',
-				},
-			],
-		);
-		assert.deepStrictEqual(
-			await getDiagnostics(String.raw`<score>\score {
-\relative c'
-}</score>`),
-			[
-				{
-					range: range(7, 7),
-					severity: 1,
-					source: 'LilyPond',
-					message: String.raw`Missing music in \score`,
-				},
-				{
-					range: range(7, 7),
-					severity: 1,
-					source: 'LilyPond',
-					message: String.raw`syntax error, unexpected \score, expecting '}'`,
-				},
-			],
-		);
+if (lilypond) {
+	describe('Diagnostic (LilyPond)', () => {
+		it('score', async () => {
+			assert.deepStrictEqual(
+				await getDiagnostics("<score raw>{ c'4 e'5 g' }</score>"),
+				[
+					{
+						range: range(19, 19),
+						severity: 1,
+						source: 'LilyPond',
+						message: 'not a duration',
+					},
+				],
+			);
+			assert.deepStrictEqual(
+				await getDiagnostics(String.raw`<score>\score {
+	\relative c'
+	}</score>`),
+				[
+					{
+						range: range(7, 7),
+						severity: 1,
+						source: 'LilyPond',
+						message: String.raw`Missing music in \score`,
+					},
+					{
+						range: range(7, 7),
+						severity: 1,
+						source: 'LilyPond',
+						message: String.raw`syntax error, unexpected \score, expecting '}'`,
+					},
+				],
+			);
+		});
 	});
-});
+}

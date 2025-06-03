@@ -15,7 +15,7 @@ const hoverTest = (title: string, text: string, character: number, value: string
 	});
 };
 
-describe('hoverProvider', () => {
+describe('Hover', () => {
 	hoverTest(
 		'behavior switch',
 		'__NOTOC__',

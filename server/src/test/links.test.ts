@@ -81,7 +81,7 @@ News:e
 		},
 	].reverse();
 
-describe('documentLinkProvider', () => {
+describe('DocumentLink', () => {
 	const paths = [
 		'https://mediawiki.org/wiki/$1',
 		'https://mediawiki.org/wiki/',

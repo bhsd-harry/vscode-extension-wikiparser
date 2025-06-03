@@ -38,7 +38,7 @@ const headings = [
 	location(1, 0, 1, 7),
 ];
 
-describe('referencesProvider', () => {
+describe('Reference', () => {
 	referencesTest(
 		'arg-name',
 		`{{{ a }}}
@@ -163,7 +163,7 @@ describe('referencesProvider', () => {
 	);
 });
 
-describe('definitionProvider', () => {
+describe('Definition', () => {
 	it('ref name', async () => {
 		assert.deepStrictEqual(
 			await provideDefinition(
@@ -181,7 +181,7 @@ describe('definitionProvider', () => {
 	});
 });
 
-describe('renameProvider', () => {
+describe('Rename', () => {
 	renameTest(
 		'arg-name',
 		`{{{ a }}}

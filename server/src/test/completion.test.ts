@@ -7,7 +7,7 @@ import type {CompletionItem} from 'vscode-languageserver/node';
 const completion = (content: string, character: number): Promise<CompletionItem[] | undefined> =>
 	provideCompletion(getPositionParams(__filename, content, 0, character));
 
-describe('completionProvider', () => {
+describe('CompletionItem', () => {
 	it('opening tag', async () => {
 		assert.deepStrictEqual(
 			(await completion('<Im', 3))

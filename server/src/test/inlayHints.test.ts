@@ -20,7 +20,7 @@ const inlayHintsTest = (title: string, text: string, character: number): void =>
 	});
 };
 
-describe('inlayHintsProvider', () => {
+describe('InlayHint', () => {
 	inlayHintsTest('template', '{{a|b=|c}}', 7);
 	inlayHintsTest('module', '{{#invoke:a|b|c}}', 14);
 });

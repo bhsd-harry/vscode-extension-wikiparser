@@ -94,7 +94,7 @@ const symbols: DocumentSymbol[] = [
 	},
 ];
 
-describe('foldingRangeProvider', () => {
+describe('FoldingRange/DocumentSymbol', () => {
 	const params = getParams(__filename, wikitext);
 	it('FoldingRange', async () => {
 		assert.deepStrictEqual(
@@ -117,7 +117,7 @@ describe('foldingRangeProvider', () => {
 	});
 });
 
-describe('foldingRangeProvider: JSON', () => {
+describe('FoldingRange (JSON)', () => {
 	it('FoldingRange', async () => {
 		assert.deepStrictEqual(
 			await provideFoldingRanges(

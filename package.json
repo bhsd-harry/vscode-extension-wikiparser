@@ -94,7 +94,7 @@
 	"scripts": {
 		"vscode:prepublish": "npm run build",
 		"build": "bash build.sh",
-		"test": "mocha",
+		"test": "mocha && rm server/dist/lilypond/*",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",
 		"lint": "npm run lint:ts"
 	},

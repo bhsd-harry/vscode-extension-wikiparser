@@ -33,7 +33,7 @@ News:e
 		},
 		{
 			range: range(4, 0, 4, 5),
-			target: 'https://tools.ietf.org/html/rfc1',
+			target: 'https://datatracker.ietf.org/doc/html/rfc1',
 		},
 		{
 			range: range(5, 0, 5, 6),

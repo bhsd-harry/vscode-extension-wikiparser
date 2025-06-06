@@ -174,7 +174,7 @@ describe('Diagnostic (CSS)', () => {
 	});
 });
 
-describe('Diagnostic (Tex)', () => {
+describe('Diagnostic (TeX)', () => {
 	it('math', async () => {
 		assert.deepStrictEqual(
 			await getDiagnostics(String.raw`<math>#\ce</math>`),

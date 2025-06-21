@@ -1,5 +1,6 @@
 **/*.wiki
 personal_access_token
+build
 .vscode/
 .github/
 .git/

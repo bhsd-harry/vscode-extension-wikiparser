@@ -6,4 +6,5 @@ config/
 /.eslintcache
 /page.wiki
 /personal_access_token
+/build
 *.vsix

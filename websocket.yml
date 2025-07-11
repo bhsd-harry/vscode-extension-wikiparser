@@ -1,0 +1,5 @@
+langservers:
+  wikitext:
+    - node
+    - server/dist/server.js
+    - --stdio

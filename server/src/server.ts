@@ -53,14 +53,34 @@ docs.onDidClose(({document}) => {
 	documentSettings.delete(document.uri);
 });
 
-const getSetting = ({textDocument: {uri}}: {textDocument: TextDocumentIdentifier}): Promise<Settings> => {
+const defaultSettings: Settings = {
+	linter: {
+		enable: true,
+		severity: 'errors only',
+		lilypond: '',
+		mathjax: '',
+	},
+	inlay: true,
+	completion: true,
+	color: true,
+	hover: true,
+	signature: true,
+	articlePath: '',
+	config: '',
+};
+
+const getSetting = async ({textDocument: {uri}}: {textDocument: TextDocumentIdentifier}): Promise<Settings> => {
 	if (!documentSettings.has(uri)) {
 		documentSettings.set(
 			uri,
 			connection!.workspace.getConfiguration({scopeUri: uri, section: 'wikiparser'}) as Promise<Settings>,
 		);
 	}
-	return documentSettings.get(uri)!;
+	try {
+		return await documentSettings.get(uri) ?? defaultSettings;
+	} catch {
+		return defaultSettings;
+	}
 };
 
 const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {

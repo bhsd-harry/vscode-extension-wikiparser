@@ -7,7 +7,7 @@
 		"module": "NodeNext",
 		"resolveJsonModule": true,
 		"allowSyntheticDefaultImports": true,
-		"outDir": "dist",
+		"outDir": "lib",
 		"alwaysStrict": true,
 		"exactOptionalPropertyTypes": true,
 		"noImplicitAny": true,

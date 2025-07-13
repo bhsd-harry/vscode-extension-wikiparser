@@ -2,6 +2,10 @@
 personal_access_token
 websocket.yml
 build
+server/lib
+server/package.json
+server/LICENSE
+server/README.md
 .vscode/
 .github/
 .git/

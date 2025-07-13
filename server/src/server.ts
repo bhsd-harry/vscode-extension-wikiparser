@@ -77,7 +77,12 @@ const getSetting = async ({textDocument: {uri}}: {textDocument: TextDocumentIden
 		);
 	}
 	try {
-		return await documentSettings.get(uri) ?? defaultSettings;
+		const settings = await documentSettings.get(uri);
+		return {
+			...defaultSettings,
+			...settings,
+			linter: {...defaultSettings.linter, ...settings?.linter},
+		};
 	} catch {
 		return defaultSettings;
 	}

@@ -5,6 +5,10 @@ const [json, ts] = config.overrides;
 
 module.exports = {
 	...config,
+	ignorePatterns: [
+		...config.ignorePatterns,
+		'server/lib',
+	],
 	rules: {
 		...config.rules,
 		'jsdoc/require-jsdoc': 0,

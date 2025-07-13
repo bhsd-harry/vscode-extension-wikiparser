@@ -1,5 +1,5 @@
 langservers:
   wikitext:
     - node
-    - server/dist/server.js
+    - server/lib/server.js
     - --stdio

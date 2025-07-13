@@ -1,0 +1,42 @@
+{
+	"name": "wikitext-lsp",
+	"version": "1.3.5",
+	"description": "Standalone language server for MediaWiki Wikitext",
+	"keywords": [
+		"mediawiki",
+		"wikitext",
+		"language server",
+		"language service",
+		"lsp"
+	],
+	"homepage": "https://github.com/bhsd-harry/vscode-extension-wikiparser/tree/main/server",
+	"bugs": {
+		"url": "https://github.com/bhsd-harry/vscode-extension-wikiparser/issues"
+	},
+	"license": "GPL-3.0",
+	"author": "Bhsd",
+	"files": [
+		"/lib/*.js"
+	],
+	"bin": {
+		"wikitext-lsp": "lib/server.js"
+	},
+	"main": "./lib/server.js",
+	"sideEffects": false,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bhsd-harry/vscode-extension-wikiparser.git"
+	},
+	"dependencies": {
+		"color-rgba": "^3.0.0",
+		"vscode-css-languageservice": "^6.3.7",
+		"vscode-html-languageservice": "^5.5.1",
+		"vscode-json-languageservice": "^5.6.1",
+		"vscode-languageserver": "^9.0.1",
+		"vscode-languageserver-textdocument": "^1.0.12",
+		"wikilint": "^2.21.2"
+	},
+	"engines": {
+		"node": ">=20.9.0"
+	}
+}

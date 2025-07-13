@@ -7,4 +7,6 @@ config/
 /page.wiki
 /personal_access_token
 /build
+/server/lib
+/server/LICENSE
 *.vsix

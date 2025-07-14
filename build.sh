@@ -5,8 +5,8 @@ npx esbuild server/src/lsp.ts --charset=utf8 --bundle --target=es2024 --platform
  --external:vscode-languageserver --external:vscode-languageserver-textdocument\
  --external:vscode-css-languageservice --external:vscode-json-languageservice --external:vscode-html-languageservice && \
 npx esbuild build/lsp.js --charset=utf8 --minify --target=es2023 --outdir=server/dist
-npx esbuild server/src/server.ts --charset=utf8 --minify --target=es2023 --outdir=server/dist --drop-labels=NPM
-mkdir -p server/config
+npx esbuild server/src/server.ts --charset=utf8 --minify --target=es2023 --format=cjs --outdir=server/dist --drop-labels=NPM
+mkdir -p server/config server/dist/test
 WIKILINT=$(node -e 'console.log( path.resolve( require.resolve( "wikilint/package" ), ".." ) )')
 cp -r "$WIKILINT"/{config,data} .
 mv config/default.json server/config/

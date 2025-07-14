@@ -159,15 +159,22 @@ describe('Diagnostic (JSON)', () => {
 describe('Diagnostic (CSS)', () => {
 	it('ext-attr', async () => {
 		assert.deepStrictEqual(
-			await getDiagnostics('<poem style=""/>'),
+			await getDiagnostics('<poem style=0/>'),
 			[
 				{
-					range: range(13, 13),
-					severity: 2,
+					range: range(12, 13),
+					severity: 1,
 					source: 'css',
-					code: 'emptyRules',
-					message: 'Do not use empty rulesets',
+					code: 'css-rcurlyexpected',
+					message: '} expected',
 					data: [],
+				},
+				{
+					range: range(12, 13),
+					severity: 1,
+					source: 'Stylelint',
+					code: 'CssSyntaxError',
+					message: 'Unknown word 0',
 				},
 			],
 		);

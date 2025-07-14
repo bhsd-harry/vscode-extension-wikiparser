@@ -85,7 +85,7 @@ describe('ColorInformation', () => {
 
 describe('ColorPresentation', () => {
 	it('with alpha', () => {
-		colorPresentation(color(1, 0, 0, 0.5), '#ff000080');
+		colorPresentation(color(1, 0, 0, 0.5), 'rgba(255,0,0,0.5)');
 	});
 	it('without alpha', () => {
 		colorPresentation(color(0, 0.9, 0, 1), '#00e600');

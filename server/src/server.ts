@@ -93,12 +93,12 @@ const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 		{articlePath, config} = setting,
 		[, lsp] = getLSP(doc.uri);
 	if (config) {
+		let dir = path.join('..', '..');
+		NPM: dir = path.join('wikilint', 'config'); // eslint-disable-line no-unused-labels
 		try {
 			lsp.config = Parser.getConfig(
 				// eslint-disable-next-line @typescript-eslint/no-require-imports
-				require(
-					path.isAbsolute(config) ? config : path.join('..', '..', config),
-				) as Parser.ConfigData,
+				require(path.isAbsolute(config) ? config : path.join(dir, config)) as Parser.ConfigData,
 			);
 			return;
 		} catch {}

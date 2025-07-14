@@ -13,5 +13,5 @@ mv config/default.json server/config/
 rm {config,data}/.schema.json
 
 mv server/lib/test/* server/dist/test/
-sed -i '' -e '1i\
+bash sed.sh -i '1i\
 #!/usr/bin/env node' server/lib/server.js

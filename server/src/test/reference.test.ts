@@ -92,11 +92,11 @@ describe('Reference', () => {
 	referencesTest(
 		'ext',
 		`<ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' />`,
+<ref group = " f " follow = ' f ' />`,
 		4,
 		[
 			location(0, 0, 0, 32),
-			location(1, 0, 1, 37),
+			location(1, 0, 1, 36),
 		],
 	);
 	referencesTest(
@@ -111,7 +111,7 @@ describe('Reference', () => {
 	referencesTest(
 		'attr-key',
 		`<ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' />
+<ref group = " f " follow = ' f ' />
 <references group = f />`,
 		6,
 		[
@@ -142,17 +142,17 @@ describe('Reference', () => {
 	referencesTest(
 		'attr-value#name',
 		`<ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' />`,
+<ref group = " f " follow = ' f ' />`,
 		23,
 		[
 			location(0, 22, 0, 23),
-			location(1, 30, 1, 33),
+			location(1, 29, 1, 32),
 		],
 	);
 	referencesTest(
 		'attr-value#group',
 		`<ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' />
+<ref group = " f " follow = ' f ' />
 <references group = f />`,
 		14,
 		[
@@ -222,17 +222,17 @@ describe('Rename', () => {
 	renameTest(
 		'attr-value#name',
 		`<ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' /><ref name=f/>`,
+<ref group = " f " follow = ' f ' /><ref name=f/>`,
 		23,
 		[
 			range(22, 23),
-			range(1, 30, 1, 33),
+			range(1, 29, 1, 32),
 		],
 	);
 	renameTest(
 		'attr-value#group',
 		`<ref group = f name = f > </ref>
-<ref group = " f " extends = ' f ' /><ref name=f/>
+<ref group = " f " follow = ' f ' /><ref name=f/>
 <references group = f />`,
 		14,
 		[

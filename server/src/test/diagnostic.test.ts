@@ -34,7 +34,7 @@ http://a]
 		},
 		{
 			range: range(2, 0, 2, 5),
-			severity: 1,
+			severity: 2,
 			source: 'WikiLint',
 			code: 'unmatched-tag',
 			message: 'tag that is both closing and self-closing',
@@ -56,7 +56,7 @@ http://a]
 			data: [],
 		},
 	],
-	errors = diagnostics.slice(0, 2);
+	errors = diagnostics.slice(0, 1);
 
 describe('Diagnostic/CodeAction', () => {
 	it('diagnostic', async () => {
@@ -65,15 +65,16 @@ describe('Diagnostic/CodeAction', () => {
 	it('quickFix', () => {
 		assert.deepStrictEqual(
 			provideCodeAction({...params, context: {diagnostics}} as unknown as CodeActionParams),
-			errors.map((diagnostic): CodeAction => ({
-				title: diagnostic.data[0]!.title,
-				kind: CodeActionKind.QuickFix,
-				diagnostics: [diagnostic],
-				isPreferred: diagnostic.data[0]!.fix,
-				edit: {
-					changes: {[params.textDocument.uri]: diagnostic.data},
-				},
-			})),
+			diagnostics.filter(({data}) => data.length > 0)
+				.map((diagnostic): CodeAction => ({
+					title: diagnostic.data[0]!.title,
+					kind: CodeActionKind.QuickFix,
+					diagnostics: [diagnostic],
+					isPreferred: diagnostic.data[0]!.fix,
+					edit: {
+						changes: {[params.textDocument.uri]: diagnostic.data},
+					},
+				})),
 		);
 	});
 	it('no warning', async () => {

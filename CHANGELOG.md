@@ -1,3 +1,15 @@
+## v1.4.0
+
+*2025-08-08*
+
+**Added**
+
+- Configuration option to set the user's wiki userpage or email address, which may be required by some features according to the [Wikimedia Foundation's policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)
+
+**Changed**
+
+- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.24.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1240)
+
 ## v1.3.6
 
 *2025-07-14*

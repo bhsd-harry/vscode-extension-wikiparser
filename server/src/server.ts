@@ -42,6 +42,7 @@ declare interface Settings {
 	signature: boolean;
 	articlePath: string;
 	config: string;
+	user: string;
 }
 
 const documentSettings = new Map<string, Promise<Settings>>();
@@ -67,6 +68,7 @@ const defaultSettings: Settings = {
 	signature: true,
 	articlePath: '',
 	config: '',
+	user: '',
 };
 
 const getSetting = async ({textDocument: {uri}}: {textDocument: TextDocumentIdentifier}): Promise<Settings> => {
@@ -90,7 +92,7 @@ const getSetting = async ({textDocument: {uri}}: {textDocument: TextDocumentIden
 
 const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 	const setting = await getSetting({textDocument: doc}),
-		{articlePath, config} = setting,
+		{articlePath, config, user} = setting,
 		[, lsp] = getLSP(doc.uri);
 	if (config) {
 		let dir = path.join('..', '..');
@@ -104,7 +106,7 @@ const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 		} catch {}
 	}
 	try {
-		await lsp.setTargetWikipedia(articlePath);
+		await lsp.setTargetWikipedia(articlePath, user);
 	} catch {
 		lsp.config = Parser.getConfig();
 	}

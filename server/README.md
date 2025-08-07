@@ -56,6 +56,7 @@ npm i -g wikitext-lsp
 | :- | :- | :- | :- |
 | `wikiparser.articlePath` | Specify the article path of the wiki site.<br>Also set the parser configuration automatically for all language editions of Wikipedia. | | `https://en.wikipedia.org/wiki/` |
 | `wikiparser.config` | Manually specifiy the absolute path to the parser configuration file or the name of a [preset configuration](https://github.com/bhsd-harry/wikiparser-node/tree/lint/config). | | `enwiki` |
+| `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests made by the language server. | | `user@example.net` or `https://meta.wikimedia.org/wiki/User:Example` |
 | `wikiparser.linter.enable` | Enable diagnostics. | `true` | |
 | `wikiparser.linter.severity` | Display or hide warnings. | `errors only` | `errors and warnings` |
 | `wikiparser.linter.lilypond` | Specify the path to the LilyPond executable to lint `<score>`. | | `/opt/homebrew/bin/lilypond` |
@@ -70,3 +71,7 @@ npm i -g wikitext-lsp
 ```bash
 wikitext-lsp --stdio
 ```
+
+## Changelog
+
+Please see the [CHANGELOG](https://marketplace.visualstudio.com/items/Bhsd.vscode-extension-wikiparser/changelog) of the associated VS Code extension.

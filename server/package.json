@@ -1,6 +1,6 @@
 {
 	"name": "wikitext-lsp",
-	"version": "1.3.6",
+	"version": "1.4.0",
 	"description": "Standalone language server for MediaWiki Wikitext",
 	"keywords": [
 		"mediawiki",
@@ -9,7 +9,7 @@
 		"language service",
 		"lsp"
 	],
-	"homepage": "https://github.com/bhsd-harry/vscode-extension-wikiparser/tree/main/server",
+	"homepage": "https://github.com/bhsd-harry/vscode-extension-wikiparser/tree/main/server#readme",
 	"bugs": {
 		"url": "https://github.com/bhsd-harry/vscode-extension-wikiparser/issues"
 	},

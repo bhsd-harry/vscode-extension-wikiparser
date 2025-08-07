@@ -1,6 +1,6 @@
 # WikiParser Language Server
 
-[![VSCode Marketplace: WikiParser Language Server](https://vsmarketplacebadges.dev/version-short/bhsd.vscode-extension-wikiparser.webp?color=blueviolet&logo=visual-studio-code&style=?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser)
+[![VS Code Marketplace: WikiParser Language Server](https://vsmarketplacebadges.dev/version-short/bhsd.vscode-extension-wikiparser.webp?color=blueviolet&logo=visual-studio-code&style=?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser)
 [![CodeQL](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/codeql.yml)
 [![CI](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/node.js.yml/badge.svg)](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/node.js.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/80fab92ae83b4dd4b17f8891ccac3f38)](https://app.codacy.com/gh/bhsd-harry/vscode-extension-wikiparser/dashboard)
@@ -55,6 +55,7 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 | :- | :- | :- |
 | `wikiparser.articlePath` | Specify the article path of the wiki site.<br>Also set the parser configuration automatically for all language editions of Wikipedia. | |
 | `wikiparser.config` | Manually specifiy the path to the parser configuration file. | |
+| `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests made by the language server. | |
 | `wikiparser.linter.enable` | Enable diagnostics. | `true` |
 | `wikiparser.linter.severity` | Display or hide warnings. | `errors only` |
 | `wikiparser.linter.lilypond` | Specify the path to the LilyPond executable to lint `<score>`. | |

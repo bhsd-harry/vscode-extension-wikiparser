@@ -5,6 +5,7 @@
 **Added**
 
 - Configuration option to set the user's wiki userpage or email address, which may be required by some features according to the [Wikimedia Foundation's policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)
+- New refactoring action to escape `|` and `=` characters in templates
 
 **Changed**
 

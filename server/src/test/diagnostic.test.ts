@@ -3,7 +3,7 @@ import {execSync} from 'child_process';
 import {CodeActionKind} from 'vscode-languageserver/node';
 import {getParams, range} from './util';
 import {provideDiagnostics, provideCodeAction} from '../lsp';
-import type {Diagnostic, CodeAction, CodeActionParams} from 'vscode-languageserver/node';
+import type {Diagnostic, CodeAction} from 'vscode-languageserver/node';
 import type {QuickFixData} from '../lsp';
 
 let lilypond: string | undefined;
@@ -64,7 +64,11 @@ describe('Diagnostic/CodeAction', () => {
 	});
 	it('quickFix', () => {
 		assert.deepStrictEqual(
-			provideCodeAction({...params, context: {diagnostics}} as unknown as CodeActionParams),
+			provideCodeAction({
+				...params,
+				context: {diagnostics, only: [CodeActionKind.QuickFix]},
+				range: range(0, 0, 1, 0),
+			}),
 			diagnostics.filter(({data}) => data.length > 0)
 				.map((diagnostic): CodeAction => ({
 					title: diagnostic.data[0]!.title,

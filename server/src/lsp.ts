@@ -1,5 +1,11 @@
 import Parser from 'wikilint'; // eslint-disable-line n/no-unpublished-import
-import {CompletionItemKind, TextDocuments, createConnection, ProposedFeatures} from 'vscode-languageserver/node';
+import {
+	CompletionItemKind,
+	TextDocuments,
+	createConnection,
+	ProposedFeatures,
+	CodeActionKind,
+} from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
 import type {
 	Connection,
@@ -158,15 +164,41 @@ export const provideDiagnostics = (
 	return lsp.provideDiagnostics(doc, warning);
 };
 
-export const provideCodeAction = ({context: {diagnostics}, textDocument: {uri}}: CodeActionParams): CodeAction[] =>
-	getLSP(uri)[1].provideCodeAction(diagnostics).map((action): CodeAction => ({
-		...action,
-		edit: {
-			changes: {
-				[uri]: action.edit!.changes!['']!,
-			},
+const getAction = (action: CodeAction, uri: string): CodeAction => ({
+	...action,
+	edit: {
+		changes: {
+			[uri]: action.edit!.changes!['']!,
 		},
-	}));
+	},
+});
+
+export const provideCodeAction = (
+	{context: {diagnostics, only}, textDocument: {uri}, range}: CodeActionParams,
+): CodeAction[] => {
+	const [, lsp] = getLSP(uri);
+	return [
+		...only?.some(kind => /^quickfix(?:$|\.)/u.test(kind)) === false
+			? []
+			: lsp.provideCodeAction(diagnostics).map(action => getAction(action, uri)),
+		...range.start.line === range.end.line && range.start.character === range.end.character
+		|| only?.some(kind => /^refactor(?:$|\.)/u.test(kind)) === false
+			? []
+			: [{title: 'Escape with magic words', kind: CodeActionKind.RefactorRewrite, data: {uri, range}}],
+	];
+};
+
+export const resolveCodeAction = async (action: CodeAction): Promise<CodeAction> => {
+	if (action.data && action.kind === CodeActionKind.RefactorRewrite) {
+		const {uri, range} = action.data as {uri: string, range: TextRange},
+			[doc, lsp] = getLSP(uri),
+			refactor = (await lsp.provideRefactoringAction(doc, range)).find(({title}) => title === action.title);
+		if (refactor) {
+			return getAction(refactor, uri);
+		}
+	}
+	return action;
+};
 
 export const provideHover = (
 	{textDocument: {uri}, position}: TextDocumentPositionParams,

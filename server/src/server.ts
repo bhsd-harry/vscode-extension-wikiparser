@@ -22,6 +22,7 @@ import {
 	provideRename,
 	provideDiagnostics,
 	provideCodeAction,
+	resolveCodeAction,
 	provideHover,
 	provideSignatureHelp,
 	provideInlayHints,
@@ -120,11 +121,15 @@ connection?.onInitialize(() => ({
 			workspaceDiagnostics: false,
 		},
 		codeActionProvider: {
-			codeActionKinds: [CodeActionKind.QuickFix],
+			codeActionKinds: [CodeActionKind.QuickFix, CodeActionKind.RefactorRewrite],
+			resolveProvider: true,
 		},
 		completionProvider: {
 			resolveProvider: false,
 			triggerCharacters: ['#', ...new Array(10).fill(0).map((_, i) => String(i))],
+			completionItem: {
+				labelDetailsSupport: false,
+			},
 		},
 		colorProvider: true,
 		referencesProvider: true,
@@ -174,6 +179,7 @@ connection?.languages.diagnostics.on(async (params): Promise<FullDocumentDiagnos
 connection?.languages.inlayHint.on(async params => (await getSetting(params)).inlay ? provideInlayHints(params) : []);
 
 connection?.onCodeAction(provideCodeAction);
+connection?.onCodeActionResolve(resolveCodeAction);
 connection?.onCompletion(async params => (await getSetting(params)).completion ? provideCompletion(params) : null);
 connection?.onDocumentColor(async params => (await getSetting(params)).color ? provideDocumentColor(params) : []);
 connection?.onColorPresentation(provideColorPresentation);

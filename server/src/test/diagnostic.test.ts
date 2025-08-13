@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import {execSync} from 'child_process';
 import {CodeActionKind} from 'vscode-languageserver/node';
 import {getParams, range} from './util';
-import {provideDiagnostics, provideCodeAction} from '../lsp';
+import {provideDiagnostics, provideCodeAction, resolveCodeAction} from '../lsp';
 import type {Diagnostic, CodeAction} from 'vscode-languageserver/node';
 import type {QuickFixData} from '../lsp';
 
@@ -63,22 +63,99 @@ describe('Diagnostic/CodeAction', () => {
 		assert.deepStrictEqual(await provideDiagnostics(params, true), diagnostics);
 	});
 	it('quickFix', () => {
+		const fixable = diagnostics[1]!;
 		assert.deepStrictEqual(
 			provideCodeAction({
 				...params,
 				context: {diagnostics, only: [CodeActionKind.QuickFix]},
 				range: range(0, 0, 1, 0),
 			}),
-			diagnostics.filter(({data}) => data.length > 0)
-				.map((diagnostic): CodeAction => ({
-					title: diagnostic.data[0]!.title,
+			[
+				...diagnostics.filter(({data}) => data.length > 0)
+					.map((diagnostic): CodeAction => ({
+						title: diagnostic.data[0]!.title,
+						kind: CodeActionKind.QuickFix,
+						diagnostics: [diagnostic],
+						isPreferred: diagnostic.data[0]!.fix,
+						edit: {
+							changes: {[params.textDocument.uri]: diagnostic.data},
+						},
+					})),
+				{
+					title: 'Fix all: unmatched-tag',
 					kind: CodeActionKind.QuickFix,
-					diagnostics: [diagnostic],
-					isPreferred: diagnostic.data[0]!.fix,
-					edit: {
-						changes: {[params.textDocument.uri]: diagnostic.data},
+					diagnostics: [fixable],
+					isPreferred: true,
+					data: {
+						uri: params.textDocument.uri,
+						rule: 'unmatched-tag',
 					},
-				})),
+				},
+				{
+					title: 'Fix all: WikiLint',
+					kind: CodeActionKind.QuickFix,
+					diagnostics: [fixable],
+					isPreferred: true,
+					data: {
+						uri: params.textDocument.uri,
+					},
+				},
+			],
+		);
+	});
+	it('fix all', async () => {
+		assert.deepStrictEqual(
+			await Promise.all(
+				provideCodeAction({
+					...params,
+					context: {diagnostics, only: [CodeActionKind.SourceFixAll]},
+					range: range(0, 0, 1, 0),
+				}).map(resolveCodeAction),
+			),
+			[
+				{
+					title: 'Fix all: unmatched-tag',
+					kind: CodeActionKind.SourceFixAll,
+					diagnostics: [diagnostics[1]],
+					isPreferred: true,
+					data: {uri: params.textDocument.uri, rule: 'unmatched-tag'},
+					edit: {
+						changes: {
+							[params.textDocument.uri]: [
+								{
+									range: range(0, 0, 4, 0),
+									newText: `
+http://a]
+<br>
+[
+`,
+								},
+							],
+						},
+					},
+				},
+				{
+					title: 'Fix all: WikiLint',
+					kind: CodeActionKind.SourceFixAll,
+					diagnostics: [diagnostics[1]],
+					isPreferred: true,
+					data: {uri: params.textDocument.uri},
+					edit: {
+						changes: {
+							[params.textDocument.uri]: [
+								{
+									range: range(0, 0, 4, 0),
+									newText: `
+http://a]
+<br>
+[
+`,
+								},
+							],
+						},
+					},
+				},
+			],
 		);
 	});
 	it('no warning', async () => {

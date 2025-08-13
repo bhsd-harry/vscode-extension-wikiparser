@@ -55,7 +55,7 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 | :- | :- | :- |
 | `wikiparser.articlePath` | Specify the article path of the wiki site.<br>Also set the parser configuration automatically for all language editions of Wikipedia. | |
 | `wikiparser.config` | Manually specifiy the path to the parser configuration file. | |
-| `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests made by the language server. | |
+| `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests sent to WMF sites from the language server. | |
 | `wikiparser.linter.enable` | Enable diagnostics. | `true` |
 | `wikiparser.linter.severity` | Display or hide warnings. | `errors only` |
 | `wikiparser.linter.lilypond` | Specify the path to the LilyPond executable to lint `<score>`. | |

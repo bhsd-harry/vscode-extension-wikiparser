@@ -176,11 +176,16 @@ const getAction = (action: CodeAction, uri: string): CodeAction => ({
 export const provideCodeAction = (
 	{context: {diagnostics, only}, textDocument: {uri}, range}: CodeActionParams,
 ): CodeAction[] => {
-	const [, lsp] = getLSP(uri);
+	const acceptFix = only?.some(kind => /^(?:quickfix|source\.fixAll)(?:$|\.)/u.test(kind)) !== false,
+		acceptFixAll = only?.some(kind => /^source\.fixAll(?:$|\.)/u.test(kind)) !== false,
+		quickfix = acceptFix ? getLSP(uri)[1].provideCodeAction(diagnostics) : [],
+		newKind = acceptFixAll ? CodeActionKind.SourceFixAll : CodeActionKind.QuickFix;
 	return [
 		...only?.some(kind => /^quickfix(?:$|\.)/u.test(kind)) === false
 			? []
-			: lsp.provideCodeAction(diagnostics).map(action => getAction(action, uri)),
+			: quickfix.filter(({kind}) => kind === CodeActionKind.QuickFix).map(action => getAction(action, uri)),
+		...quickfix.filter(({kind}) => kind === CodeActionKind.SourceFixAll)
+			.map(action => ({...action, kind: newKind, data: {...action.data, uri}})),
 		...range.start.line === range.end.line && range.start.character === range.end.character
 		|| only?.some(kind => /^refactor(?:$|\.)/u.test(kind)) === false
 			? []
@@ -189,12 +194,20 @@ export const provideCodeAction = (
 };
 
 export const resolveCodeAction = async (action: CodeAction): Promise<CodeAction> => {
-	if (action.data && action.kind === CodeActionKind.RefactorRewrite) {
-		const {uri, range} = action.data as {uri: string, range: TextRange},
-			[doc, lsp] = getLSP(uri),
-			refactor = (await lsp.provideRefactoringAction(doc, range)).find(({title}) => title === action.title);
-		if (refactor) {
-			return getAction(refactor, uri);
+	if (action.data) {
+		if (action.kind === CodeActionKind.RefactorRewrite) {
+			const {uri, range} = action.data as {uri: string, range: TextRange},
+				[doc, lsp] = getLSP(uri),
+				refactor = (await lsp.provideRefactoringAction(doc, range)).find(({title}) => title === action.title);
+			if (refactor) {
+				return getAction(refactor, uri);
+			}
+		} else if (
+			action.kind === CodeActionKind.SourceFixAll
+			|| action.kind === CodeActionKind.QuickFix && 'uri' in action.data
+		) {
+			const {uri} = action.data as {uri: string};
+			return getAction(getLSP(uri)[1].resolveCodeAction({...action, kind: CodeActionKind.SourceFixAll}), uri);
 		}
 	}
 	return action;

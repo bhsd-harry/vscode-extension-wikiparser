@@ -91,7 +91,7 @@
 				"wikiparser.user": {
 					"type": "string",
 					"default": "",
-					"markdownDescription": "According to the [Wikimedia Foundation's policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy), a URI for a userpage or an email address of the user may be required for some features. This information is only used to identify the user in the User-Agent header of HTTP requests made by the language server."
+					"markdownDescription": "According to the [Wikimedia Foundation's policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy), a URI for a userpage or an email address of the user may be required when accessing WMF sites. This information is only used to identify the user in the User-Agent header of HTTP requests made by the language server."
 				}
 			}
 		}
@@ -134,7 +134,7 @@
 		"mathjax": "^3.2.2",
 		"mocha": "^11.7.1",
 		"typescript": "^5.8.2",
-		"wikilint": "^2.23.0"
+		"wikilint": "^2.24.1"
 	},
 	"engines": {
 		"node": ">=20.9.0",

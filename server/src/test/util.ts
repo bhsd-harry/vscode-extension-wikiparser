@@ -1,7 +1,7 @@
 import {TextDocument} from 'vscode-languageserver-textdocument';
 import {Range as TextRange, Color, TextEdit} from 'vscode-languageserver/node';
 import {docs} from '../lsp';
-import type {Position} from 'vscode-languageserver/node';
+import type {Position, CodeActionParams, CodeActionKind, Diagnostic} from 'vscode-languageserver/node';
 
 const testDocs = new Map<string, TextDocument>();
 
@@ -35,4 +35,19 @@ export const getPositionParams = (
 ): {textDocument: TextDocument, position: Position} => ({
 	...getParams(file, content),
 	position: {line, character},
+});
+
+export const getCodeActionParams = (
+	file: string,
+	content: string,
+	only: CodeActionKind,
+	diagnostics: Diagnostic[] = [],
+	startLine = 0,
+	startCol = 0,
+	endLine = 1,
+	endCol = 0,
+): CodeActionParams => ({
+	...getParams(file, content),
+	range: range(startLine, startCol, endLine, endCol),
+	context: {diagnostics, only: [only]},
 });

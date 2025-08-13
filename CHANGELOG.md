@@ -1,15 +1,16 @@
 ## v1.4.0
 
-*2025-08-08*
+*2025-08-14*
 
 **Added**
 
-- Configuration option to set the user's wiki userpage or email address, which may be required by some features according to the [Wikimedia Foundation's policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)
+- Configuration option to set the user's wiki userpage or email address, which may be required when accessing WMF sites according to the [Wikimedia Foundation's policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)
 - New refactoring action to escape `|` and `=` characters in templates
+- New fix-all actions for `WikiLint` diagnostics
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.24.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1240)
+- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.24.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1241)
 
 ## v1.3.6
 

@@ -259,21 +259,21 @@ describe('Diagnostic (CSS)', () => {
 describe('Diagnostic (TeX)', () => {
 	it('math', async () => {
 		assert.deepStrictEqual(
-			await getDiagnostics(String.raw`<math>#\ce</math>`),
+			await getDiagnostics(String.raw`<math>\ce</math>`),
 			[
 				{
-					range: range(7, 10),
+					range: range(6, 9),
 					severity: 2,
 					source: 'MathJax',
 					code: 'UnknownMacro',
 					message: String.raw`Unknown macro "\ce"`,
 				},
 				{
-					range: range(6, 10),
+					range: range(6, 9),
 					severity: 1,
 					source: 'MathJax',
-					code: 'CantUseHash1',
-					message: "You can't use 'macro parameter character #' in math mode",
+					code: 'MissingArgFor',
+					message: String.raw`Missing argument for \ce`,
 				},
 			],
 		);

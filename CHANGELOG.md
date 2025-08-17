@@ -10,7 +10,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.24.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1241)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.24.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1241)
 
 ## v1.3.6
 
@@ -18,7 +18,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.21.3](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1213)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.21.3](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1213)
 
 ## v1.3.5
 
@@ -26,7 +26,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.21.2](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1212)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.21.2](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1212)
 
 ## v1.3.4
 
@@ -34,11 +34,11 @@
 
 **Added**
 
-- Configuration option to enable diagnostics for `math` and `chem` extension tags with the path to the [Mathjax](https://npmjs.com/package/mathjax) package
+- Configuration option to enable diagnostics for `math` and `chem` extension tags with the path to the [Mathjax](https://www.npmjs.com/package/mathjax) package
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.20.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1201)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.20.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1201)
 
 ## v1.3.3
 
@@ -46,7 +46,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.20.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1200)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.20.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1200)
 
 ## v1.3.2
 
@@ -54,7 +54,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.18.4](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1184)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.18.4](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1184)
 
 ## v1.3.1
 
@@ -62,7 +62,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.18.3](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1183)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.18.3](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1183)
 
 ## v1.3.0
 
@@ -76,7 +76,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.18.2](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1182)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.18.2](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1182)
 
 ## v1.2.0
 
@@ -89,7 +89,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.17.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1171)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.17.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1171)
 
 ## v1.1.1
 
@@ -103,7 +103,7 @@
 
 **Changed**
 
-- Upgrade the [WikiLint](https://npmjs.com/package/wikilint) package to [v2.16.4](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1164)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.16.4](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1164)
 - The configuration option to enable/disable diagnostics is now renamed from `wikiparser.lint` to `wikiparser.linter.enable`
 
 ## v1.1.0
@@ -112,7 +112,7 @@
 
 **Changed**
 
-- All language server features are now directly provided by the [WikiLint](https://npmjs.com/package/wikilint) package [v2.16.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1161)
+- All language server features are now directly provided by the [WikiLint](https://www.npmjs.com/package/wikilint) package [v2.16.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1161)
 
 ## v1.0.5
 

@@ -17,7 +17,7 @@ npm i -g wikitext-lsp
 
 ## Features
 
-### Linting and quick fixes, offered by [WikiLint](https://npmjs.com/package/wikilint)
+### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
 
 ### Auto-completion

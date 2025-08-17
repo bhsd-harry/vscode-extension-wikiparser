@@ -9,13 +9,13 @@ This is a language server extension for Visual Studio Code that provides languag
 
 ## Installation
 
-For a standalone version of the language server, please refer to [wikitext-lsp](https://npmjs.com/package/wikitext-lsp).
+For a standalone version of the language server, please refer to [wikitext-lsp](https://www.npmjs.com/package/wikitext-lsp).
 
 You can install this extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser).
 
 ## Features
 
-### Linting and quick fixes, offered by [WikiLint](https://npmjs.com/package/wikilint)
+### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
 
 ### Auto-completion

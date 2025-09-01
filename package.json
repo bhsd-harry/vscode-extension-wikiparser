@@ -131,7 +131,7 @@
 		"eslint-plugin-regexp": "^2.9.0",
 		"eslint-plugin-unicorn": "^56.0.1",
 		"jsonrpc-ws-proxy": "^0.0.5",
-		"mathjax": "^3.2.2",
+		"mathjax": "^4.0.0",
 		"mocha": "^11.7.1",
 		"typescript": "^5.8.2",
 		"wikilint": "^2.24.1"

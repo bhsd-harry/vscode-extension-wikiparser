@@ -144,7 +144,7 @@ describe('CompletionItem', () => {
 					},
 					documentation: {
 						kind: 'markdown',
-						value: 'URL encoded full page title (including all subpage levels) without the namespace.',
+						value: 'URL encoded page name, including all subpage levels, but without the namespace.',
 					},
 				},
 				{

@@ -27,7 +27,7 @@ http://a]
 				{
 					range: range(1, 0, 1, 0),
 					newText: '[',
-					title: 'Suggestion: left bracket',
+					title: 'Suggestion: opening bracket',
 					fix: false,
 				},
 			],

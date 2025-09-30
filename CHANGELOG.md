@@ -1,3 +1,15 @@
+## v1.4.2
+
+*2025-10-28*
+
+**Changed**
+
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.29.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1291)
+
+**Removed**
+
+- Configuration option to specify the path to the [Mathjax](https://www.npmjs.com/package/mathjax) package
+
 ## v1.4.1
 
 *2025-09-24*

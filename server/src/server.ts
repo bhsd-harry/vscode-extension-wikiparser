@@ -34,7 +34,6 @@ declare interface Settings {
 		enable: boolean;
 		severity: 'errors only' | 'errors and warnings';
 		lilypond: string;
-		mathjax: string;
 	};
 	inlay: boolean;
 	completion: boolean;
@@ -60,7 +59,6 @@ const defaultSettings: Settings = {
 		enable: true,
 		severity: 'errors only',
 		lilypond: '',
-		mathjax: '',
 	},
 	inlay: true,
 	completion: true,
@@ -170,10 +168,10 @@ connection?.onDidChangeConfiguration(() => {
 });
 
 connection?.languages.diagnostics.on(async (params): Promise<FullDocumentDiagnosticReport> => {
-	const {linter: {enable, severity, lilypond, mathjax}} = await getSetting(params);
+	const {linter: {enable, severity, lilypond}} = await getSetting(params);
 	return {
 		kind: DocumentDiagnosticReportKind.Full,
-		items: enable ? await provideDiagnostics(params, severity === 'errors and warnings', lilypond, mathjax) : [],
+		items: enable ? await provideDiagnostics(params, severity === 'errors and warnings', lilypond) : [],
 	};
 });
 connection?.languages.inlayHint.on(async params => (await getSetting(params)).inlay ? provideInlayHints(params) : []);

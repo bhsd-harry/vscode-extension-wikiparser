@@ -1,9 +1,10 @@
 #!/usr/local/bin/bash
 tsc --project server/tsconfig.json && \
-esbuild server/src/lsp.ts --charset=utf8 --bundle --target=es2024 --platform=node --outdir=build\
- --external:chalk --external:entities --external:stylelint --external:mathjax\
+esbuild server/src/lsp.ts --charset=utf8 --bundle --target=es2024 --platform=node --outdir=build --drop-labels=NPM\
+ --external:chalk --external:entities --external:stylelint --external:mathoid-texvcjs --external:@bhsd/stylelint-util\
  --external:vscode-languageserver --external:vscode-languageserver-textdocument\
  --external:vscode-css-languageservice --external:vscode-json-languageservice --external:vscode-html-languageservice && \
+gsed -i '/@bhsd\/stylelint-util/d' build/lsp.js && \
 esbuild build/lsp.js --charset=utf8 --minify --target=es2023 --outdir=server/dist
 esbuild server/src/server.ts --charset=utf8 --minify --target=es2023 --format=cjs --outdir=server/dist --drop-labels=NPM
 mkdir -p server/config server/dist/test

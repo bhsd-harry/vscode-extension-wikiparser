@@ -59,7 +59,7 @@ if (connection) {
 	docs.listen(connection);
 }
 
-export const getLSP = (uri: string): [string, LanguageService & {config?: Config, mathjax?: string}] => {
+export const getLSP = (uri: string): [string, LanguageService & {config?: Config, lilypond?: string}] => {
 	const doc = docs.get(uri)!;
 	return [doc.getText(), Parser.createLanguageService(doc)];
 };
@@ -156,11 +156,9 @@ export const provideDiagnostics = (
 	{textDocument: {uri}}: DocumentDiagnosticParams,
 	warning: boolean,
 	lilypond = '',
-	mathjax = '',
 ): Promise<Diagnostic[]> => {
 	const [doc, lsp] = getLSP(uri);
 	lsp.lilypond = lilypond;
-	lsp.mathjax = mathjax;
 	return lsp.provideDiagnostics(doc, warning);
 };
 

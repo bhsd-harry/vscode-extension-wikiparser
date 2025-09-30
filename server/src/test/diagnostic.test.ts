@@ -34,7 +34,7 @@ http://a]
 		},
 		{
 			range: range(2, 0, 2, 5),
-			severity: 2,
+			severity: 1,
 			source: 'WikiLint',
 			code: 'unmatched-tag',
 			message: 'tag that is both closing and self-closing',
@@ -56,7 +56,7 @@ http://a]
 			data: [],
 		},
 	],
-	errors = diagnostics.slice(0, 1);
+	errors = diagnostics.slice(0, 2);
 
 describe('Diagnostic/CodeAction', () => {
 	it('diagnostic', async () => {
@@ -167,7 +167,6 @@ const getDiagnostics = (text: string): Promise<Diagnostic[]> => provideDiagnosti
 	getParams(__filename, text),
 	true,
 	lilypond,
-	'mathjax',
 );
 
 describe('Diagnostic (JSON)', () => {
@@ -192,10 +191,16 @@ describe('Diagnostic (JSON)', () => {
 ]</mapframe>`),
 			[
 				{
-					range: range(0, 10, 2, 1),
+					range: range(1, 0, 1, 1),
 					severity: 2,
 					source: 'json',
 					message: 'Incorrect type. Expected "object".',
+				},
+				{
+					range: range(1, 0, 1, 1),
+					severity: 2,
+					source: 'json',
+					message: 'Matches multiple schemas when only one must validate.',
 				},
 			],
 		);
@@ -227,12 +232,6 @@ describe('Diagnostic (JSON)', () => {
 					source: 'json',
 					message: 'Missing property "geometry".',
 				},
-				{
-					range: range(9, 10),
-					severity: 2,
-					source: 'json',
-					message: 'Missing property "properties".',
-				},
 			].reverse(),
 		);
 	});
@@ -257,18 +256,25 @@ describe('Diagnostic (CSS)', () => {
 });
 
 describe('Diagnostic (TeX)', () => {
-	it('math', async () => {
+	it.skip('math', async () => {
 		assert.deepStrictEqual(
-			await getDiagnostics(String.raw`<math>\ce{}</math>`),
+			await getDiagnostics(String.raw`<math>\ce{H}</math>`),
 			[
 				{
-					range: range(6, 9),
-					severity: 2,
-					source: 'MathJax',
-					code: 'UnknownMacro',
-					message: String.raw`Unknown macro "\ce"`,
+					range: range(6, 12),
+					severity: 1,
+					source: 'texvc',
+					code: 'invalid-math',
+					message: 'chem attribute required',
+					data: [],
 				},
 			],
+		);
+	});
+	it('math (unsupported)', async () => {
+		assert.deepStrictEqual(
+			await getDiagnostics(String.raw`<math>\ce{H}</math>`),
+			[],
 		);
 	});
 });

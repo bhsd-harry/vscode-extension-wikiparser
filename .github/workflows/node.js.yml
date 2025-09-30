@@ -27,5 +27,5 @@ jobs:
     - run: npm ci
     - run: npm run build
     - run: npm prune --omit=dev
-    - run: npm i --save-prod --omit=dev mocha mathjax
+    - run: npm i --save-prod --omit=dev mocha mathoid-texvcjs
     - run: npm test

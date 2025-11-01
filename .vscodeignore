@@ -15,6 +15,7 @@ assets/
 **/.schema.json
 **/tsconfig.json
 *.sh
+eslint.*.mjs
 .eslintcache*
 .gitignore
 .mocharc.json

@@ -94,7 +94,7 @@ const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 		{articlePath, config, user} = setting,
 		[, lsp] = getLSP(doc.uri);
 	if (config) {
-		let dir = path.join('..', '..');
+		let dir = path.join('..', '..'); // eslint-disable-line no-useless-assignment
 		NPM: dir = path.join('wikilint', 'config'); // eslint-disable-line no-unused-labels
 		try {
 			lsp.config = Parser.getConfig(

@@ -1,4 +1,4 @@
-import Parser from 'wikilint'; // eslint-disable-line n/no-unpublished-import
+import Parser from 'wikilint';
 import {
 	CompletionItemKind,
 	TextDocuments,
@@ -35,7 +35,7 @@ import type {
 	InlayHintParams,
 	InlayHint,
 } from 'vscode-languageserver/node';
-import type {LanguageService, Config} from 'wikilint'; // eslint-disable-line n/no-unpublished-import
+import type {LanguageService, Config} from 'wikilint';
 
 export interface QuickFixData extends TextEdit {
 	title: string;
@@ -68,7 +68,6 @@ export const provideDocumentColor = async (
 	{textDocument: {uri}}: DocumentColorParams,
 ): Promise<ColorInformation[]> => {
 	const [doc, lsp] = getLSP(uri);
-	// eslint-disable-next-line n/no-unpublished-import
 	return lsp.provideDocumentColors((await import('color-rgba')).default, doc);
 };
 

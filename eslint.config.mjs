@@ -8,6 +8,7 @@ export default extend(
 	},
 	{
 		rules: {
+			'no-unused-labels': 0,
 			'jsdoc/require-jsdoc': 0,
 		},
 	},

@@ -16,37 +16,49 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 ## Features
 
 ### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
 
 ### Auto-completion
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/autocomplete.gif?raw=true" width="250" alt="Auto-completion"></div>
 
 ### Color preview
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/color.png?raw=true" width="450" alt="Color preview"></div>
 
 ### Code navigation
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/navigation.png?raw=true" width="400" alt="Code navigation"></div>
 
 ### Followable wiki and external links
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/link.png?raw=true" width="300" alt="Followable links"></div>
 
 ### Symbol renaming
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/rename.gif?raw=true" width="400" alt="Symbol renaming"></div>
 
 ### Code folding
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/folding.gif?raw=true" width="800" alt="Code Folding"></div>
 
 ### Outline view
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/outline.png?raw=true" width="300" alt="Outline"></div>
 
 ### Hover
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/hover.png?raw=true" width="700" alt="Hover"></div>
 
 ### Help with parser function signatures
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/signature.gif?raw=true" width="550" alt="Parser function signatures"></div>
 
 ### Inlay hints
+
 *Available since version 1.1.1*
+
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/inlay.png?raw=true" width="550" alt="Inlay hints"></div>
 
 ## Configuration
@@ -54,7 +66,7 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 | Configuration | Description | Default |
 | :- | :- | :- |
 | `wikiparser.articlePath` | Specify the article path of the wiki site.<br>Also set the parser configuration automatically for all language editions of Wikipedia. | |
-| `wikiparser.config` | Manually specifiy the path to the parser configuration file. | |
+| `wikiparser.config` | Manually specifiy the absolute path to the parser configuration file or the name of a [preset configuration](https://github.com/bhsd-harry/wikiparser-node/tree/lint/config). | |
 | `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests sent to WMF sites from the language server. | |
 | `wikiparser.linter.enable` | Enable diagnostics. | `true` |
 | `wikiparser.linter.severity` | Display or hide warnings. | `errors only` |

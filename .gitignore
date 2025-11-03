@@ -4,6 +4,7 @@ config/
 /data/
 /.vscode/settings.json
 /.eslintcache
+/.markdownlint.json
 /page.wiki
 /personal_access_token
 /build

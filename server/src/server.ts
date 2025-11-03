@@ -95,7 +95,7 @@ const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 		[, lsp] = getLSP(doc.uri);
 	if (config) {
 		let dir = path.join('..', '..'); // eslint-disable-line no-useless-assignment
-		NPM: dir = path.join('wikilint', 'config'); // eslint-disable-line no-unused-labels
+		NPM: dir = path.join('wikilint', 'config');
 		try {
 			lsp.config = Parser.getConfig(
 				// eslint-disable-next-line @typescript-eslint/no-require-imports

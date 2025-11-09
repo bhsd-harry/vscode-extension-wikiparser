@@ -1,0 +1,14 @@
+{
+	"no-hard-tabs": {
+		"code_blocks": false
+	},
+	"line-length": false,
+	"no-inline-html": {
+		"allowed_elements": [
+			"br",
+			"div",
+			"img"
+		]
+	},
+	"no-emphasis-as-heading": false
+}

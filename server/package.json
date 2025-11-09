@@ -31,10 +31,10 @@
 		"color-rgba": "^3.0.0",
 		"vscode-css-languageservice": "^6.3.8",
 		"vscode-html-languageservice": "^5.6.0",
-		"vscode-json-languageservice": "^5.6.2",
+		"vscode-json-languageservice": "^5.6.3",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",
-		"wikilint": "^2.30.0"
+		"wikilint": "^2.31.0"
 	},
 	"engines": {
 		"node": ">=20.9.0"

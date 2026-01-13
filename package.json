@@ -132,10 +132,10 @@
 		"mathoid-texvcjs": "^0.6.0",
 		"mocha": "^11.7.5",
 		"typescript": "^5.9.3",
-		"wikilint": "^2.34.0"
+		"wikilint": "^2.35.0"
 	},
 	"engines": {
-		"node": ">=20.9.0",
+		"node": ">=20.19.5",
 		"vscode": "^1.95.2"
 	}
 }

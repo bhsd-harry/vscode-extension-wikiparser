@@ -1,3 +1,6 @@
+<div align="center"><img src="https://github.com/bhsd-harry/wikiparser-node/raw/main/logo.png" width="200" alt="WikiParser-Node logo"></div>
+<br>
+
 # WikiParser Language Server
 
 [![npm version](https://badge.fury.io/js/wikitext-lsp.svg)](https://www.npmjs.com/package/wikitext-lsp)

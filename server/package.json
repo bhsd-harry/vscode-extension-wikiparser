@@ -1,6 +1,6 @@
 {
 	"name": "wikitext-lsp",
-	"version": "1.4.2",
+	"version": "1.4.3",
 	"description": "Standalone language server for MediaWiki Wikitext",
 	"keywords": [
 		"mediawiki",

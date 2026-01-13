@@ -17,6 +17,7 @@
 		"url": "https://github.com/bhsd-harry/vscode-extension-wikiparser/issues"
 	},
 	"qna": "https://github.com/bhsd-harry/vscode-extension-wikiparser/issues",
+	"icon": "assets/logo.png",
 	"license": "GPL-3.0",
 	"author": "Bhsd",
 	"publisher": "Bhsd",
@@ -131,7 +132,7 @@
 		"mathoid-texvcjs": "^0.6.0",
 		"mocha": "^11.7.5",
 		"typescript": "^5.9.3",
-		"wikilint": "^2.33.0"
+		"wikilint": "^2.34.0"
 	},
 	"engines": {
 		"node": ">=20.9.0",

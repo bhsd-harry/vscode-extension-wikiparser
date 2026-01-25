@@ -1,14 +1,10 @@
 {
-	"no-hard-tabs": {
-		"code_blocks": false
-	},
-	"line-length": false,
+	"extends": "@bhsd/code-standard/markdownlint",
 	"no-inline-html": {
 		"allowed_elements": [
 			"br",
 			"div",
 			"img"
 		]
-	},
-	"no-emphasis-as-heading": false
+	}
 }

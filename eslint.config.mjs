@@ -20,4 +20,10 @@ export default extend(
 			},
 		},
 	},
+	{
+		files: ['server/src/test/*.ts'],
+		rules: {
+			'@typescript-eslint/strict-void-return': 0,
+		},
+	},
 );

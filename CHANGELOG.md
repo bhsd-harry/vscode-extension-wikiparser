@@ -1,11 +1,23 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.5.0
+
+*2026-02-01*
+
+**Changed**
+
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.35.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1350)
+
+**Removed**
+
+- Support for Node.js 18
+
 ## v1.4.3
 
 *2026-01-13*
 
 **Changed**
 
-- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.34.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1330)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.34.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1340)
 
 ## v1.4.2
 

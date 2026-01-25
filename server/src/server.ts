@@ -168,7 +168,7 @@ connection?.onDidChangeConfiguration(() => {
 });
 
 connection?.languages.diagnostics.on(async (params): Promise<FullDocumentDiagnosticReport> => {
-	const {linter: {enable, severity, lilypond}} = await getSetting(params);
+	const {enable, severity, lilypond} = (await getSetting(params)).linter;
 	return {
 		kind: DocumentDiagnosticReportKind.Full,
 		items: enable ? await provideDiagnostics(params, severity === 'errors and warnings', lilypond) : [],

@@ -350,36 +350,25 @@ describe('CompletionItem', () => {
 		);
 	});
 	it('inline CSS key completion', async () => {
-		assert.deepStrictEqual(
-			(await completion('<p style=user-select:none;us>', 11))
-				?.filter(({label}) => label.startsWith('us'))
-				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
-			[
-				{
-					label: 'user-select',
-					kind: CompletionItemKind.Property,
-					textEdit: {
-						range: range(9, 20),
-						newText: 'user-select',
+		const mockTest = async (character: number, start: number, end: number, newText: string): Promise<void> => {
+			assert.deepStrictEqual(
+				(await completion('<p style=user-select:none;us>', character))
+					?.filter(({label}) => label.startsWith('us'))
+					.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
+				[
+					{
+						label: 'user-select',
+						kind: CompletionItemKind.Property,
+						textEdit: {
+							range: range(start, end),
+							newText,
+						},
 					},
-				},
-			],
-		);
-		assert.deepStrictEqual(
-			(await completion('<p style=user-select:none;us>', 28))
-				?.filter(({label}) => label.startsWith('us'))
-				.map(({label, kind, textEdit}) => ({label, kind, textEdit})),
-			[
-				{
-					label: 'user-select',
-					kind: CompletionItemKind.Property,
-					textEdit: {
-						range: range(26, 28),
-						newText: 'user-select:$0;',
-					},
-				},
-			],
-		);
+				],
+			);
+		};
+		await mockTest(11, 9, 20, 'user-select');
+		await mockTest(28, 26, 28, 'user-select:$0;');
 	});
 	it('inline CSS value completion', async () => {
 		assert.deepStrictEqual(

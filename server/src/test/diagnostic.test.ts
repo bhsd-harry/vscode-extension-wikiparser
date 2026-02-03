@@ -104,6 +104,26 @@ describe('Diagnostic/CodeAction', () => {
 		);
 	});
 	it('fix all', async () => {
+		const fixAll: Omit<CodeAction, 'title'> = {
+			kind: CodeActionKind.SourceFixAll,
+			diagnostics: [diagnostics[1]!],
+			isPreferred: true,
+			data: {uri: params.textDocument.uri},
+			edit: {
+				changes: {
+					[params.textDocument.uri]: [
+						{
+							range: range(0, 0, 4, 0),
+							newText: `
+http://a]
+<br>
+[
+`,
+						},
+					],
+				},
+			},
+		};
 		assert.deepStrictEqual(
 			await Promise.all(
 				provideCodeAction({
@@ -114,46 +134,13 @@ describe('Diagnostic/CodeAction', () => {
 			),
 			[
 				{
+					...fixAll,
 					title: 'Fix all: unmatched-tag',
-					kind: CodeActionKind.SourceFixAll,
-					diagnostics: [diagnostics[1]],
-					isPreferred: true,
-					data: {uri: params.textDocument.uri, rule: 'unmatched-tag'},
-					edit: {
-						changes: {
-							[params.textDocument.uri]: [
-								{
-									range: range(0, 0, 4, 0),
-									newText: `
-http://a]
-<br>
-[
-`,
-								},
-							],
-						},
-					},
+					data: {...fixAll.data, rule: 'unmatched-tag'},
 				},
 				{
+					...fixAll,
 					title: 'Fix all: WikiLint',
-					kind: CodeActionKind.SourceFixAll,
-					diagnostics: [diagnostics[1]],
-					isPreferred: true,
-					data: {uri: params.textDocument.uri},
-					edit: {
-						changes: {
-							[params.textDocument.uri]: [
-								{
-									range: range(0, 0, 4, 0),
-									newText: `
-http://a]
-<br>
-[
-`,
-								},
-							],
-						},
-					},
 				},
 			],
 		);

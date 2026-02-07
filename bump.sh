@@ -2,8 +2,7 @@
 if [[ $2 == 'npm' ]]
 then
 	npx vsce publish
-	cd server
-	npm publish --tag "${3-latest}"
+	cd server && npm publish --tag "${3-latest}"
 elif [[ $2 == 'gh' ]]
 then
 	gsed -n "/## v$1/,/##/{/^## .*/d;/./,\$!d;p}" CHANGELOG.md > release-notes.md
@@ -15,7 +14,7 @@ else
 	then
 		for file in package.json server/package.json
 		do
-			sed -i '' -E "s/\"version\": \".+\"/\"version\": \"$1\"/" "$file"
+			gsed -i -E "s/\"version\": \".+\"/\"version\": \"$1\"/" "$file"
 		done
 		npm i --package-lock-only
 		git add -A

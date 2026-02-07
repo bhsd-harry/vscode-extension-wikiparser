@@ -1,4 +1,5 @@
 import path from 'path';
+import {fileURLToPath} from 'url';
 import {
 	TextDocumentSyncKind,
 	CodeActionKind,
@@ -34,6 +35,7 @@ declare interface Settings {
 		enable: boolean;
 		severity: 'errors only' | 'errors and warnings';
 		lilypond: string;
+		config: string;
 	};
 	inlay: boolean;
 	completion: boolean;
@@ -59,6 +61,7 @@ const defaultSettings: Settings = {
 		enable: true,
 		severity: 'errors only',
 		lilypond: '',
+		config: '',
 	},
 	inlay: true,
 	completion: true,
@@ -91,8 +94,16 @@ const getSetting = async ({textDocument: {uri}}: {textDocument: TextDocumentIden
 
 const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 	const setting = await getSetting({textDocument: doc}),
-		{articlePath, config, user} = setting,
-		[, lsp] = getLSP(doc.uri);
+		{articlePath, config, user, linter} = setting,
+		lintConfig = linter.config || '.wikilintrc',
+		{uri} = doc,
+		[, lsp] = getLSP(uri);
+	try {
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		Parser.lintConfig = require(
+			path.isAbsolute(lintConfig) ? lintConfig : path.join(fileURLToPath(uri), '..', lintConfig),
+		) as Parser.LintConfig;
+	} catch {}
 	if (config) {
 		let dir = path.join('..', '..'); // eslint-disable-line no-useless-assignment
 		NPM: dir = path.join('wikilint', 'config');

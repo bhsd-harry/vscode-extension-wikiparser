@@ -1,4 +1,16 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.6.0
+
+*2026-02-17*
+
+**Added**
+
+- Configuration option to specify the path to the [linter configuration](https://github.com/bhsd-harry/wikiparser-node/wiki/Rules#configuration) file
+
+**Changed**
+
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.35.2](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1352)
+
 ## v1.5.0
 
 *2026-02-01*

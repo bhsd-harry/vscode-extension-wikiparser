@@ -70,6 +70,7 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 | `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests sent to WMF sites from the language server. | |
 | `wikiparser.linter.enable` | Enable diagnostics. | `true` |
 | `wikiparser.linter.severity` | Display or hide warnings. | `errors only` |
+| `wikiparser.linter.config` | Specify the path to the [linter configuration](https://github.com/bhsd-harry/wikiparser-node/wiki/Rules#configuration) file. It can be a path relative to the directory of the active file or an absolute path. | `.wikilintrc.json` or `.wikilintrc.js` |
 | `wikiparser.linter.lilypond` | Specify the path to the LilyPond executable to lint `<score>`. | |
 | `wikiparser.completion` | Enable auto-completion. | `true` |
 | `wikiparser.color` | Enable color decorators. | `true` |

@@ -34,7 +34,7 @@
 		"vscode-json-languageservice": "^5.7.1",
 		"vscode-languageserver": "^9.0.1",
 		"vscode-languageserver-textdocument": "^1.0.12",
-		"wikilint": "^2.35.0"
+		"wikilint": "^2.35.1"
 	},
 	"engines": {
 		"node": ">=20.19.0"

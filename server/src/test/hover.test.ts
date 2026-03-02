@@ -73,7 +73,7 @@ See [help](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Extension:Pars
 
 Syntax: content\-box | border\-box
 
-[MDN Reference](https://developer.mozilla.org/docs/Web/CSS/box-sizing)`,
+[MDN Reference](https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/box-sizing)`,
 		/* eslint-enable @stylistic/max-len */
 		range(9, 30),
 	);

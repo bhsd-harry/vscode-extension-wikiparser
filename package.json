@@ -119,11 +119,11 @@
 		"@types/color-rgba": "^2.1.3",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^24.11.0",
-		"@typescript-eslint/eslint-plugin": "^8.57.0",
-		"@typescript-eslint/parser": "^8.57.0",
+		"@typescript-eslint/eslint-plugin": "^8.58.0",
+		"@typescript-eslint/parser": "^8.58.0",
 		"@vscode/vsce": "^3.7.1",
 		"color-rgba": "^3.0.0",
-		"esbuild": "^0.27.3",
+		"esbuild": "^0.27.4",
 		"eslint": "^9.39.4",
 		"eslint-plugin-eslint-comments": "^3.2.0",
 		"eslint-plugin-jsdoc": "^62.7.1",
@@ -136,11 +136,11 @@
 		"markdownlint-cli2": "^0.21.0",
 		"mathoid-texvcjs": "^0.6.0",
 		"mocha": "^11.7.5",
-		"typescript": "^5.9.3",
-		"wikilint": "^2.36.0"
+		"typescript": "^6.0.2",
+		"wikilint": "^2.37.1"
 	},
 	"engines": {
-		"node": ">=20.19.0",
+		"node": "^20.19.0 || ^22.13.0 || >=24.11.0",
 		"vscode": "^1.100.0"
 	}
 }

@@ -7,6 +7,7 @@ import {
 	CodeActionKind,
 } from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
+import rgba from 'color-rgba';
 import type {
 	Connection,
 	ColorInformation,
@@ -64,11 +65,9 @@ export const getLSP = (uri: string): [string, LanguageService & {config?: Config
 	return [doc.getText(), Parser.createLanguageService(doc)];
 };
 
-export const provideDocumentColor = async (
-	{textDocument: {uri}}: DocumentColorParams,
-): Promise<ColorInformation[]> => {
+export const provideDocumentColor = ({textDocument: {uri}}: DocumentColorParams): Promise<ColorInformation[]> => {
 	const [doc, lsp] = getLSP(uri);
-	return lsp.provideDocumentColors((await import('color-rgba')).default, doc);
+	return lsp.provideDocumentColors(rgba, doc);
 };
 
 export const provideColorPresentation = (param: ColorPresentationParams): ColorPresentation[] =>

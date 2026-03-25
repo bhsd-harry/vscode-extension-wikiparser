@@ -21,5 +21,6 @@ eslint.*.mjs
 .markdownlint.json
 .gitignore
 .mocharc.json
-node_modules/vscode-*/lib/esm/
-node_modules/jsonc-parser/lib/esm/
+node_modules/*/lib/esm/
+node_modules/**/*.d.ts
+node_modules/**/*.map

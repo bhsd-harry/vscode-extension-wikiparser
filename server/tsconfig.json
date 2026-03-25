@@ -3,10 +3,14 @@
 		"src/**/*"
 	],
 	"compilerOptions": {
+		"types": [
+			"mocha"
+		],
 		"target": "es2024",
 		"module": "NodeNext",
 		"resolveJsonModule": true,
 		"allowSyntheticDefaultImports": true,
+		"rootDir": "src",
 		"outDir": "lib",
 		"alwaysStrict": true,
 		"exactOptionalPropertyTypes": true,

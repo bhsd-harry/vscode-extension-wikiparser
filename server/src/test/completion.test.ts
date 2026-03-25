@@ -426,19 +426,19 @@ describe('CompletionItem', () => {
 				?.filter(({label}) => /^\\ce/iu.test(label)),
 			[
 				{
-					label: String.raw`\centerdot`,
-					kind: CompletionItemKind.Function,
-					textEdit: {
-						range: range(11, 14),
-						newText: String.raw`\centerdot`,
-					},
-				},
-				{
 					label: String.raw`\ce`,
 					kind: CompletionItemKind.Function,
 					textEdit: {
 						range: range(11, 14),
 						newText: String.raw`\ce`,
+					},
+				},
+				{
+					label: String.raw`\centerdot`,
+					kind: CompletionItemKind.Function,
+					textEdit: {
+						range: range(11, 14),
+						newText: String.raw`\centerdot`,
 					},
 				},
 			],

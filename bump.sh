@@ -16,7 +16,7 @@ else
 		do
 			gsed -i -E "s/\"version\": \".+\"/\"version\": \"$1\"/" "$file"
 		done
-		npm i --package-lock-only
+		npm i --package-lock-only --legacy-peer-deps
 		git add -A
 		git commit -m "chore: bump version to $1"
 		git push

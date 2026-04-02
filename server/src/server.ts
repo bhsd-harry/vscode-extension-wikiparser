@@ -205,7 +205,7 @@ connection?.onSignatureHelp(async params => (await getSetting(params)).signature
 
 connection?.onShutdown(() => {
 	for (const doc of docs.all()) {
-		Parser.createLanguageService(doc).destroy();
+		void Parser.createLanguageService(doc).destroy();
 	}
 });
 connection?.onExit(() => {

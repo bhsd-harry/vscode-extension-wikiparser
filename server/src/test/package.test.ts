@@ -17,9 +17,9 @@ describe('package.json', () => {
 	});
 
 	it('dependencies', () => {
-		for (const [k, v] of Object.entries(serverPkg.dependencies!)) {
+		for (const k in serverPkg.dependencies) {
 			assert.strictEqual(
-				v,
+				serverPkg.dependencies[k],
 				pkg.dependencies?.[k] ?? pkg.devDependencies?.[k],
 				`Dependency ${k} has different versions in server and root package.json`,
 			);

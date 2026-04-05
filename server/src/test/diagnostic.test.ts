@@ -173,7 +173,7 @@ describe('Diagnostic (JSON)', () => {
 	});
 	it('mapframe', async () => {
 		assert.deepStrictEqual(
-			await getDiagnostics(`<mapframe>[
+			await getDiagnostics(`<mapframe width=300 height=300>[
 0, // comment
 ]</mapframe>`),
 			[
@@ -194,7 +194,7 @@ describe('Diagnostic (JSON)', () => {
 	});
 	it('maplink', async () => {
 		assert.deepStrictEqual(
-			await getDiagnostics(`<maplink>{
+			await getDiagnostics(`<maplink width=300 height=300>{
 "type":"Point",
 "type":"Feature"
 }</maplink>`),
@@ -214,12 +214,12 @@ describe('Diagnostic (JSON)', () => {
 					message: 'Duplicate object key',
 				},
 				{
-					range: range(9, 10),
+					range: range(30, 31),
 					severity: 2,
 					source: 'json',
 					message: 'Missing property "geometry".',
 				},
-			].reverse(),
+			].toReversed(),
 		);
 	});
 });

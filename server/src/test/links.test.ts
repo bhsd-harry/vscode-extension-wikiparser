@@ -79,7 +79,7 @@ News:e
 			range: range(13, 11, 13, 14),
 			target: 'https://mediawiki.org/wiki/File%3AH',
 		},
-	].reverse();
+	].toReversed();
 
 describe('DocumentLink', () => {
 	const paths = [

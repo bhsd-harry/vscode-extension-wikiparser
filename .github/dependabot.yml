@@ -5,16 +5,16 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: npm # See documentation for possible values
+    directory: / # Location of package manifests
     schedule:
-      interval: "monthly"
-    target-branch: "main"
+      interval: monthly
+    target-branch: main
     assignees:
-      - "bhsd-harry"
+      - bhsd-harry
     commit-message:
-      prefix: "npm"
+      prefix: npm
     versioning-strategy: increase-if-necessary
     ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
+      - dependency-name: '*'
+        update-types: ['version-update:semver-minor', 'version-update:semver-patch']

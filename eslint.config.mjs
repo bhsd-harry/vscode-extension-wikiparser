@@ -13,14 +13,6 @@ export default extend(
 		},
 	},
 	{
-		files: ['server/**/*.ts'],
-		languageOptions: {
-			parserOptions: {
-				project: './server/tsconfig.json',
-			},
-		},
-	},
-	{
 		files: ['server/src/test/*.ts'],
 		rules: {
 			'@typescript-eslint/strict-void-return': 0,

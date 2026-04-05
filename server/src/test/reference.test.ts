@@ -26,7 +26,7 @@ const location = (startLine: number, startCharacter: number, endLine: number, en
 				await provideRename({...getPositionParams(__filename, text, 0, character), newName: 'x'}),
 				{
 					changes: {
-						[__filename]: ranges.map(r => textEdit(r, 'x')).reverse(),
+						[__filename]: ranges.map(r => textEdit(r, 'x')).toReversed(),
 					},
 				},
 			);

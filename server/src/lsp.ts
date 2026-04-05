@@ -104,9 +104,8 @@ export const provideDocumentLinks = (
 ): Promise<DocumentLink[]> => {
 	const [doc, lsp] = getLSP(uri);
 	if (lsp.config?.articlePath !== path) {
-		lsp.config = Object.assign(lsp.config ?? Parser.getConfig(), {
-			articlePath: path,
-		});
+		lsp.config ??= Parser.getConfig();
+		lsp.config.articlePath = path;
 	}
 	return lsp.provideLinks(doc);
 };

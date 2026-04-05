@@ -135,7 +135,7 @@ connection?.onInitialize(() => ({
 		},
 		completionProvider: {
 			resolveProvider: false,
-			triggerCharacters: ['#', ...new Array(10).fill(0).map((_, i) => String(i))],
+			triggerCharacters: ['#', ...Array.from({length: 10}, (_, i) => String(i))],
 			completionItem: {
 				labelDetailsSupport: false,
 			},

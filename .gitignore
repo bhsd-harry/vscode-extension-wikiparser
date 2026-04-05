@@ -9,4 +9,5 @@ config/
 /build
 /server/lib
 /server/LICENSE
+/server/package-lock.json
 *.vsix

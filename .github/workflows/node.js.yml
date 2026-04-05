@@ -26,6 +26,6 @@ jobs:
         cache: 'npm'
     - run: npm ci --legacy-peer-deps
     - run: npm run build
-    - run: npm prune --omit=dev
-    - run: npm i --save-prod --omit=dev mocha mathoid-texvcjs
+    - run: npm prune --omit=dev --legacy-peer-deps
+    - run: npm i --save-prod --omit=dev --legacy-peer-deps mocha mathoid-texvcjs
     - run: npm test

@@ -10,7 +10,7 @@ let lilypond: string | undefined;
 try {
 	lilypond = execSync('which lilypond', {encoding: 'utf8'}).trim();
 } catch {}
-const wikitext = String.raw`
+const wikitext = `
 http://a]
 </br>
 [

@@ -17,6 +17,22 @@ You can install this via [npm](https://docs.npmjs.com/downloading-and-installing
 npm i -g wikitext-lsp
 ```
 
+### Optional dependencies
+
+You can install any of the following optional packages to enable advanced features:
+
+| Package | Purpose |
+| :-: | --- |
+| `mathoid-texvcjs` | Diagnostics for `<math>` and `<chem>` extension tags |
+| `vscode-css-languageservice` | CSS language support for `style` attributes |
+| `vscode-html-languageservice` | Language support for HTML tags |
+| `vscode-json-languageservice` | JSON language support for `<templatedata>`, `<mapframe>`, `<maplink>` tags |
+
+```sh
+# Full features
+npm i -g mathoid-texvcjs vscode-css-languageservice vscode-html-languageservice vscode-json-languageservice
+```
+
 ## Features
 
 ### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)

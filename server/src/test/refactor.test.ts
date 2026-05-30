@@ -3,7 +3,7 @@ import {CodeActionKind} from 'vscode-languageserver/node';
 import {getCodeActionParams, range} from './util';
 import {provideCodeAction, resolveCodeAction} from '../lsp';
 
-const wikitext = String.raw`
+const wikitext = `
 [//example.com/?query=1]
 {|
 |-

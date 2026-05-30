@@ -170,7 +170,7 @@ connection?.onInitialized(() => {
 
 connection?.onDidChangeConfiguration(() => {
 	documentSettings.clear();
-	connection!.languages.diagnostics.refresh();
+	void connection!.languages.diagnostics.refresh();
 	(async () => {
 		for (const doc of docs.all()) {
 			await setTarget(doc);

@@ -1,5 +1,0 @@
-langservers:
-  wikitext:
-    - node
-    - server/lib/server.js
-    - --stdio

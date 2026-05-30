@@ -37,7 +37,7 @@ News:e
 		},
 		{
 			range: range(5, 0, 5, 6),
-			target: 'https://pubmed.ncbi.nlm.nih.gov/1',
+			target: 'https://www.ncbi.nlm.nih.gov/pubmed/1?dopt=Abstract',
 		},
 		{
 			range: range(6, 0, 6, 24),

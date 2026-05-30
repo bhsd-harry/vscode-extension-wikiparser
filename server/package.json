@@ -30,14 +30,31 @@
 	"scripts": {
 		"ls": "npm i --package-lock-only && npm ls --package-lock-only --all --omit=dev"
 	},
+	"peerDependencies": {
+		"mathoid-texvcjs": ">=0.4.0",
+		"vscode-css-languageservice": ">=3.0.0",
+		"vscode-html-languageservice": ">=3.1.0",
+		"vscode-json-languageservice": ">=3.2.0"
+	},
+	"peerDependenciesMeta": {
+		"mathoid-texvcjs": {
+			"optional": true
+		},
+		"vscode-css-languageservice": {
+			"optional": true
+		},
+		"vscode-html-languageservice": {
+			"optional": true
+		},
+		"vscode-json-languageservice": {
+			"optional": true
+		}
+	},
 	"dependencies": {
 		"color-rgba": "^3.0.0",
-		"vscode-css-languageservice": "^6.3.10",
-		"vscode-html-languageservice": "^5.6.2",
-		"vscode-json-languageservice": "^5.7.2",
-		"vscode-languageserver": "^9.0.1",
+		"vscode-languageserver": "^10.0.0",
 		"vscode-languageserver-textdocument": "^1.0.12",
-		"wikilint": "^2.41.0"
+		"wikilint": "^2.44.0"
 	},
 	"engines": {
 		"node": "^20.19.0 || ^22.13.0 || >=24.11.0"

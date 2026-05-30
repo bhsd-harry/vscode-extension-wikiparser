@@ -5,7 +5,6 @@ config/
 /.vscode/settings.json
 /.eslintcache
 /page.wiki
-/personal_access_token
 /build
 /server/lib
 /server/LICENSE

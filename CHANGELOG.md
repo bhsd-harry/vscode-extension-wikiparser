@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.7.0
+
+*2026-06-10*
+
+**Changed**
+
+- [Color provider](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#textDocument_documentColor) is now supported by [colord](https://www.npmjs.com/package/colord) instead of unmaintained [color-rgba](https://www.npmjs.com/package/color-rgba)
+
 ## v1.6.3
 
 *2026-05-26*

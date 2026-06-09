@@ -7,7 +7,7 @@ import {
 	CodeActionKind,
 } from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
-import rgba from 'color-rgba';
+import {rgba, namedColors} from '@bhsd/common';
 import type {
 	Connection,
 	ColorInformation,
@@ -37,6 +37,7 @@ import type {
 	InlayHint,
 } from 'vscode-languageserver/node';
 import type {LanguageService, Config} from 'wikilint';
+import type {RgbaColor} from 'colord';
 
 export interface QuickFixData extends TextEdit {
 	title: string;
@@ -65,9 +66,14 @@ export const getLSP = (uri: string): [string, LanguageService & {config?: Config
 	return [doc.getText(), Parser.createLanguageService(doc)];
 };
 
+const parseColor = (color: string): RgbaColor | false => {
+	const result = rgba(color, namedColors);
+	return result && result.toRgb();
+};
+
 export const provideDocumentColor = ({textDocument: {uri}}: DocumentColorParams): Promise<ColorInformation[]> => {
 	const [doc, lsp] = getLSP(uri);
-	return lsp.provideDocumentColors(rgba, doc);
+	return lsp.provideDocumentColors(parseColor, doc);
 };
 
 export const provideColorPresentation = (param: ColorPresentationParams): ColorPresentation[] =>

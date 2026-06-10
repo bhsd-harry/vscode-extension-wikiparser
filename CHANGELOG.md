@@ -5,7 +5,7 @@
 
 **Changed**
 
-- [Color provider](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#textDocument_documentColor) is now supported by [colord](https://www.npmjs.com/package/colord) instead of unmaintained [color-rgba](https://www.npmjs.com/package/color-rgba)
+- [Color provider](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#textDocument_documentColor) is now supported by [culori](https://culorijs.org/) instead of unmaintained [color-rgba](https://www.npmjs.com/package/color-rgba)
 
 ## v1.6.3
 
@@ -73,7 +73,7 @@
 
 **Removed**
 
-- Configuration option to specify the path to the [Mathjax](https://www.npmjs.com/package/mathjax) package
+- Configuration option to specify the path to the [Mathjax](https://www.mathjax.org/) package
 
 ## v1.4.1
 

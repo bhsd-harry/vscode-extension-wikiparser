@@ -114,11 +114,11 @@
 		"vscode-languageserver-textdocument": "^1.0.12"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^2.6.2",
+		"@bhsd/code-standard": "^3.0.0",
 		"@types/mocha": "^10.0.10",
 		"@vscode/vsce": "^3.9.2",
-		"esbuild": "^0.28.0",
-		"eslint": "^10.4.1",
+		"esbuild": "^0.28.1",
+		"eslint": "^10.5.0",
 		"markdownlint-cli2": "^0.22.1",
 		"mathoid-texvcjs": "^0.6.0",
 		"mocha": "^11.7.6",

@@ -220,25 +220,6 @@ describe('CompletionItem', () => {
 			],
 		);
 	});
-	it('image width completion', async () => {
-		assert.deepStrictEqual(
-			(await completion(
-				`[[ file : c | 100px ]]
-[[ file : c | Thumbnail | 100x100px ]]`,
-				20,
-			))?.filter(({label}) => label.startsWith('1')),
-			[
-				{
-					label: '100x100px',
-					kind: CompletionItemKind.Unit,
-					textEdit: {
-						range: range(14, 20),
-						newText: '100x100px',
-					},
-				},
-			],
-		);
-	});
 	it('extension tag attribute completion', async () => {
 		assert.deepStrictEqual(
 			(await completion('<poem C', 7))

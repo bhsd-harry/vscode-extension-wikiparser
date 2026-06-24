@@ -5,6 +5,7 @@
 [![npm version](https://badge.fury.io/js/wikitext-lsp.svg)](https://www.npmjs.com/package/wikitext-lsp)
 [![CodeQL](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/codeql.yml)
 [![CI](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/node.js.yml/badge.svg)](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/node.js.yml)
+[![NPM downloads](https://img.shields.io/npm/dm/wikitext-lsp)](https://www.npmjs.com/package/wikitext-lsp)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/80fab92ae83b4dd4b17f8891ccac3f38)](https://app.codacy.com/gh/bhsd-harry/vscode-extension-wikiparser/dashboard)
 
 [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) implementation for [Wikitext](https://www.mediawiki.org/wiki/Wikitext).

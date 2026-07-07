@@ -1,11 +1,19 @@
 import * as assert from 'assert';
 import {Location as Loc} from 'vscode-languageserver/node';
 import {getPositionParams, range, textEdit} from './util';
-import {provideReferences, provideDefinition, prepareRename, provideRename} from '../lsp';
+import {provideDocumentHighlights, provideReferences, provideDefinition, prepareRename, provideRename} from '../lsp';
 import type {Range as TextRange} from 'vscode-languageserver/node';
 
 const location = (startLine: number, startCharacter: number, endLine: number, endCharacter: number): Loc =>
 		Loc.create(__filename, range(startLine, startCharacter, endLine, endCharacter)),
+	highlightTest = (title: string, text: string, character: number, ranges: TextRange[]): void => {
+		it(title, async () => {
+			assert.deepStrictEqual(
+				await provideDocumentHighlights(getPositionParams(__filename, text, 0, character)),
+				ranges.toReversed().map(r => ({range: r})),
+			);
+		});
+	},
 	referencesTest = (title: string, text: string, character: number, locations: Loc[]): void => {
 		it(title, async () => {
 			assert.deepStrictEqual(
@@ -37,6 +45,112 @@ const headings = [
 	location(0, 0, 0, 7),
 	location(1, 0, 1, 7),
 ];
+
+describe('DocumentHighlight', () => {
+	highlightTest(
+		'arg-name',
+		`{{{ a }}}
+{{{a|}}}`,
+		4,
+		[
+			range(0, 3, 0, 6),
+			range(1, 3, 1, 4),
+		],
+	);
+	highlightTest(
+		'template-name',
+		`{{ b }}
+{{ : template : b |b=}}`,
+		4,
+		[
+			range(0, 2, 0, 5),
+			range(1, 2, 1, 18),
+		],
+	);
+	highlightTest(
+		'magic-word-name',
+		`{{ PAGENAME }}
+{{PAGENAME:c}}`,
+		4,
+		[
+			range(0, 2, 0, 12),
+			range(1, 2, 1, 10),
+		],
+	);
+	highlightTest(
+		'link-target',
+		`[[ file : d | thumb ]]
+[[ :file:d ]]`,
+		4,
+		[
+			range(0, 2, 0, 12),
+			range(1, 2, 1, 11),
+		],
+	);
+	highlightTest(
+		'parameter-key',
+		`{{ e | e = }}
+{{Template:E|e=}}`,
+		8,
+		[
+			range(0, 6, 0, 9),
+			range(1, 13, 1, 14),
+		],
+	);
+	highlightTest(
+		'ext',
+		`<ref group = f name = f > </ref>
+<ref group = " f " follow = ' f ' />`,
+		3,
+		[
+			range(0, 1, 0, 4),
+			range(1, 1, 1, 4),
+		],
+	);
+	highlightTest(
+		'html',
+		'<b ></b>',
+		1,
+		[
+			range(0, 1, 0, 2),
+			range(0, 6, 0, 7),
+		],
+	);
+	highlightTest(
+		'attr-key',
+		`<ref group = f name = f > </ref>
+<ref group = " f " follow = ' f ' />
+<references group = f />`,
+		6,
+		[
+			range(0, 5, 0, 10),
+			range(1, 5, 1, 10),
+			range(2, 12, 2, 17),
+		],
+	);
+	highlightTest(
+		'attr-value#name',
+		`<ref group = f name = f > </ref>
+<ref group = " f " follow = ' f ' />`,
+		23,
+		[
+			range(0, 22, 0, 23),
+			range(1, 29, 1, 32),
+		],
+	);
+	highlightTest(
+		'attr-value#group',
+		`<ref group = f name = f > </ref>
+<ref group = " f " follow = ' f ' />
+<references group = f />`,
+		14,
+		[
+			range(0, 13, 0, 14),
+			range(1, 14, 1, 17),
+			range(2, 20, 2, 21),
+		],
+	);
+});
 
 describe('Reference', () => {
 	referencesTest(

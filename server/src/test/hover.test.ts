@@ -49,7 +49,7 @@ Number of wiki pages.`,
 		`- **{{ subst:** *xyz* **}}**
 
 In the wikitext, the tag is substituted by the content (single-level evaluation only), `
-		+ 'see [Help:Templates](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Templates#Usage).',
+		+ 'see [Help:Templates](https://www.mediawiki.org/wiki/Help:Templates#Usage).',
 		range(2, 8),
 	);
 	hoverTest(
@@ -58,8 +58,7 @@ In the wikitext, the tag is substituted by the content (single-level evaluation 
 		0,
 		`Used to include an equal sign.
 
-See [help](https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Extension:ParserFunctions#Raw_equal_signs)`
-		+ ' for further explanation.',
+See [help](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions#Raw_equal_signs) for further explanation.`,
 		range(0, 7),
 	);
 	hoverTest(

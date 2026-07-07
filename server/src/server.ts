@@ -17,6 +17,7 @@ import {
 	provideFoldingRanges,
 	provideDocumentSymbol,
 	provideDocumentLinks,
+	provideDocumentHighlights,
 	provideReferences,
 	provideDefinition,
 	prepareRename,
@@ -193,7 +194,7 @@ connection?.onCompletion(async params => (await getSetting(params)).completion ?
 connection?.onDocumentColor(async params => (await getSetting(params)).color ? provideDocumentColor(params) : []);
 connection?.onColorPresentation(provideColorPresentation);
 connection?.onReferences(provideReferences);
-connection?.onDocumentHighlight(provideReferences);
+connection?.onDocumentHighlight(provideDocumentHighlights);
 connection?.onDefinition(provideDefinition);
 connection?.onPrepareRename(prepareRename);
 connection?.onRenameRequest(provideRename);

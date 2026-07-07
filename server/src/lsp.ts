@@ -21,6 +21,7 @@ import type {
 	DocumentSymbol,
 	DocumentLink,
 	DocumentLinkParams,
+	DocumentHighlight,
 	Range as TextRange,
 	Location as TextLocation,
 	WorkspaceEdit,
@@ -108,6 +109,13 @@ export const provideDocumentLinks = (
 		lsp.config.articlePath = path;
 	}
 	return lsp.provideLinks(doc);
+};
+
+export const provideDocumentHighlights = (
+	{textDocument: {uri}, position}: TextDocumentPositionParams,
+): Promise<DocumentHighlight[] | undefined> => {
+	const [doc, lsp] = getLSP(uri);
+	return lsp.provideDocumentHighlights(doc, position);
 };
 
 export const provideReferences = async (

@@ -3,9 +3,6 @@
 		"src/**/*"
 	],
 	"compilerOptions": {
-		"types": [
-			"mocha"
-		],
 		"target": "es2024",
 		"module": "NodeNext",
 		"resolveJsonModule": true,

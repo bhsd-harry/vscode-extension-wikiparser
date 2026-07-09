@@ -1,4 +1,0 @@
-{
-	"diff": false,
-	"spec": "server/dist/test/*.test.js"
-}

@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {getParams, range} from './util';
 import {provideDocumentLinks, getLSP} from '../lsp';
 import type {DocumentLink} from 'vscode-languageserver/node';

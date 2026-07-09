@@ -13,7 +13,10 @@ export default extend(
 			'n/no-extraneous-import': [
 				2,
 				{
-					allowModules: ['@bhsd/common'],
+					allowModules: [
+						'@bhsd/common',
+						'@bhsd/test-util',
+					],
 				},
 			],
 		},

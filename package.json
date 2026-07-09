@@ -101,7 +101,7 @@
 		"ls": "npm i --package-lock-only && npm ls --package-lock-only --all --omit=dev",
 		"vscode:prepublish": "npm run build",
 		"build": "bash build.sh",
-		"test": "mocha && rm -f server/dist/lilypond/*",
+		"test": "npx testUtil server/dist/test/*.test.js && rm -f server/dist/lilypond/*",
 		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",
 		"lint:md": "markdownlint-cli2 '{,server/}*.md'",
 		"lint": "npm run lint:ts && npm run lint:md"
@@ -115,13 +115,12 @@
 	},
 	"devDependencies": {
 		"@bhsd/code-standard": "^3.1.0",
-		"@types/mocha": "^10.0.10",
+		"@bhsd/test-util": "^3.1.0",
 		"@vscode/vsce": "^3.9.2",
 		"esbuild": "^0.28.1",
 		"eslint": "^10.6.0",
 		"markdownlint-cli2": "^0.23.0",
 		"mathoid-texvcjs": "^0.6.0",
-		"mocha": "^11.7.6",
 		"typescript": "^6.0.3",
 		"wikilint": "^2.45.0"
 	},

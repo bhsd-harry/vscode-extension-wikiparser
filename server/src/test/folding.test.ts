@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {FoldingRangeKind, SymbolKind} from 'vscode-languageserver/node';
 import {getParams, range} from './util';
 import {provideFoldingRanges, provideDocumentSymbol} from '../lsp';

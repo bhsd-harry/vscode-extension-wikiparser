@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import {execSync} from 'child_process';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {CodeActionKind} from 'vscode-languageserver/node';
 import {getParams, range} from './util';
 import {provideDiagnostics, provideCodeAction, resolveCodeAction} from '../lsp';

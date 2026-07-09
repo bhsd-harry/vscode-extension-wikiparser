@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {Location as Loc} from 'vscode-languageserver/node';
 import {getPositionParams, range, textEdit} from './util';
 import {provideDocumentHighlights, provideReferences, provideDefinition, prepareRename, provideRename} from '../lsp';

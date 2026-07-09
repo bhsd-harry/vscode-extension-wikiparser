@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {CompletionItemKind} from 'vscode-languageserver/node';
 import {getPositionParams, range} from './util';
 import {provideCompletion} from '../lsp';

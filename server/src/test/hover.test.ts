@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {getPositionParams, range} from './util';
 import {provideHover} from '../lsp';
 import type {Range as TextRange} from 'vscode-languageserver/node';

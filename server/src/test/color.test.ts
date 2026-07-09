@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {getParams, range, color, textEdit} from './util';
 import {provideDocumentColor, provideColorPresentation} from '../lsp';
 import type {Color} from 'vscode-languageserver/node';

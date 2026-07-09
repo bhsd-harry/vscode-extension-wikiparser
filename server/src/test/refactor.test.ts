@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import {describe, it} from '@bhsd/test-util/mocha';
 import {CodeActionKind} from 'vscode-languageserver/node';
 import {getCodeActionParams, range} from './util';
 import {provideCodeAction, resolveCodeAction} from '../lsp';

@@ -7,7 +7,7 @@ import {
 	CodeActionKind,
 } from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
-import {rgba} from '@bhsd/common';
+import {rgba} from '@bhsd/common/color';
 import type {
 	Connection,
 	ColorInformation,

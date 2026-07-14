@@ -27,5 +27,5 @@ jobs:
       - run: npm ci --legacy-peer-deps
       - run: npm run build
       - run: npm prune --omit=dev --legacy-peer-deps
-      - run: npm i --save-prod --omit=dev --legacy-peer-deps mocha mathoid-texvcjs
+      - run: npm i --save-prod --omit=dev --legacy-peer-deps @bhsd/test-util mathoid-texvcjs
       - run: npm test

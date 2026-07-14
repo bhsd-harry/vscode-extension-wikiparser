@@ -1,12 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
 ## v1.7.0
 
-*2026-07-14*
+*2026-07-15*
 
 **Changed**
 
 - [Color provider](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#textDocument_documentColor) is now supported by [culori](https://culorijs.org/) instead of unmaintained [color-rgba](https://www.npmjs.com/package/color-rgba)
-- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.46.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1460)
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.46.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1461)
 - The document highlight provider now returns narrower ranges for extension tags, HTML tags and parameter keys
 
 ## v1.6.3

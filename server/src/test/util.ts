@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-top-level-side-effects */
 import {TextDocument} from 'vscode-languageserver-textdocument';
 import {Range as TextRange, Color, TextEdit} from 'vscode-languageserver/node';
 import {docs} from '../lsp';

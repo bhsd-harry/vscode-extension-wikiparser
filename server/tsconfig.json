@@ -3,6 +3,9 @@
 		"src/**/*"
 	],
 	"compilerOptions": {
+		"types": [
+			"node"
+		],
 		"target": "es2024",
 		"module": "NodeNext",
 		"resolveJsonModule": true,

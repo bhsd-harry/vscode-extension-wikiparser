@@ -165,11 +165,11 @@ describe('CompletionItem', () => {
 				?.filter(({label}) => /^__t/iu.test(label)),
 			[
 				{
-					label: '__toc__',
+					label: '__TOC__',
 					kind: CompletionItemKind.Constant,
 					textEdit: {
 						range: range(0, 3),
-						newText: '__toc__',
+						newText: '__TOC__',
 					},
 					documentation: {
 						kind: 'markdown',

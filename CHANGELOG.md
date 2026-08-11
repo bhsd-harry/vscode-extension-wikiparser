@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.7.1
+
+*2026-08-13*
+
+**Changed**
+
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.46.2](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1462)
+
 ## v1.7.0
 
 *2026-07-15*

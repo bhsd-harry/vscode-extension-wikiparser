@@ -1,6 +1,6 @@
 {
 	"name": "vscode-extension-wikiparser",
-	"version": "1.7.0",
+	"version": "1.7.1",
 	"description": "Language server extension for MediaWiki Wikitext that supports linting, autocomplete, and more.",
 	"displayName": "WikiParser Language Server",
 	"categories": [
@@ -114,11 +114,11 @@
 		"vscode-languageserver-textdocument": "^1.0.12"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^4.0.0",
+		"@bhsd/code-standard": "^4.1.0",
 		"@bhsd/test-util": "^3.1.0",
 		"@vscode/vsce": "^3.9.2",
-		"esbuild": "^0.28.1",
-		"eslint": "^10.8.0",
+		"esbuild": "^0.28.2",
+		"eslint": "^10.8.1",
 		"markdownlint-cli2": "^0.23.2",
 		"mathoid-texvcjs": "^0.6.0",
 		"typescript": "^6.0.3",

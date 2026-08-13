@@ -7,7 +7,6 @@ import {
 	CodeActionKind,
 } from 'vscode-languageserver/node';
 import {TextDocument} from 'vscode-languageserver-textdocument';
-import {rgba} from '@bhsd/common/color';
 import type {
 	Connection,
 	ColorInformation,
@@ -68,7 +67,7 @@ export const getLSP = (uri: string): [string, LanguageService & {config?: Config
 
 export const provideDocumentColor = ({textDocument: {uri}}: DocumentColorParams): Promise<ColorInformation[]> => {
 	const [doc, lsp] = getLSP(uri);
-	return lsp.provideDocumentColors(rgba, doc);
+	return lsp.provideDocumentColors(doc);
 };
 
 export const provideColorPresentation = (param: ColorPresentationParams): ColorPresentation[] =>

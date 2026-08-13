@@ -6,10 +6,10 @@ import type {Color} from 'vscode-languageserver/node';
 
 const r = range(0, 1);
 
-const colorInformation = async (text: string, start: number, end: number, c: Color): Promise<void> => {
+const colorInformation = async (text: string, start: number, end: number, c?: Color): Promise<void> => {
 		assert.deepStrictEqual(
 			await provideDocumentColor(getParams(__filename, text)),
-			[{range: range(start, end), color: c}],
+			c ? [{range: range(start, end), color: c}] : [],
 		);
 	},
 	colorPresentation = (c: Color, label: string): void => {
@@ -66,6 +66,14 @@ describe('ColorInformation', () => {
 			4,
 			20,
 			color(1, 0, 0, 1),
+		);
+	});
+	it('hwb()', async () => {
+		await colorInformation(
+			'{{{|hwb(120 0% 0%)}}}',
+			4,
+			18,
+			color(0, 1, 0, 1),
 		);
 	});
 	it('color name', async () => {

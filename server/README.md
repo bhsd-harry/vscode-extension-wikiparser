@@ -1,4 +1,4 @@
-<div align="center"><img src="https://github.com/bhsd-harry/wikiparser-node/raw/main/logo.png" width="200" alt="WikiParser-Node logo"></div>
+<div align="center"><img src="https://github.com/bhsd-harry/wikiparser-node/raw/main/logo.png" width="200" alt="WikiParser-Node logo"></div><!-- markdownlint-disable-line line-length -->
 
 # WikiParser Language Server
 
@@ -7,7 +7,8 @@
 [![CI](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/node.js.yml/badge.svg)](https://github.com/bhsd-harry/vscode-extension-wikiparser/actions/workflows/node.js.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/80fab92ae83b4dd4b17f8891ccac3f38)](https://app.codacy.com/gh/bhsd-harry/vscode-extension-wikiparser/dashboard)
 
-[Language Server Protocol](https://microsoft.github.io/language-server-protocol/) implementation for [Wikitext](https://www.mediawiki.org/wiki/Wikitext).
+[Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
+implementation for [Wikitext](https://www.mediawiki.org/wiki/Wikitext).
 
 ## Installation
 
@@ -34,7 +35,7 @@ npm i -g mathoid-texvcjs vscode-css-languageservice vscode-html-languageservice 
 ```
 
 ## Features
-
+<!-- markdownlint-disable line-length -->
 ### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)
 
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
@@ -78,6 +79,7 @@ npm i -g mathoid-texvcjs vscode-css-languageservice vscode-html-languageservice 
 ### Inlay hints
 
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/inlay.png?raw=true" width="550" alt="Inlay hints"></div>
+<!-- markdownlint-enable line-length -->
 
 ## Configuration
 
@@ -104,4 +106,5 @@ wikitext-lsp --stdio
 
 ## Changelog
 
-Please see the [CHANGELOG](https://marketplace.visualstudio.com/items/Bhsd.vscode-extension-wikiparser/changelog) of the associated VS Code extension.
+Please see the [CHANGELOG](https://marketplace.visualstudio.com/items/Bhsd.vscode-extension-wikiparser/changelog)
+of the associated VS Code extension.

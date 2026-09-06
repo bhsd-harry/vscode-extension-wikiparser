@@ -6,7 +6,8 @@
 [![VS Code Marketplace downloads](https://vsmarketplacebadges.dev/downloads-short/bhsd.vscode-extension-wikiparser.webp)](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/80fab92ae83b4dd4b17f8891ccac3f38)](https://app.codacy.com/gh/bhsd-harry/vscode-extension-wikiparser/dashboard)
 
-This is a language server extension for Visual Studio Code that provides language supports for the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language.
+This is a language server extension for Visual Studio Code that provides
+language supports for the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language.
 
 ## Installation
 
@@ -15,7 +16,7 @@ For a standalone version of the language server, please refer to [wikitext-lsp](
 You can install this extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser).
 
 ## Features
-
+<!-- markdownlint-disable line-length -->
 ### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)
 
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
@@ -61,6 +62,7 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 *Available since version 1.1.1*
 
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/inlay.png?raw=true" width="550" alt="Inlay hints"></div>
+<!-- markdownlint-enable line-length -->
 
 ## Configuration
 
@@ -81,7 +83,9 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 
 ## Usage
 
-This extension does not activate automatically. The server exists as an asset at the location: `server/dist/server.js`. You can call this asset from any extension, for example:
+This extension does not activate automatically. The server exists as an asset at
+the location: `server/dist/server.js`. You can call this asset from any
+extension, for example:
 
 ```js
 const path = require('path'),
@@ -103,4 +107,6 @@ new LanguageClient(
 ).start();
 ```
 
-If the [Wikitext](https://marketplace.visualstudio.com/items?itemName=RoweWilsonFrederiskHolme.wikitext) extension is installed, this extension will automatically activate by setting the `wikitext.wikiparser.enable` configuration to `true`.
+If the [Wikitext](https://marketplace.visualstudio.com/items?itemName=RoweWilsonFrederiskHolme.wikitext)
+extension is installed, this extension will automatically activate by setting
+the `wikitext.wikiparser.enable` configuration to `true`.

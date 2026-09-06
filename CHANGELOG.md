@@ -1,4 +1,4 @@
-<!-- markdownlint-disable first-line-h1 -->
+<!-- markdownlint-disable first-line-h1 line-length -->
 ## v1.7.1
 
 *2026-08-13*

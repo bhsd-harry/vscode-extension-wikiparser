@@ -8,22 +8,33 @@ const /** @type {esbuild.Plugin} */ plugin = {
 	name: 'tree-shake',
 	setup(build) {
 		build.onLoad(
-			{filter: /\/(?:modes|definition|common\/dist\/color)\.js$/}, // eslint-disable-line require-unicode-regexp
+			// eslint-disable-next-line require-unicode-regexp
+			{filter: /\/(?:modes|definition|common\/dist\/color|lib\/lsp)\.js$/},
 			({path: p}) => {
-				const contents = fs.readFileSync(p, 'utf8');
-				return {
-					contents: p.endsWith('color.js')
-						? contents.replace(
-							'/* #__PURE__ */ useMode(modeHwb);',
-							'useMode(modeHwb);',
-						)
-						: contents.replaceAll(
-							p.endsWith('modes.js')
-								? /^([ \t]*)if \(.*\bdefinition\.(difference|interpolate|ranges)\b.*\) \{$[\s\S]+?^\1\},?$/gmu
-								: /^([ \t]*)(average|difference|fromMode|interpolate|ranges|serialize): .+$[\s\S]+?^\1\},?$/gmu,
-							'',
-						),
-				};
+				// 不能使用 ReplacableString
+				let contents = fs.readFileSync(p, 'utf8');
+				if (p.endsWith('color.js')) {
+					contents = contents.replace(
+						'/* #__PURE__ */ useMode(modeHwb);',
+						'useMode(modeHwb);',
+					);
+				} else if (p.endsWith('lsp.js')) {
+					contents = contents.replace(
+						'require("@bhsd/stylelint-util")',
+						'null',
+					);
+				} else if (p.endsWith('modes.js')) {
+					contents = contents.replaceAll(
+						/^([ \t]*)if \(.*\bdefinition\.(difference|interpolate|ranges)\b.*\) \{$[\s\S]+?^\1\},?$/gmu,
+						'',
+					);
+				} else if (p.endsWith('definition.js')) {
+					contents = contents.replaceAll(
+						/^([ \t]*)(average|difference|fromMode|interpolate|ranges|serialize): .+$[\s\S]+?^\1\},?$/gmu,
+						'',
+					);
+				}
+				return {contents};
 			},
 		);
 	},

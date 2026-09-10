@@ -2,6 +2,7 @@
 personal_access_token
 websocket.yml
 build
+build.js
 server/lib
 server/package*.json
 server/LICENSE

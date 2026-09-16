@@ -88,6 +88,9 @@ export const provideCompletion = async (
 	);
 };
 
+const privateLSP = Parser.createLanguageService({});
+export const resolveCompletion = (item: CompletionItem): CompletionItem => privateLSP.resolveCompletionItem(item);
+
 export const provideFoldingRanges = ({textDocument: {uri}}: FoldingRangeParams): Promise<FoldingRange[]> => {
 	const [doc, lsp] = getLSP(uri);
 	return lsp.provideFoldingRanges(doc);
@@ -181,7 +184,7 @@ export const provideCodeAction = (
 	const acceptFix = only?.some(kind => /^(?:quickfix|source\.fixAll)(?:$|\.)/u.test(kind)) !== false,
 		acceptFixAll = only?.some(kind => /^source\.fixAll(?:$|\.)/u.test(kind)) !== false,
 		quickfix = acceptFix ? getLSP(uri)[1].provideCodeAction(diagnostics) : [],
-		newKind = acceptFixAll ? CodeActionKind.SourceFixAll : CodeActionKind.QuickFix;
+		newKind = CodeActionKind[acceptFixAll ? 'SourceFixAll' : 'QuickFix'];
 	return [
 		...only?.some(kind => /^quickfix(?:$|\.)/u.test(kind)) === false
 			? []

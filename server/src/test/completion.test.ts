@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import {describe, it} from '@bhsd/test-util/mocha';
 import {CompletionItemKind} from 'vscode-languageserver/node';
 import {getPositionParams, range} from './util';
-import {provideCompletion} from '../lsp';
+import {provideCompletion, resolveCompletion} from '../lsp';
 import type {CompletionItem} from 'vscode-languageserver/node';
 
 const completion = (content: string, character: number): Promise<CompletionItem[] | undefined> =>
@@ -105,9 +105,23 @@ describe('CompletionItem', () => {
 		);
 	});
 	it('parser function completion', async () => {
+		const items = (await completion('{{ #Ifexp', 9))
+			?.filter(({label}) => /^#ifexp/iu.test(label));
 		assert.deepStrictEqual(
-			(await completion('{{ #Ifexp', 9))
-				?.filter(({label}) => /^#ifexp/iu.test(label)),
+			items,
+			[
+				{
+					label: '#ifexpr',
+					kind: CompletionItemKind.Function,
+					textEdit: {
+						range: range(3, 9),
+						newText: '#ifexpr',
+					},
+				},
+			],
+		);
+		assert.deepStrictEqual(
+			items.map(resolveCompletion),
 			[
 				{
 					label: '#ifexpr',
@@ -132,9 +146,31 @@ describe('CompletionItem', () => {
 		);
 	});
 	it('template completion', async () => {
+		const items = (await completion('{{ pagenamee }}{{PageNamee}}', 12))
+			?.filter(({label}) => /^pagenamee/iu.test(label));
 		assert.deepStrictEqual(
-			(await completion('{{ pagenamee }}{{PageNamee}}', 12))
-				?.filter(({label}) => /^pagenamee/iu.test(label)),
+			items,
+			[
+				{
+					label: 'PAGENAMEE',
+					kind: CompletionItemKind.Function,
+					textEdit: {
+						range: range(3, 12),
+						newText: 'PAGENAMEE',
+					},
+				},
+				{
+					label: 'PageNamee',
+					kind: CompletionItemKind.Folder,
+					textEdit: {
+						range: range(3, 12),
+						newText: 'PageNamee',
+					},
+				},
+			],
+		);
+		assert.deepStrictEqual(
+			items.map(resolveCompletion),
 			[
 				{
 					label: 'PAGENAMEE',
@@ -160,9 +196,23 @@ describe('CompletionItem', () => {
 		);
 	});
 	it('behavior switch completion', async () => {
+		const items = (await completion('__T', 3))
+			?.filter(({label}) => /^__t/iu.test(label));
 		assert.deepStrictEqual(
-			(await completion('__T', 3))
-				?.filter(({label}) => /^__t/iu.test(label)),
+			items,
+			[
+				{
+					label: '__TOC__',
+					kind: CompletionItemKind.Constant,
+					textEdit: {
+						range: range(0, 3),
+						newText: '__TOC__',
+					},
+				},
+			],
+		);
+		assert.deepStrictEqual(
+			items.map(resolveCompletion),
 			[
 				{
 					label: '__TOC__',

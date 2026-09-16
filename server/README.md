@@ -8,7 +8,8 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/80fab92ae83b4dd4b17f8891ccac3f38)](https://app.codacy.com/gh/bhsd-harry/vscode-extension-wikiparser/dashboard)
 
 [Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
-implementation for [Wikitext](https://www.mediawiki.org/wiki/Wikitext).
+implementation for [Wikitext](https://www.mediawiki.org/wiki/Wikitext)
+powered by [WikiLint](https://www.npmjs.com/package/wikilint).
 
 ## Installation
 
@@ -36,7 +37,7 @@ npm i -g mathoid-texvcjs vscode-css-languageservice vscode-html-languageservice 
 
 ## Features
 <!-- markdownlint-disable line-length -->
-### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)
+### Linting and quick fixes
 
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
 

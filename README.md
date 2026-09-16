@@ -7,7 +7,9 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/80fab92ae83b4dd4b17f8891ccac3f38)](https://app.codacy.com/gh/bhsd-harry/vscode-extension-wikiparser/dashboard)
 
 This is a language server extension for Visual Studio Code that provides
-language supports for the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language.
+language supports for [Wikitext](https://www.mediawiki.org/wiki/Wikitext). The
+Wikitext language service is
+powered by [WikiLint](https://www.npmjs.com/package/wikilint).
 
 ## Installation
 
@@ -17,7 +19,7 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 
 ## Features
 <!-- markdownlint-disable line-length -->
-### Linting and quick fixes, offered by [WikiLint](https://www.npmjs.com/package/wikilint)
+### Linting and quick fixes
 
 <div><img src="https://github.com/bhsd-harry/vscode-extension-wikiparser/blob/main/assets/lint.png?raw=true" width="300" alt="Linting"></div>
 
@@ -66,20 +68,20 @@ You can install this extension from the [Visual Studio Code Marketplace](https:/
 
 ## Configuration
 
-| Configuration | Description | Default |
-| :- | :- | :- |
-| `wikiparser.articlePath` | Specify the article path of the wiki site.<br>Also set the parser configuration automatically for all language editions of Wikipedia. | |
-| `wikiparser.config` | Manually specifiy the absolute path to the parser configuration file or the name of a [preset configuration](https://github.com/bhsd-harry/wikiparser-node/tree/lint/config). | |
-| `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests sent to WMF sites from the language server. | |
-| `wikiparser.linter.enable` | Enable diagnostics. | `true` |
-| `wikiparser.linter.severity` | Display or hide warnings. | `errors only` |
-| `wikiparser.linter.config` | Specify the path to the [linter configuration](https://github.com/bhsd-harry/wikiparser-node/wiki/Rules#configuration) file. It can be a path relative to the directory of the active file or an absolute path. | `.wikilintrc.json` or `.wikilintrc.js` |
-| `wikiparser.linter.lilypond` | Specify the path to the LilyPond executable to lint `<score>`. | |
-| `wikiparser.completion` | Enable auto-completion. | `true` |
-| `wikiparser.color` | Enable color decorators. | `true` |
-| `wikiparser.hover` | Enable hover information. | `true` |
-| `wikiparser.inlay` | Enable inlay hints for anonymous template/module parameters. | `true` |
-| `wikiparser.signature` | Enable parser function signature help. | `true` |
+| Configuration | Description | Default | Example |
+| :- | :- | :- | :- |
+| `wikiparser.articlePath` | Specify the article path of the wiki site.<br>Also set the parser configuration automatically for all language editions of Wikipedia. | | `https://en.wikipedia.org/wiki/` |
+| `wikiparser.config` | Manually specifiy the absolute path to the parser configuration file or the name of a [preset configuration](https://github.com/bhsd-harry/wikiparser-node/tree/lint/config). | | `enwiki` |
+| `wikiparser.user` | Specify the [policy](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy)-compliant user information (a URI for wiki userpage or an email address) for the User-Agent header of HTTP requests sent to WMF sites from the language server. | | `user@example.net` or `https://meta.wikimedia.org/wiki/User:Example` |
+| `wikiparser.linter.enable` | Enable diagnostics. | `true` | |
+| `wikiparser.linter.severity` | Display or hide warnings. | `errors only` | `errors and warnings` |
+| `wikiparser.linter.config` | Specify the path to the [linter configuration](https://github.com/bhsd-harry/wikiparser-node/wiki/Rules#configuration) file. It can be a path relative to the directory of the active file or an absolute path. | `.wikilintrc.json` or `.wikilintrc.js` | |
+| `wikiparser.linter.lilypond` | Specify the path to the LilyPond executable to lint `<score>`. | | `/opt/homebrew/bin/lilypond` |
+| `wikiparser.completion` | Enable auto-completion. | `true` | |
+| `wikiparser.color` | Enable color decorators. | `true` | |
+| `wikiparser.hover` | Enable hover information. | `true` | |
+| `wikiparser.inlay` | Enable inlay hints for anonymous template/module parameters. | `true` | |
+| `wikiparser.signature` | Enable parser function signature help. | `true` | |
 
 ## Usage
 

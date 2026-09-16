@@ -14,6 +14,7 @@ import {
 	provideDocumentColor,
 	provideColorPresentation,
 	provideCompletion,
+	resolveCompletion,
 	provideFoldingRanges,
 	provideDocumentSymbol,
 	provideDocumentLinks,
@@ -135,7 +136,7 @@ connection?.onInitialize(() => ({
 			resolveProvider: true,
 		},
 		completionProvider: {
-			resolveProvider: false,
+			resolveProvider: true,
 			triggerCharacters: ['#', ...Array.from({length: 10}, (_, i) => String(i))],
 			completionItem: {
 				labelDetailsSupport: false,
@@ -191,6 +192,7 @@ connection?.languages.inlayHint.on(async params => (await getSetting(params)).in
 connection?.onCodeAction(provideCodeAction);
 connection?.onCodeActionResolve(resolveCodeAction);
 connection?.onCompletion(async params => (await getSetting(params)).completion ? provideCompletion(params) : null);
+connection?.onCompletionResolve(resolveCompletion);
 connection?.onDocumentColor(async params => (await getSetting(params)).color ? provideDocumentColor(params) : []);
 connection?.onColorPresentation(provideColorPresentation);
 connection?.onReferences(provideReferences);

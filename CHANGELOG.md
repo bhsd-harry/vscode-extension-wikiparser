@@ -1,4 +1,13 @@
 <!-- markdownlint-disable first-line-h1 line-length -->
+## v1.8.0
+
+*2026-10-02*
+
+**Changed**
+
+- Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.48.0](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1480)
+- [Completion provider](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#textDocument_completion) now only adds the [`documentation`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#completionItem) field for [magic words](https://www.mediawiki.org/wiki/Help:Magic_words) when [resolving](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#completionItem_resolve)
+
 ## v1.7.2
 
 *2026-09-10*
@@ -23,7 +32,7 @@
 
 - [Color provider](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#textDocument_documentColor) is now supported by [culori](https://culorijs.org/) instead of unmaintained [color-rgba](https://www.npmjs.com/package/color-rgba)
 - Upgrade the [WikiLint](https://www.npmjs.com/package/wikilint) package to [v2.46.1](https://github.com/bhsd-harry/wikiparser-node/blob/main/CHANGELOG.md#v1461)
-- The document highlight provider now returns narrower ranges for extension tags, HTML tags and parameter keys
+- [Document highlight provider](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.18/specification/#textDocument_documentHighlight) now returns narrower ranges for extension tags, HTML tags and parameter keys
 
 ## v1.6.3
 

@@ -2,6 +2,7 @@
 'use strict';
 
 const fs = require('fs'),
+	path = require('path'),
 	esbuild = require('esbuild');
 
 const /** @type {esbuild.Plugin} */ plugin = {
@@ -9,30 +10,42 @@ const /** @type {esbuild.Plugin} */ plugin = {
 	setup(build) {
 		build.onLoad(
 			// eslint-disable-next-line require-unicode-regexp
-			{filter: /\/(?:modes|definition|common\/dist\/color|lib\/lsp)\.js$/},
+			{filter: /\/(?:modes|definition|regex|common\/dist\/color|lib\/lsp)\.js$/},
 			({path: p}) => {
+				const base = path.basename(p, '.js');
 				// 不能使用 ReplacableString
 				let contents = fs.readFileSync(p, 'utf8');
-				if (p.endsWith('color.js')) {
-					contents = contents.replace(
-						'/* #__PURE__ */ useMode(modeHwb);',
-						'useMode(modeHwb);',
-					);
-				} else if (p.endsWith('lsp.js')) {
-					contents = contents.replace(
-						'require("@bhsd/stylelint-util")',
-						'null',
-					);
-				} else if (p.endsWith('modes.js')) {
-					contents = contents.replaceAll(
-						/^([ \t]*)if \(.*\bdefinition\.(difference|interpolate|ranges)\b.*\) \{$[\s\S]+?^\1\},?$/gmu,
-						'',
-					);
-				} else if (p.endsWith('definition.js')) {
-					contents = contents.replaceAll(
-						/^([ \t]*)(average|difference|fromMode|interpolate|ranges|serialize): .+$[\s\S]+?^\1\},?$/gmu,
-						'',
-					);
+				switch (base) {
+					case 'color':
+						contents = contents.replace(
+							'/* #__PURE__ */ useMode(modeHwb);',
+							'useMode(modeHwb);',
+						);
+						break;
+					case 'definition':
+						contents = contents.replaceAll(
+							/^([ \t]*)(average|difference|fromMode|interpolate|ranges|serialize): .+$[\s\S]+?^\1\},?$/gmu,
+							'',
+						);
+						break;
+					case 'lsp':
+						contents = contents.replace(
+							'require("@bhsd/stylelint-util")',
+							'null',
+						);
+						break;
+					case 'modes':
+						contents = contents.replaceAll(
+							/^([ \t]*)if \(.*\bdefinition\.(difference|interpolate|ranges)\b.*\) \{$[\s\S]+?^\1\},?$/gmu,
+							'',
+						);
+						break;
+					case 'regex':
+						contents = contents.replaceAll(
+							/^export const (?:num|hue|(?:(?:rx_)?num_)?per)_none = .+;$/gmu,
+							'',
+						);
+						// no default
 				}
 				return {contents};
 			},

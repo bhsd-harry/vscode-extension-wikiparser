@@ -1,6 +1,6 @@
 {
 	"name": "wikitext-lsp",
-	"version": "1.7.2",
+	"version": "1.8.0",
 	"description": "Standalone language server for MediaWiki Wikitext",
 	"keywords": [
 		"mediawiki",
@@ -52,8 +52,8 @@
 	},
 	"dependencies": {
 		"vscode-languageserver": "^10.1.1",
-		"vscode-languageserver-textdocument": "^1.0.14",
-		"wikilint": "^2.47.0"
+		"vscode-languageserver-textdocument": "^1.0.15",
+		"wikilint": "^2.48.0"
 	},
 	"engines": {
 		"node": "^20.19.0 || ^22.13.0 || >=24.11.0"

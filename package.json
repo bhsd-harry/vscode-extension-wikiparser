@@ -116,7 +116,7 @@
 	"devDependencies": {
 		"@bhsd/code-standard": "^4.2.0",
 		"@bhsd/test-util": "^3.2.0",
-		"@vscode/vsce": "^3.9.2",
+		"@vscode/vsce": "^4.0.0",
 		"esbuild": "^0.28.2",
 		"eslint": "^10.10.0",
 		"markdownlint-cli2": "^0.23.2",

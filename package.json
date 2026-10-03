@@ -102,7 +102,7 @@
 		"vscode:prepublish": "npm run build",
 		"build": "bash build.sh",
 		"test": "testUtil server/dist/test/*.test.js && rm -f server/dist/lilypond/*",
-		"lint:ts": "tsc --noEmit --project server/tsconfig.json && eslint --cache .",
+		"lint:ts": "tsc --noEmit -p server/tsconfig.json && eslint --cache .",
 		"lint:md": "markdownlint-cli2 '{,server/}*.md'",
 		"lint:bundle": "eslint --no-config-lookup --no-inline-config --rule 'no-unused-vars: [2, {args: none, varsIgnorePattern: \"(^Ast(Node|Element)|Token)2$\"}]' build/lsp.js",
 		"lint": "npm run lint:ts && npm run lint:md"
@@ -111,7 +111,7 @@
 		"vscode-css-languageservice": "^6.3.10",
 		"vscode-html-languageservice": "^5.6.2",
 		"vscode-json-languageservice": "^5.7.2",
-		"vscode-languageserver": "^10.1.1",
+		"vscode-languageserver": "^10.1.2",
 		"vscode-languageserver-textdocument": "^1.0.15"
 	},
 	"devDependencies": {
@@ -119,7 +119,7 @@
 		"@bhsd/test-util": "^3.2.1",
 		"@vscode/vsce": "^4.0.0",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.11.0",
+		"eslint": "^10.12.0",
 		"markdownlint-cli2": "^0.23.3",
 		"mathoid-texvcjs": "^0.6.0",
 		"typescript": "^6.0.3",

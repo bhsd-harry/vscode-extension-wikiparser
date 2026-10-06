@@ -1,6 +1,4 @@
 **/*.wiki
-personal_access_token
-websocket.yml
 build
 build.js
 server/lib
@@ -14,14 +12,12 @@ assets/
 !assets/logo.png
 **/test/
 */src/
-**/.schema.json
 **/tsconfig.json
 *.sh
 eslint.*.mjs
 .eslintcache*
 .markdownlint.json
 .gitignore
-.mocharc.json
 node_modules/*/lib/esm/
 node_modules/**/*.d.ts
 node_modules/**/*.map

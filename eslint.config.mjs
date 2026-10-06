@@ -1,6 +1,6 @@
 import {jsDoc, node, extend} from '@bhsd/code-standard'; // eslint-disable-line n/no-unpublished-import
 
-export default extend(
+const config = extend(
 	jsDoc,
 	...node,
 	{
@@ -28,3 +28,5 @@ export default extend(
 		},
 	},
 );
+
+export default config;

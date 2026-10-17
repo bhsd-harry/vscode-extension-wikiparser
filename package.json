@@ -98,7 +98,7 @@
 		}
 	},
 	"scripts": {
-		"ls": "npm i --package-lock-only && npm ls --package-lock-only --all --omit=dev",
+		"ls": "npm i --package-lock-only && npm ls --package-lock-only -a --omit=dev",
 		"vscode:prepublish": "npm run build",
 		"build": "bash build.sh",
 		"test": "testUtil server/dist/test/*.test.js && rm -f server/dist/lilypond/*",
@@ -116,16 +116,16 @@
 	},
 	"devDependencies": {
 		"@bhsd/code-standard": "^5.0.0",
-		"@bhsd/test-util": "^3.2.1",
+		"@bhsd/test-util": "^3.3.0",
 		"@vscode/vsce": "^4.0.0",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.12.0",
+		"eslint": "^10.13.0",
 		"mathoid-texvcjs": "^0.6.0",
 		"typescript": "^6.0.3",
-		"wikilint": "^2.48.0"
+		"wikilint": "^2.48.1"
 	},
 	"engines": {
-		"node": "^20.19.0 || ^22.13.0 || >=24.11.0",
-		"vscode": "^1.100.0"
+		"node": "^22.13.0 || >=24.11.0",
+		"vscode": "^1.101.0"
 	}
 }

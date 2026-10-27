@@ -101,7 +101,7 @@ const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 		{uri} = doc,
 		[, lsp] = getLSP(uri);
 	try {
-		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		// oxlint-disable-next-line @typescript-eslint/no-require-imports
 		Parser.lintConfig = require(
 			path.isAbsolute(lintConfig) ? lintConfig : path.join(fileURLToPath(uri), '..', lintConfig),
 		) as Parser.LintConfig;
@@ -111,7 +111,7 @@ const setTarget = async (doc: TextDocumentIdentifier): Promise<void> => {
 		NPM: dir = path.join('wikilint', 'config');
 		try {
 			lsp.config = Parser.getConfig(
-				// eslint-disable-next-line @typescript-eslint/no-require-imports
+				// oxlint-disable-next-line @typescript-eslint/no-require-imports
 				require(path.isAbsolute(config) ? config : path.join(dir, config)) as Parser.ConfigData,
 			);
 			return;

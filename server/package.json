@@ -51,8 +51,8 @@
 		}
 	},
 	"dependencies": {
-		"vscode-languageserver": "^10.1.2",
-		"vscode-languageserver-textdocument": "^1.0.15",
+		"vscode-languageserver": "^11.0.0",
+		"vscode-languageserver-textdocument": "^1.0.16",
 		"wikilint": "^2.48.1"
 	},
 	"engines": {

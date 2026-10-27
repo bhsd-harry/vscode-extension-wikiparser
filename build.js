@@ -9,7 +9,7 @@ const /** @type {esbuild.Plugin} */ plugin = {
 	name: 'tree-shake',
 	setup(build) {
 		build.onLoad(
-			// eslint-disable-next-line require-unicode-regexp
+			// oxlint-disable-next-line require-unicode-regexp
 			{filter: /\/(?:modes|definition|regex|common\/dist\/color|lib\/lsp)\.js$/},
 			({path: p}) => {
 				const base = path.basename(p, '.js');

@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 tsc -p server/tsconfig.json && \
 node build.js
 esbuild server/src/server.ts --charset=utf8 --minify --target=es2023 --format=cjs --outdir=server/dist --drop-labels=NPM

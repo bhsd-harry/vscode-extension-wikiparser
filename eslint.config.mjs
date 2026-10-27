@@ -1,6 +1,6 @@
-import {jsDoc, node, extend} from '@bhsd/code-standard'; // eslint-disable-line n/no-unpublished-import
+import {jsDoc, node, extend, getOxlintConfig} from '@bhsd/code-standard'; // eslint-disable-line n/no-unpublished-import
 
-const config = extend(
+const config = getOxlintConfig(extend(
 	jsDoc,
 	...node,
 	{
@@ -27,6 +27,6 @@ const config = extend(
 			'@typescript-eslint/strict-void-return': 0,
 		},
 	},
-);
+));
 
 export default config;

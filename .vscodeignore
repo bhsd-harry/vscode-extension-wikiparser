@@ -18,6 +18,7 @@ eslint.*.mjs
 .eslintcache*
 .markdownlint.json
 .gitignore
+.oxlintrc.json
 node_modules/*/lib/esm/
 node_modules/**/*.d.ts
 node_modules/**/*.map
